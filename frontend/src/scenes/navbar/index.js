@@ -23,7 +23,7 @@ function Navbar() {
     const navigate = useNavigate();
 
     const handleNavigate = () => {
-        navigate("http://localhost:8000/help");
+        navigate("/help");
     };
 
     return (

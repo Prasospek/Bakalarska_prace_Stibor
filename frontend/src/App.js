@@ -9,6 +9,7 @@ import { ThemeProvider, CssBaseline, createTheme } from "@mui/material";
 // createTheme -> custon theme
 import { themeSettings } from "./theme";
 import { Navigate } from "react-router-dom";
+import Helper from "./scenes/helper";
 
 function App() {
     const mode = useSelector((state) => state.mode);
@@ -21,6 +22,7 @@ function App() {
                     <CssBaseline />
                     <Routes>
                         <Route path="/" element={<MainPage />} />
+                        <Route path="/help" element={<Helper />} />
                         {/* Fallback for invalid routes */}
                         <Route path="*" element={<Navigate to="/" />} />
                     </Routes>

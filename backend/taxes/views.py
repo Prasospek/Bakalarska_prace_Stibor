@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from taxes.serializers import EmailSerializer
+from rest_framework import status
 import csv
 
 # Create your views here.
@@ -21,6 +23,15 @@ def csv_data_view(request):
             return Response({'sticker_data': sticker_data})
 
     return Response({'error': 'Invalid request'}, status=400)
+
+
+@api_view(["POST"])
+def email_submit(request):
+    serializer = EmailSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(["GET"])
