@@ -1,6 +1,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Navbar from "../navbar";
 
 const MainPage = () => {
     const [message, setMessage] = useState("");
@@ -23,6 +24,7 @@ const MainPage = () => {
     }, []);
     return (
         <div>
+            <Navbar />
             <h1>{message}</h1>
         </div>
     );
