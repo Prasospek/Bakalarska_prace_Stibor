@@ -37,6 +37,7 @@ function Navbar() {
                     fontSize="clamp(1rem, 2rem, 2.25rem)"
                     onClick={() => navigate("/home")}
                     sx={{
+                        padding: 1.5,
                         "&:hover": {
                             cursor: "pointer",
                         },
@@ -57,21 +58,21 @@ function Navbar() {
                     <Typography
                         variant="body1"
                         component="span"
-                        sx={{ marginRight: "16px" }}
+                        sx={{ marginRight: "30px", fontSize: 18 }}
                     >
                         Jak používat
                     </Typography>
                     <Typography
                         variant="body1"
                         component="span"
-                        sx={{ marginRight: "16px" }}
+                        sx={{ marginRight: "30px", fontSize: 18 }}
                     >
                         Podporované formáty
                     </Typography>
                     <Typography
                         variant="body1"
                         component="span"
-                        sx={{ marginRight: "16px" }}
+                        sx={{ marginRight: "30px", fontSize: 18 }}
                     >
                         Časté dotazy
                     </Typography>
