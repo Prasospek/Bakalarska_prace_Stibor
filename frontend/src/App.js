@@ -15,18 +15,18 @@ function App() {
     const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
 
     return (
-        <div className="App">
-            <BrowserRouter>
-                <CssBaseline />
-                <ThemeProvider theme={theme}>
+        <ThemeProvider theme={theme}>
+            <div className="App">
+                <BrowserRouter>
+                    <CssBaseline />
                     <Routes>
                         <Route path="/" element={<MainPage />} />
                         {/* Fallback for invalid routes */}
                         <Route path="*" element={<Navigate to="/" />} />
                     </Routes>
-                </ThemeProvider>
-            </BrowserRouter>
-        </div>
+                </BrowserRouter>
+            </div>
+        </ThemeProvider>
     );
 }
 
