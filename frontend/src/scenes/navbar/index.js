@@ -55,7 +55,6 @@ function Navbar() {
                         padding: 1.5,
                         "&:hover": {
                             cursor: "pointer",
-                            textDecoration: "underline",
                         },
                     }}
                 >
@@ -98,9 +97,9 @@ function Navbar() {
                                     textDecoration: "underline",
                                 },
                             }}
-                            onClick={() => handleNavigate("/supported-formats")}
+                            onClick={() => handleNavigate("/broker")}
                         >
-                            Podporované formáty
+                            Brokeři
                         </Typography>
                         <Typography
                             variant="body1"
@@ -118,7 +117,7 @@ function Navbar() {
                             Časté dotazy
                         </Typography>
                         <Tooltip
-                            sx={{ marginLeft: 15 }}
+                            sx={{ marginLeft: 9 }}
                             title={
                                 <Typography
                                     variant="body1"
@@ -186,11 +185,9 @@ function Navbar() {
                             </ListItem>
                             <ListItem
                                 button
-                                onClick={() =>
-                                    handleNavigate("/supported-formats")
-                                }
+                                onClick={() => handleNavigate("/broker")}
                             >
-                                <ListItemText primary="Podporované formáty" />
+                                <ListItemText primary="Brokers" />
                             </ListItem>
                             <ListItem
                                 button

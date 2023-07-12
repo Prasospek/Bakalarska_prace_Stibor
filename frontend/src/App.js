@@ -12,6 +12,7 @@ import { Navigate } from "react-router-dom";
 import Helper from "./scenes/helper";
 import CasteDotazy from "./scenes/casteDotazy";
 import JakPouzivat from "./scenes/jakPouzivat";
+import Broker from "./scenes/broker";
 
 function App() {
     const mode = useSelector((state) => state.mode);
@@ -27,6 +28,7 @@ function App() {
                         <Route path="/help" element={<Helper />} />
                         <Route path="/caste-dotazy" element={<CasteDotazy />} />
                         <Route path="/jak-pouzivat" element={<JakPouzivat />} />
+                        <Route path="/broker" element={<Broker />} />
 
                         {/* Fallback for invalid routes */}
                         {/* <Route path="*" element={<Navigate to="/" />} /> */}
