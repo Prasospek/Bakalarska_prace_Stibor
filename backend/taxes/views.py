@@ -43,3 +43,4 @@ def test(request):
         return Response({"message": my_text})
     
     return Response({'error': 'Invalid request'}, status=400)
+

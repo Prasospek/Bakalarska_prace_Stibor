@@ -44,13 +44,12 @@ function Helper() {
                 variant="h4" // Change the variant to h2 for a bigger font size
                 align="center" // Keep the alignment centered
                 sx={{
-                    marginTop: "4rem", // Increase the marginTop value for more spacing
+                    marginTop: "12rem", // Increase the marginTop value for more spacing
                     fontWeight: 700, // Add font weight for emphasis
                     fontStyle: "italic", // Add italic style
                 }}
             >
-                Máte problém s ShareTaxMax nebo máte jen otázku ? Neváhejte nám
-                napsat
+                Máte technický problém nebo otázku ? Neváhejte nám napsat
             </Typography>
 
             <Container
