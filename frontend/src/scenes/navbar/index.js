@@ -13,28 +13,28 @@ import {
     ListItem,
     ListItemText,
     Divider,
-    ListItemIcon,
 } from "@mui/material";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
-import { Menu, Close, HelpCenter } from "@mui/icons-material";
-import { setMode } from "../../state";
-import { useDispatch, useSelector } from "react-redux";
-import { useTheme } from "@emotion/react";
+import MenuIcon from "@mui/icons-material/Menu";
+import CloseIcon from "@mui/icons-material/Close";
 import HelpCenterIcon from "@mui/icons-material/HelpCenter";
+import { setMode } from "../../state";
 import { useNavigate } from "react-router-dom";
+import { useTheme } from "@emotion/react";
+import { useDispatch } from "react-redux";
 
 function Navbar() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
-
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const theme = useTheme();
     const dark = theme.palette.neutral.dark;
-    const navigate = useNavigate();
 
-    const handleNavigate = () => {
-        navigate("/help");
+    const handleNavigate = (url) => {
+        navigate(url);
+        setIsMobileMenuOpen(false);
     };
 
     const handleMobileMenuToggle = () => {
@@ -50,11 +50,12 @@ function Navbar() {
                 <Typography
                     fontWeight="bold"
                     fontSize="clamp(1rem, 2rem, 2.25rem)"
-                    onClick={() => navigate("/home")}
+                    onClick={() => handleNavigate("/")}
                     sx={{
                         padding: 1.5,
                         "&:hover": {
                             cursor: "pointer",
+                            textDecoration: "underline",
                         },
                     }}
                 >
@@ -74,21 +75,45 @@ function Navbar() {
                         <Typography
                             variant="body1"
                             component="span"
-                            sx={{ marginRight: "30px", fontSize: 18 }}
+                            sx={{
+                                marginRight: "30px",
+                                fontSize: 18,
+                                "&:hover": {
+                                    cursor: "pointer",
+                                    textDecoration: "underline",
+                                },
+                            }}
+                            onClick={() => handleNavigate("/jak-pouzivat")}
                         >
                             Jak používat
                         </Typography>
                         <Typography
                             variant="body1"
                             component="span"
-                            sx={{ marginRight: "30px", fontSize: 18 }}
+                            sx={{
+                                marginRight: "30px",
+                                fontSize: 18,
+                                "&:hover": {
+                                    cursor: "pointer",
+                                    textDecoration: "underline",
+                                },
+                            }}
+                            onClick={() => handleNavigate("/supported-formats")}
                         >
                             Podporované formáty
                         </Typography>
                         <Typography
                             variant="body1"
                             component="span"
-                            sx={{ marginRight: "30px", fontSize: 18 }}
+                            sx={{
+                                marginRight: "30px",
+                                fontSize: 18,
+                                "&:hover": {
+                                    cursor: "pointer",
+                                    textDecoration: "underline",
+                                },
+                            }}
+                            onClick={() => handleNavigate("/caste-dotazy")}
                         >
                             Časté dotazy
                         </Typography>
@@ -104,7 +129,7 @@ function Navbar() {
                             }
                             placement="bottom"
                         >
-                            <IconButton onClick={handleNavigate}>
+                            <IconButton onClick={() => handleNavigate("/help")}>
                                 <HelpCenterIcon sx={{ fontSize: 25 }} />
                             </IconButton>
                         </Tooltip>
@@ -114,7 +139,7 @@ function Navbar() {
                         onClick={handleMobileMenuToggle}
                         sx={{ marginLeft: "auto" }}
                     >
-                        {isMobileMenuOpen ? <Close /> : <Menu />}
+                        {isMobileMenuOpen ? <CloseIcon /> : <MenuIcon />}
                     </IconButton>
                 )}
 
@@ -146,26 +171,44 @@ function Navbar() {
                         onKeyDown={handleMobileMenuToggle}
                     >
                         <List>
-                            <ListItem button onClick={() => navigate("/home")}>
-                                <ListItemText primary="Domů" />
-                            </ListItem>
                             <ListItem
                                 button
-                                onClick={() => navigate("/how-to-use")}
+                                onClick={() => handleNavigate("/")}
+                            >
+                                <ListItemText primary="Domů" />
+                            </ListItem>
+                            <Divider />
+                            <ListItem
+                                button
+                                onClick={() => handleNavigate("/jak-pouzivat")}
                             >
                                 <ListItemText primary="Jak používat" />
                             </ListItem>
                             <ListItem
                                 button
-                                onClick={() => navigate("/supported-formats")}
+                                onClick={() =>
+                                    handleNavigate("/supported-formats")
+                                }
                             >
                                 <ListItemText primary="Podporované formáty" />
                             </ListItem>
-                            <ListItem button onClick={handleNavigate}>
-                                <ListItemIcon>
-                                    <HelpCenterIcon />
-                                </ListItemIcon>
-                                <ListItemText primary="Pomocní centrum" />
+                            <ListItem
+                                button
+                                onClick={() => handleNavigate("/caste-dotazy")}
+                            >
+                                <ListItemText primary="Časté dotazy" />
+                            </ListItem>
+                            <Divider />
+                            <ListItem
+                                button
+                                onClick={() => handleNavigate("/help")}
+                            >
+                                <IconButton
+                                    onClick={() => handleNavigate("/help")}
+                                >
+                                    <HelpCenterIcon sx={{ fontSize: 25 }} />
+                                </IconButton>
+                                <ListItemText>Pomoc / otázky </ListItemText>
                             </ListItem>
                         </List>
                     </Box>

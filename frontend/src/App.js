@@ -10,6 +10,8 @@ import { ThemeProvider, CssBaseline, createTheme } from "@mui/material";
 import { themeSettings } from "./theme";
 import { Navigate } from "react-router-dom";
 import Helper from "./scenes/helper";
+import CasteDotazy from "./scenes/casteDotazy";
+import JakPouzivat from "./scenes/jakPouzivat";
 
 function App() {
     const mode = useSelector((state) => state.mode);
@@ -23,8 +25,11 @@ function App() {
                     <Routes>
                         <Route path="/" element={<MainPage />} />
                         <Route path="/help" element={<Helper />} />
+                        <Route path="/caste-dotazy" element={<CasteDotazy />} />
+                        <Route path="/jak-pouzivat" element={<JakPouzivat />} />
+
                         {/* Fallback for invalid routes */}
-                        <Route path="*" element={<Navigate to="/" />} />
+                        {/* <Route path="*" element={<Navigate to="/" />} /> */}
                     </Routes>
                 </BrowserRouter>
             </div>
