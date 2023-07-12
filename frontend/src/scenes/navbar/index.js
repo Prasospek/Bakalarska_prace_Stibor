@@ -82,9 +82,9 @@ function Navbar() {
                                     textDecoration: "underline",
                                 },
                             }}
-                            onClick={() => handleNavigate("/jak-pouzivat")}
+                            onClick={() => handleNavigate("/konverter")}
                         >
-                            Jak používat
+                            Konverter
                         </Typography>
                         <Typography
                             variant="body1"
@@ -97,10 +97,11 @@ function Navbar() {
                                     textDecoration: "underline",
                                 },
                             }}
-                            onClick={() => handleNavigate("/broker")}
+                            onClick={() => handleNavigate("/jak-pouzivat")}
                         >
-                            Brokeři
+                            Jak používat
                         </Typography>
+
                         <Typography
                             variant="body1"
                             component="span"
@@ -185,9 +186,9 @@ function Navbar() {
                             </ListItem>
                             <ListItem
                                 button
-                                onClick={() => handleNavigate("/broker")}
+                                onClick={() => handleNavigate("/konverter")}
                             >
-                                <ListItemText primary="Brokers" />
+                                <ListItemText primary="Konverter" />
                             </ListItem>
                             <ListItem
                                 button

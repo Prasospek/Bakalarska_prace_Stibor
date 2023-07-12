@@ -35,12 +35,4 @@ def email_submit(request):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(["GET"])
-def test(request):
-    if request.method == "GET":
-        my_text = "Hello world"
-        
-        return Response({"message": my_text})
-    
-    return Response({'error': 'Invalid request'}, status=400)
 
