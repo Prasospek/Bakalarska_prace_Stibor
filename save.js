@@ -2,7 +2,7 @@ import React from "react";
 import Navbar from "../navbar";
 import { Box, Typography, Button, Card, CardMedia } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import pic from "../../assets/trader.jpg";
+import pic from "../../assets/pic.jpg";
 
 const MainPage = () => {
     const navigate = useNavigate();
@@ -12,15 +12,10 @@ const MainPage = () => {
     };
 
     return (
-        <div style={{ width: "100%", height: "100%", overflow: "hidden" }}>
+        <div>
             <Navbar />
 
-            <Box
-                marginTop={"4rem"}
-                marginLeft={"6rem"}
-                position="relative"
-                style={{ height: "calc(100% - 4rem)", overflowY: "hidden" }}
-            >
+            <Box marginTop={"4rem"} marginLeft={"6rem"}>
                 <Box width={"40%"}>
                     <Box>
                         <Typography variant="h1">
@@ -49,12 +44,7 @@ const MainPage = () => {
                     </Box>
                 </Box>
 
-                <Box
-                    marginTop={"10rem"}
-                    width={"50%"}
-                    display={"flex"}
-                    style={{ height: "calc(100% - 10rem)" }}
-                >
+                <Box marginTop={"10rem"} width={"50%"} display={"flex"}>
                     <Box width={"25%"} marginRight={"5rem"}>
                         <Typography variant="h2" marginBottom={"0.8rem"}>
                             Hello
@@ -86,34 +76,6 @@ const MainPage = () => {
                         </Typography>
                     </Box>
                 </Box>
-            </Box>
-            <Box
-                position="absolute"
-                top="6rem"
-                left="60rem"
-                transform="translateY(-50%)"
-                height={"100%"}
-                width={"100%"}
-                z-zIndex={"-1"}
-            >
-                <Card
-                    sx={{
-                        maxWidth: "70%",
-                        borderRadius: "100% 0% 49% 51% / 0% 56% 44% 100%  ",
-                        transition: "border-radius 500ms ease-in-out,",
-                    }}
-                >
-                    <CardMedia
-                        component="img"
-                        src={pic}
-                        alt="Sample Picture"
-                        style={{
-                            width: "100%",
-                            height: "100%",
-                            objectFit: "cover",
-                        }}
-                    />
-                </Card>
             </Box>
         </div>
     );
