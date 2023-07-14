@@ -1,7 +1,7 @@
 import React from "react";
 import Navbar from "../navbar";
 
-const CasteDotazy = () => {
+const JakPouzivat = () => {
     return (
         <div>
             <Navbar />
@@ -10,4 +10,4 @@ const CasteDotazy = () => {
     );
 };
 
-export default CasteDotazy;
+export default JakPouzivat;

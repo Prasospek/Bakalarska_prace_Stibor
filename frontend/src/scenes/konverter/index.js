@@ -1,12 +1,27 @@
 import React, { useState } from "react";
-import { Button, Container, Typography, useMediaQuery } from "@mui/material";
+import {
+    Button,
+    Container,
+    Typography,
+    useMediaQuery,
+    Link,
+    Box,
+} from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import Navbar from "../navbar";
+import { Link as RouterLink } from "@mui/material";
+import JakPouzivat from "../jakPouzivat";
+import { useNavigate } from "react-router-dom";
 
 const Konverter = () => {
     const [selectedFiles, setSelectedFiles] = useState([]);
     const [isMobileMenuToggled, setIsMobileMenuToggled] = useState(false);
     const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
+    const navigate = useNavigate();
+
+    const handleJakPouzivat = () => {
+        navigate("/jak-pouzivat");
+    };
 
     const handleFileChange = (event) => {
         setSelectedFiles([...event.target.files]);
@@ -72,6 +87,7 @@ const Konverter = () => {
                         padding: "3.5rem",
                         textAlign: "center",
                         cursor: "pointer",
+                        marginTop: "10rem",
                     }}
                 >
                     {selectedFiles.length > 0 ? (
@@ -139,6 +155,21 @@ const Konverter = () => {
                 >
                     Upload
                 </Button>
+                <Box marginTop={"2rem"}>
+                    <Typography variant="h4">
+                        Používáte stránku poprvé? Přečtěte si krátký návod {""}
+                        <Link
+                            component={RouterLink}
+                            to="/jak-pouzivat"
+                            onClick={handleJakPouzivat}
+                            sx={{
+                                cursor: "pointer",
+                            }}
+                        >
+                            Jak Používat ShareTaxMax
+                        </Link>
+                    </Typography>
+                </Box>
             </Container>
         </div>
     );

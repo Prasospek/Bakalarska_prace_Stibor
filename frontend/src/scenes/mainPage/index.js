@@ -117,8 +117,12 @@ const MainPage = () => {
                     marginRight={"1rem"}
                     style={{ height: "calc(100% - 4rem)", overflowY: "hidden" }}
                 >
-                    <Box width={"100%"} textAlign="center">
-                        <Typography variant="h1" sx={{ minWidth: "60rem" }}>
+                    <Box
+                        width={"100%"}
+                        textAlign="center"
+                        sx={{ minWidth: "30rem" }}
+                    >
+                        <Typography variant="h1">
                             Snadné navigování komplexitami danění akcií.
                             Zjednodušte svá daňová přiznání
                         </Typography>
@@ -127,7 +131,7 @@ const MainPage = () => {
                         width={"100%"}
                         marginTop={"2rem"}
                         textAlign="center"
-                        sx={{ minWidth: "60rem" }}
+                        sx={{ minWidth: "30rem" }}
                     >
                         <Typography variant="h4">
                             Stresují Vás složité každoroční daňová přiznání z
@@ -136,7 +140,12 @@ const MainPage = () => {
                         </Typography>
                     </Box>
 
-                    <Box width={"80%"} textAlign="center" marginTop={"4rem"}>
+                    <Box
+                        width={"80%"}
+                        textAlign="center"
+                        marginTop={"4rem"}
+                        sx={{ minWidth: "30rem" }}
+                    >
                         <Typography variant="h2" marginBottom={"0.8rem"}>
                             Jednoduchost
                         </Typography>
@@ -146,7 +155,12 @@ const MainPage = () => {
                             komplikovaných postupů.
                         </Typography>
                     </Box>
-                    <Box width={"80%"} textAlign="center" marginTop={"4rem"}>
+                    <Box
+                        width={"80%"}
+                        textAlign="center"
+                        marginTop={"4rem"}
+                        sx={{ minWidth: "30rem" }}
+                    >
                         <Typography variant="h2" marginBottom={"0.8rem"}>
                             Čas
                         </Typography>
@@ -156,7 +170,12 @@ const MainPage = () => {
                             jednoduchosti a přehlednosti.
                         </Typography>
                     </Box>
-                    <Box width={"80%"} textAlign="center" marginTop={"4rem"}>
+                    <Box
+                        width={"80%"}
+                        textAlign="center"
+                        marginTop={"4rem"}
+                        sx={{ minWidth: "30rem" }}
+                    >
                         <Typography variant="h2" marginBottom={"0.8rem"}>
                             Flexibilita
                         </Typography>
