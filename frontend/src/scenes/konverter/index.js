@@ -32,23 +32,37 @@ const Konverter = () => {
         setSelectedFiles(updatedFiles);
     };
 
-    const handleUpload = () => {
+    const handleUpload = async () => {
         if (selectedFiles.length > 0) {
             const formData = new FormData();
             for (let i = 0; i < selectedFiles.length; i++) {
-                formData.append("csvFiles[]", selectedFiles[i]);
+                formData.append("file", selectedFiles[i]);
             }
 
-            fetch("/backend/upload", {
-                method: "POST",
-                body: formData,
-            })
-                .then((response) => {
-                    console.log("Files uploaded successfully!");
-                })
-                .catch((error) => {
-                    console.error("Error uploading files:", error);
-                });
+            try {
+                const response = await fetch(
+                    "http://localhost:8000/api/upload/",
+                    {
+                        method: "POST",
+                        body: formData,
+                    }
+                );
+
+                if (response.ok) {
+                    const blob = await response.blob();
+                    const url = window.URL.createObjectURL(blob);
+                    const link = document.createElement("a");
+                    link.href = url;
+                    link.download = "modified_data.csv";
+                    link.click();
+                    window.URL.revokeObjectURL(url);
+                    console.log("File downloaded successfully!");
+                } else {
+                    throw new Error("Error downloading file");
+                }
+            } catch (error) {
+                console.error("Error downloading file:", error);
+            }
         }
     };
 
