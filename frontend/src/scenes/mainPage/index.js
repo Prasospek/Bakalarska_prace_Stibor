@@ -56,7 +56,7 @@ const MainPage = () => {
                             <Button
                                 className="button-36"
                                 sx={{
-                                    fontSize: "0.9rem",
+                                    fontSize: "1.2rem",
                                     marginTop: "4rem",
                                 }}
                                 onClick={handleNavigate}
@@ -68,11 +68,14 @@ const MainPage = () => {
 
                     <Box
                         marginTop={"6rem"}
-                        width={"65%"}
+                        width={"60%"}
                         display={"flex"}
-                        style={{ height: "calc(100% - 10rem)" }}
+                        style={{
+                            height: "calc(100% - 10rem)",
+                            minWidth: "60rem",
+                        }}
                     >
-                        <Box width={"40%"} marginRight={"5rem"}>
+                        <Box width={"50%"} marginRight={"4rem"}>
                             <Typography variant="h2" marginBottom={"0.8rem"}>
                                 Jednoduchost
                             </Typography>
@@ -82,17 +85,17 @@ const MainPage = () => {
                                 zdlouhavých a komplikovaných postupů.
                             </Typography>
                         </Box>
-                        <Box width={"40%"} marginRight={"5rem"}>
+                        <Box width={"50%"} marginRight={"4rem"}>
                             <Typography variant="h2" marginBottom={"0.8rem"}>
                                 Čas
                             </Typography>
                             <Typography variant="h4">
-                                ušetříte čas a stres spojený s vyplňováním
+                                Ušetříte čas a stres spojený s vyplňováním
                                 složitých daňových přiznání z prodeje cenných
                                 papírů díky jeho jednoduchosti a přehlednosti.
                             </Typography>
                         </Box>
-                        <Box width={"40%"} marginRight={"5rem"}>
+                        <Box width={"50%"}>
                             <Typography variant="h2" marginBottom={"0.8rem"}>
                                 Flexibilita
                             </Typography>
@@ -115,12 +118,17 @@ const MainPage = () => {
                     style={{ height: "calc(100% - 4rem)", overflowY: "hidden" }}
                 >
                     <Box width={"100%"} textAlign="center">
-                        <Typography variant="h1">
+                        <Typography variant="h1" sx={{ minWidth: "60rem" }}>
                             Snadné navigování komplexitami danění akcií.
                             Zjednodušte svá daňová přiznání
                         </Typography>
                     </Box>
-                    <Box width={"100%"} marginTop={"2rem"} textAlign="center">
+                    <Box
+                        width={"100%"}
+                        marginTop={"2rem"}
+                        textAlign="center"
+                        sx={{ minWidth: "60rem" }}
+                    >
                         <Typography variant="h4">
                             Stresují Vás složité každoroční daňová přiznání z
                             prodeje cenných papírů? ShareTaxMax vyřeší všechny
@@ -130,32 +138,31 @@ const MainPage = () => {
 
                     <Box width={"80%"} textAlign="center" marginTop={"4rem"}>
                         <Typography variant="h2" marginBottom={"0.8rem"}>
-                            Hello1
+                            Jednoduchost
                         </Typography>
                         <Typography variant="h4">
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Fugit placeat est, assumenda tenetur rerum
-                            dolorem 1111
+                            Díky jednoduchému uživatelskému rozhraní jednoduše
+                            vyplníte své daňové přiznání bez zdlouhavých a
+                            komplikovaných postupů.
                         </Typography>
                     </Box>
                     <Box width={"80%"} textAlign="center" marginTop={"4rem"}>
                         <Typography variant="h2" marginBottom={"0.8rem"}>
-                            Hello2
+                            Čas
                         </Typography>
                         <Typography variant="h4">
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Fugit placeat est, assumenda tenetur rerum
-                            dolorem 2222
+                            Ušetříte čas a stres spojený s vyplňováním složitých
+                            daňových přiznání z prodeje cenných papírů díky jeho
+                            jednoduchosti a přehlednosti.
                         </Typography>
                     </Box>
                     <Box width={"80%"} textAlign="center" marginTop={"4rem"}>
                         <Typography variant="h2" marginBottom={"0.8rem"}>
-                            Hello3
+                            Flexibilita
                         </Typography>
                         <Typography variant="h4">
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Fugit placeat est, assumenda tenetur rerum
-                            dolorem 3333
+                            Můžete snadno upravit své daňové přiznání v případě
+                            změn nebo dodatečných informací.
                         </Typography>
                     </Box>
                     <Box
@@ -163,18 +170,19 @@ const MainPage = () => {
                         display="flex"
                         flexDirection="column"
                         alignItems="center"
-                        padding="3rem"
+                        padding="2rem"
+                        marginTop={"1rem"}
                     >
                         <Button
                             className="button-36"
                             sx={{
                                 fontSize: "1.9rem",
                                 width: "fit-content",
-                                padding: "2rem",
+                                padding: "2.5rem",
                             }}
                             onClick={handleNavigate}
                         >
-                            Kovertovat CSV
+                            Pojďmě na to
                         </Button>
                     </Box>
                 </Box>
