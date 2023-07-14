@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import Navbar from "../navbar";
-import { Link as RouterLink } from "@mui/material";
+import { Link as RouterLink } from "react-router-dom";
 import JakPouzivat from "../jakPouzivat";
 import { useNavigate } from "react-router-dom";
 
@@ -87,7 +87,7 @@ const Konverter = () => {
                         padding: "3.5rem",
                         textAlign: "center",
                         cursor: "pointer",
-                        marginTop: "10rem",
+                        marginTop: isNonMobileScreens ? "10rem" : "5rem",
                     }}
                 >
                     {selectedFiles.length > 0 ? (
@@ -146,24 +146,32 @@ const Konverter = () => {
                         Vyberte složky
                     </Button>
                 </div>
-                <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleUpload}
-                    disabled={selectedFiles.length === 0}
-                    style={{ marginTop: "1.5rem" }}
-                >
-                    Upload
-                </Button>
-                <Box marginTop={"2rem"}>
+                <Box textAlign="center" marginTop="1.2rem">
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={handleUpload}
+                        disabled={selectedFiles.length === 0}
+                        style={{ marginTop: "1.5rem" }}
+                        sx={{
+                            fontSize: "1.5rem",
+                        }}
+                    >
+                        Konvertuj soubory
+                    </Button>
+                </Box>
+                <Box marginTop="3rem" textAlign="center">
                     <Typography variant="h4">
-                        Používáte stránku poprvé? Přečtěte si krátký návod {""}
+                        Používáte stránku poprvé? Přečtěte si krátký návod{" "}
                         <Link
                             component={RouterLink}
                             to="/jak-pouzivat"
                             onClick={handleJakPouzivat}
                             sx={{
                                 cursor: "pointer",
+                                "&:hover": {
+                                    textDecoration: "underline",
+                                },
                             }}
                         >
                             Jak Používat ShareTaxMax

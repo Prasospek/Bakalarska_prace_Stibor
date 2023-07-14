@@ -11,7 +11,7 @@ const CasteDotazy = () => {
         <div>
             <Navbar />
             <Typography
-                variant="h4" // Change the variant to h2 for a bigger font size
+                variant="h2" // Change the variant to h2 for a bigger font size
                 align="center" // Keep the alignment centered
                 sx={{
                     marginTop: "4rem", // Increase the marginTop value for more spacing
@@ -21,7 +21,7 @@ const CasteDotazy = () => {
             >
                 FAQ
             </Typography>
-            <Container maxWidth="md" sx={{ mt: 5 }}>
+            <Container sx={{ maxWidth: "md", mt: 5 }}>
                 <Accordion
                     sx={{
                         marginBottom: 2,
@@ -35,8 +35,9 @@ const CasteDotazy = () => {
                         aria-controls="panel1a-content"
                         id="panel1a-header"
                     >
-                        <Typography fontWeight={"bold"}>
-                            Jak se daní ?
+                        <Typography fontWeight={"bold"} fontSize={"1rem"}>
+                            Jaké jsou daňové povinnosti spojené s prodejem
+                            akcií?
                         </Typography>
                     </AccordionSummary>
                     <Divider />
@@ -63,21 +64,75 @@ const CasteDotazy = () => {
                         aria-controls="panel1a-content"
                         id="panel1a-header"
                     >
-                        <Typography fontWeight={"bold"}>
-                            Jak na daně s dividendy ?
+                        <Typography fontWeight={"bold"} fontSize={"1rem"}>
+                            Jaké jsou daňové povinnosti spojené s vyplácením
+                            dividend z akcií?
                         </Typography>
                     </AccordionSummary>
                     <Divider />
                     <AccordionDetails>
                         <Typography>
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. Dignissimos porro odio consectetur eum! Labore
-                            sunt libero voluptates harum dignissimos quis?
-                            Inventore voluptatum iure reiciendis officia
-                            consequuntur reprehenderit quos excepturi, quia
-                            minus amet dolorum tempore, nulla porro neque,
-                            corporis itaque ratione aliquid sint dignissimos
-                            minima? Qui quas maxime excepturi nisi neque.
+                            Lorem ipsum dolor sit amet, consectetur adipisicing
+                            elit. Quasi tempore blanditiis explicabo numquam,
+                            quisquam sit nemo unde tempora dolor, nesciunt
+                            itaque modi optio ad molestiae, impedit magnam
+                            perspiciatis dolore cumque!
+                        </Typography>
+                    </AccordionDetails>
+                </Accordion>
+                <Accordion
+                    sx={{
+                        marginBottom: 2,
+                        "&.Mui-expanded": {
+                            border: "1px solid #000", // Add border style when expanded
+                        },
+                    }}
+                >
+                    <AccordionSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        aria-controls="panel1a-content"
+                        id="panel1a-header"
+                    >
+                        <Typography fontWeight={"bold"} fontSize={"1rem"}>
+                            Jaké jsou daňové sazby pro zisky z prodeje akcií?
+                        </Typography>
+                    </AccordionSummary>
+                    <Divider />
+                    <AccordionDetails>
+                        <Typography>
+                            Lorem ipsum dolor sit amet, consectetur adipisicing
+                            elit. Quasi tempore blanditiis explicabo numquam,
+                            quisquam sit nemo unde tempora dolor, nesciunt
+                            itaque modi optio ad molestiae, impedit magnam
+                            perspiciatis dolore cumque!
+                        </Typography>
+                    </AccordionDetails>
+                </Accordion>
+                <Accordion
+                    sx={{
+                        marginBottom: 2,
+                        "&.Mui-expanded": {
+                            border: "1px solid #000", // Add border style when expanded
+                        },
+                    }}
+                >
+                    <AccordionSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        aria-controls="panel1a-content"
+                        id="panel1a-header"
+                    >
+                        <Typography fontWeight={"bold"} fontSize={"1rem"}>
+                            Co je to časový test ?
+                        </Typography>
+                    </AccordionSummary>
+                    <Divider />
+                    <AccordionDetails>
+                        <Typography>
+                            Lorem ipsum dolor sit amet, consectetur adipisicing
+                            elit. Quasi tempore blanditiis explicabo numquam,
+                            quisquam sit nemo unde tempora dolor, nesciunt
+                            itaque modi optio ad molestiae, impedit magnam
+                            perspiciatis dolore cumque!
                         </Typography>
                     </AccordionDetails>
                 </Accordion>
