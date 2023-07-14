@@ -24,9 +24,11 @@
     user-select: none;
     -webkit-user-select: none;
     touch-action: manipulation;
-    width: 20%;
+    width: 25%;
 }
 
-body {
-    overflow: hidden; /* Hide scrollbars */
+@media (min-width: 1000px) {
+    body {
+        overflow: hidden;
+    }
 }
