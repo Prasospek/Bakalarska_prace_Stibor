@@ -13,24 +13,27 @@ from django.http import HttpResponse
 
 
 @api_view(['POST'])
-def csv_data_view(request):
-    if "file" in request.FILES:
-        csv_file = request.FILES["file"]
-        
-        if csv_file.name.endswith(".csv"):
-            
-            df = pd.read_csv(csv_file)
-            
-            df["NewColumn"] = "Hello"
-            
-            response = HttpResponse(content_type="text/csv")
-            response["Content-Disposition"] = 'attachment; filename="modified_data.csv"'
-            
-            df.to_csv(path_or_buf=response, index=False)
-            
-            return response
-        
-    return HttpResponse("Invalid request be", status=400)
+def get_action_column(request):
+    csv_files = request.FILES.getlist('files')
+
+    if csv_files:
+        action_data = []
+
+        for csv_file in csv_files:
+            if csv_file.name.endswith('.csv'):
+                csv_data = csv.reader(csv_file.read().decode('utf-8').splitlines())
+                header = next(csv_data)
+                action_column_index = header.index('Action')
+                action_data.extend([row[action_column_index] for row in csv_data])
+
+        return Response({'action_data': action_data})
+
+    return Response({'error': 'No files uploaded'}, status=400)
+
+
+
+
+
 
 @api_view(['POST'])
 def email_submit(request):

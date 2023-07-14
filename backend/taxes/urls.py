@@ -3,6 +3,6 @@ from . import views
 
 
 urlpatterns = [
-    path("upload/", views.csv_data_view, name="data_review"),
+    path("upload/", views.get_action_column, name="data_review"),
     path("submit-email/", views.email_submit, name="submit-email"),
 ]
