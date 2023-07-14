@@ -12,6 +12,8 @@ import Navbar from "../navbar";
 import { Link as RouterLink } from "react-router-dom";
 import JakPouzivat from "../jakPouzivat";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Konverter = () => {
     const [selectedFiles, setSelectedFiles] = useState([]);
@@ -57,7 +59,11 @@ const Konverter = () => {
                     link.click();
                     window.URL.revokeObjectURL(url);
                     console.log("File downloaded successfully!");
+                    toast.success(`Konverze proběhla v pořádku !`);
+                    // Clear the selectedFiles state
+                    setSelectedFiles([]);
                 } else {
+                    toast.error(`Soubory nebyly zpracovány !`);
                     throw new Error("Error downloading file");
                 }
             } catch (error) {
@@ -193,6 +199,7 @@ const Konverter = () => {
                     </Typography>
                 </Box>
             </Container>
+            <ToastContainer />
         </div>
     );
 };
