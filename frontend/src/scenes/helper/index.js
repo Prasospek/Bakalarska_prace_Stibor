@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Container, TextField, Button, Typography } from "@mui/material";
 import Navbar from "../navbar";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Helper() {
     const [userEmail, setUserEmail] = useState("");
@@ -14,27 +16,37 @@ function Helper() {
         setMessage(event.target.value);
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
 
-        fetch("http://localhost:8001/api/submit-email/", {
-            method: "POST",
-            headers: {
-                "Content-type": "application/json",
-            },
-            body: JSON.stringify({ email: userEmail, message }),
-        })
-            .then((response) => response.json())
-            .then((data) => {
+        try {
+            const response = await fetch(
+                "http://localhost:8000/api/submit-email/",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-type": "application/json",
+                    },
+                    body: JSON.stringify({ email: userEmail, message }),
+                }
+            );
+
+            if (response.ok) {
+                const data = await response.json();
                 console.log(data);
-                // TODO: Handle success
+
                 setUserEmail(""); // Reset userEmail state to an empty string
                 setMessage(""); // Reset message state to an empty string
-            })
-            .catch((error) => {
-                console.log(error);
-                // TODO: Handle error
-            });
+                toast.success(`Email byl úspěšně odeslán !`);
+            } else {
+                throw new Error(
+                    "Request failed with status: " + response.status
+                );
+            }
+        } catch (error) {
+            console.log(error);
+            toast.error("Stala se chyba! Email nebyl odeslán.");
+        }
     };
 
     return (
@@ -90,6 +102,7 @@ function Helper() {
                     </Button>
                 </form>
             </Container>
+            <ToastContainer />
         </div>
     );
 }
