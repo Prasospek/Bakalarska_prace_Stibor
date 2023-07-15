@@ -32,3 +32,11 @@
         overflow: hidden;
     }
 }
+
+.helper-accordion {
+    margin-bottom: 1rem;
+}
+
+.helper-accordion.Mui-expanded {
+    border: 1px solid #000;
+}

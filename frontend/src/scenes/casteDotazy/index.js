@@ -22,14 +22,7 @@ const CasteDotazy = () => {
                 FAQ
             </Typography>
             <Container sx={{ maxWidth: "md", mt: 5 }}>
-                <Accordion
-                    sx={{
-                        marginBottom: 2,
-                        "&.Mui-expanded": {
-                            border: "1px solid #000", // Add border style when expanded
-                        },
-                    }}
-                >
+                <Accordion className="helper-accordion">
                     <AccordionSummary
                         expandIcon={<ExpandMoreIcon />}
                         aria-controls="panel1a-content"
@@ -42,7 +35,7 @@ const CasteDotazy = () => {
                     </AccordionSummary>
                     <Divider />
                     <AccordionDetails>
-                        <Typography>
+                        <Typography variant="h6" fontSize={"0.9rem"}>
                             Lorem ipsum dolor sit amet, consectetur adipisicing
                             elit. Quasi tempore blanditiis explicabo numquam,
                             quisquam sit nemo unde tempora dolor, nesciunt
@@ -51,14 +44,7 @@ const CasteDotazy = () => {
                         </Typography>
                     </AccordionDetails>
                 </Accordion>
-                <Accordion
-                    sx={{
-                        marginBottom: 2,
-                        "&.Mui-expanded": {
-                            border: "1px solid #000", // Add border style when expanded
-                        },
-                    }}
-                >
+                <Accordion className="helper-accordion">
                     <AccordionSummary
                         expandIcon={<ExpandMoreIcon />}
                         aria-controls="panel1a-content"
@@ -71,7 +57,7 @@ const CasteDotazy = () => {
                     </AccordionSummary>
                     <Divider />
                     <AccordionDetails>
-                        <Typography>
+                        <Typography variant="h6" fontSize={"0.9rem"}>
                             Lorem ipsum dolor sit amet, consectetur adipisicing
                             elit. Quasi tempore blanditiis explicabo numquam,
                             quisquam sit nemo unde tempora dolor, nesciunt
@@ -80,14 +66,7 @@ const CasteDotazy = () => {
                         </Typography>
                     </AccordionDetails>
                 </Accordion>
-                <Accordion
-                    sx={{
-                        marginBottom: 2,
-                        "&.Mui-expanded": {
-                            border: "1px solid #000", // Add border style when expanded
-                        },
-                    }}
-                >
+                <Accordion className="helper-accordion">
                     <AccordionSummary
                         expandIcon={<ExpandMoreIcon />}
                         aria-controls="panel1a-content"
@@ -99,7 +78,7 @@ const CasteDotazy = () => {
                     </AccordionSummary>
                     <Divider />
                     <AccordionDetails>
-                        <Typography>
+                        <Typography variant="h6" fontSize={"0.9rem"}>
                             Lorem ipsum dolor sit amet, consectetur adipisicing
                             elit. Quasi tempore blanditiis explicabo numquam,
                             quisquam sit nemo unde tempora dolor, nesciunt
@@ -108,14 +87,27 @@ const CasteDotazy = () => {
                         </Typography>
                     </AccordionDetails>
                 </Accordion>
-                <Accordion
-                    sx={{
-                        marginBottom: 2,
-                        "&.Mui-expanded": {
-                            border: "1px solid #000", // Add border style when expanded
-                        },
-                    }}
-                >
+                <Accordion className="helper-accordion">
+                    <AccordionSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        aria-controls="panel1a-content"
+                        id="panel1a-header"
+                    >
+                        <Typography fontWeight={"bold"} fontSize={"1rem"}>
+                            Co je to hodnotový test ?
+                        </Typography>
+                    </AccordionSummary>
+                    <Divider />
+                    <AccordionDetails>
+                        <Typography variant="h6" fontSize={"0.9rem"}>
+                            Tento test se zaměřuje především na menší investory.
+                            Uvádí, že od zdanění jsou osvobozeni lidé, jejichž
+                            příjmy z prodeje cenných papíru nepřesáhlo v daném
+                            zdaňovacím období <b>100 000 Kč.</b>
+                        </Typography>
+                    </AccordionDetails>
+                </Accordion>
+                <Accordion className="helper-accordion">
                     <AccordionSummary
                         expandIcon={<ExpandMoreIcon />}
                         aria-controls="panel1a-content"
@@ -127,12 +119,12 @@ const CasteDotazy = () => {
                     </AccordionSummary>
                     <Divider />
                     <AccordionDetails>
-                        <Typography>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing
-                            elit. Quasi tempore blanditiis explicabo numquam,
-                            quisquam sit nemo unde tempora dolor, nesciunt
-                            itaque modi optio ad molestiae, impedit magnam
-                            perspiciatis dolore cumque!
+                        <Typography variant="h6" fontSize={"0.9rem"}>
+                            Časový test narozdíl od hodnotového platí i pro
+                            zámožnější investory. Tento test nám říká, že pokud
+                            od doby mezi nákupem a prodejem cenného papíru byla
+                            delší doba než <b>3 roky</b> tak je daná osoba zcela
+                            osvobozena od daně..
                         </Typography>
                     </AccordionDetails>
                 </Accordion>

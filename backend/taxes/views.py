@@ -28,7 +28,7 @@ def get_action_column(request):
 
         return Response({'action_data': action_data})
 
-    return Response({'error': 'No files uploaded'}, status=400)
+    return Response({'error': 'No files uploaded be'}, status=400)
 
 
 
