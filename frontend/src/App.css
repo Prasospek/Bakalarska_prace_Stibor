@@ -28,7 +28,7 @@
 }
 
 @media (min-width: 1000px) {
-    body {
+    body:not(.no-overflow-hidden) {
         overflow: hidden;
     }
 }
