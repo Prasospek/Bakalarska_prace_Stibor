@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../navbar";
 import {
     Typography,
@@ -7,18 +7,57 @@ import {
     Card,
     CardMedia,
     Button,
+    useMediaQuery,
+    Fab,
+    Zoom,
 } from "@mui/material";
 import trading_1 from "../../assets/trading_1.png";
 import trading_2 from "../../assets/trading_2.png";
 import trading_3 from "../../assets/trading_3.png";
 import trading_4 from "../../assets/trading_4.png";
 import { useNavigate } from "react-router-dom";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 
 const HowToArticle = () => {
     const navigate = useNavigate();
+    const [isMobileMenuToggled, setIsMobileMenuToggled] = useState(false);
+    const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
 
     const handleConverter = () => {
         navigate("/konverter");
+    };
+
+    const handleScrollTop = () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    };
+
+    const ScrollTopButton = () => {
+        const handleScrollTop = () => {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        };
+
+        return (
+            <Fab
+                color="primary"
+                size="medium"
+                aria-label="scroll back to top"
+                sx={{
+                    position: "fixed",
+                    bottom: "2rem",
+                    right: "2rem",
+                    display: "inline-block",
+                    visibility: "visible",
+                    opacity: 1,
+                    transition: "opacity 0.3s",
+                    "&:hover": {
+                        opacity: 0.8,
+                    },
+                }}
+                onClick={handleScrollTop}
+            >
+                <KeyboardArrowUpIcon />
+            </Fab>
+        );
     };
 
     useEffect(() => {
@@ -31,7 +70,7 @@ const HowToArticle = () => {
     return (
         <div>
             <Navbar />
-            <Box width="60%" mx="auto" mt={4}>
+            <Box width={isNonMobileScreens ? "60%" : "100%"} mx="auto" mt={4}>
                 {/* Introduction */}
                 <Typography
                     variant="h2"
@@ -44,12 +83,18 @@ const HowToArticle = () => {
                 </Typography>
                 <Divider sx={{ my: 2 }} />
                 {/* Step 1 */}
-                <Box display="flex" alignItems="center" marginTop={5}>
+                <Box
+                    display="flex"
+                    alignItems="center"
+                    marginTop={5}
+                    marginLeft={!isNonMobileScreens && "1rem"}
+                    marginRight={!isNonMobileScreens && "1rem"}
+                >
                     <Box
                         display="flex"
                         justifyContent="center"
                         alignItems="center"
-                        width={40}
+                        minWidth={40}
                         height={40}
                         borderRadius="50%"
                         bgcolor="blue"
@@ -71,12 +116,18 @@ const HowToArticle = () => {
                     </Box>
                 </Box>
                 {/* Step 2 */}
-                <Box display="flex" alignItems="center" marginTop={5}>
+                <Box
+                    display="flex"
+                    alignItems="center"
+                    marginTop={5}
+                    marginLeft={!isNonMobileScreens && "1rem"}
+                    marginRight={!isNonMobileScreens && "1rem"}
+                >
                     <Box
                         display="flex"
                         justifyContent="center"
                         alignItems="center"
-                        width={40}
+                        minWidth={40}
                         height={40}
                         borderRadius="50%"
                         bgcolor="blue"
@@ -108,7 +159,12 @@ const HowToArticle = () => {
                     </Card>
                 </Box>
                 {/* Step 3 */}
-                <Box display="flex" alignItems="center" marginTop={5}>
+                <Box
+                    display="flex"
+                    alignItems="center"
+                    marginTop={5}
+                    marginLeft={!isNonMobileScreens && "2rem"}
+                >
                     <Box
                         display="flex"
                         justifyContent="center"
@@ -140,7 +196,12 @@ const HowToArticle = () => {
                     </Card>
                 </Box>
                 {/* Step 4 */}
-                <Box display="flex" alignItems="center" marginTop={5}>
+                <Box
+                    display="flex"
+                    alignItems="center"
+                    marginTop={5}
+                    marginLeft={!isNonMobileScreens && "2rem"}
+                >
                     <Box
                         display="flex"
                         justifyContent="center"
@@ -173,12 +234,18 @@ const HowToArticle = () => {
                     </Card>
                 </Box>
                 {/* Step 5 */}
-                <Box display="flex" alignItems="center" marginTop={5}>
+                <Box
+                    display="flex"
+                    alignItems="center"
+                    marginTop={5}
+                    marginLeft={!isNonMobileScreens && "1rem"}
+                    marginRight={!isNonMobileScreens && "1rem"}
+                >
                     <Box
                         display="flex"
                         justifyContent="center"
                         alignItems="center"
-                        width={80}
+                        minWidth={40}
                         height={40}
                         borderRadius="50%"
                         bgcolor="blue"
@@ -228,6 +295,7 @@ const HowToArticle = () => {
                     </Button>
                 </Box>
             </Box>
+            <ScrollTopButton />
         </div>
     );
 };
