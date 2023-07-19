@@ -8,7 +8,6 @@ DANĚ<br>
 
 FE <br>
 1.) dodělat FQA otazky<br>
-2.) dodělat Jak Používat<br>
 3.) upravit v FAQ classy aby to nemelo 2905 radku
 4.) zkontrolovat pravopiss
 

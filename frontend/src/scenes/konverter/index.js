@@ -26,7 +26,9 @@ const Konverter = () => {
     };
 
     const handleFileChange = (event) => {
-        setSelectedFiles([...event.target.files]);
+        // setSelectedFiles([...event.target.files]);
+        const filesArray = Array.from(event.target.files);
+        setSelectedFiles(filesArray);
     };
 
     const handleFileRemove = (file) => {
@@ -43,7 +45,7 @@ const Konverter = () => {
 
             try {
                 const response = await fetch(
-                    "http://localhost:8000/api/upload/",
+                    "http://localhost:8001/api/merge-csv/",
                     {
                         method: "POST",
                         body: formData,

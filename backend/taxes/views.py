@@ -8,30 +8,70 @@ import csv
 from taxes.models import Email
 import pandas as pd
 from django.http import HttpResponse
+from django.views.decorators.csrf import csrf_exempt
+from decimal import Decimal
+import io
 
 # Create your views here.
 
 
+# @api_view(['POST'])
+# def get_action_column(request):
+#     csv_files = request.FILES.getlist('files')
+
+#     if csv_files:
+#         data_by_file = {}
+
+#         for csv_file in csv_files:
+#             if csv_file.name.endswith('.csv'):
+#                 csv_data = csv.reader(csv_file.read().decode('utf-8').splitlines())
+#                 header = next(csv_data)
+#                 action_column_index = header.index('Action')
+#                 file_data = []
+
+#                 for row in csv_data:
+#                     file_data.append(dict(zip(header, row)))
+
+#                 data_by_file[csv_file.name] = file_data
+
+#         action_data = []
+#         for data in data_by_file.values():
+#             action_data.extend([row['Action'] for row in data])
+
+#         response_data = {'data_by_file': data_by_file, 'action_data': action_data}
+#         return JsonResponse(response_data)
+
+#     return JsonResponse({'error': 'No files uploaded'}, status=400)
+
+
 @api_view(['POST'])
-def get_action_column(request):
+@csrf_exempt
+def merge_csv_files(request):
     csv_files = request.FILES.getlist('files')
 
-    if csv_files:
-        action_data = []
+    if not csv_files:
+        return HttpResponse('No files uploaded', status=400)
 
-        for csv_file in csv_files:
-            if csv_file.name.endswith('.csv'):
-                csv_data = csv.reader(csv_file.read().decode('utf-8').splitlines())
-                header = next(csv_data)
-                action_column_index = header.index('Action')
-                action_data.extend([row[action_column_index] for row in csv_data])
+    merged_rows = []
+    headers = None
 
-        return Response({'action_data': action_data})
+    for csv_file in csv_files:
+        if csv_file.name.endswith('.csv'):
+            csv_data = csv.reader(csv_file.read().decode('utf-8').splitlines())
+            rows = list(csv_data)
 
-    return Response({'error': 'No files uploaded be'}, status=400)
+            if not headers:
+                headers = rows[0]
+                merged_rows.append(headers)
+            merged_rows.extend(rows[1:])
 
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="merged_data.csv"'
 
+    csv_writer = csv.writer(response)
+    csv_writer.writerows(merged_rows)
 
+    return response
 
 
 

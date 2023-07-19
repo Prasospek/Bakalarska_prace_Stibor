@@ -21,7 +21,7 @@ function Helper() {
 
         try {
             const response = await fetch(
-                "http://localhost:8000/api/submit-email/",
+                "http://localhost:8001/api/submit-email/",
                 {
                     method: "POST",
                     headers: {
