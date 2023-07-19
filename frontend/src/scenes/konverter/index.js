@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import {
     Button,
     Container,
@@ -20,6 +20,7 @@ const Konverter = () => {
     const [isMobileMenuToggled, setIsMobileMenuToggled] = useState(false);
     const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
     const navigate = useNavigate();
+    const fileInputRef = useRef(null);
 
     const handleJakPouzivat = () => {
         navigate("/jak-pouzivat");
@@ -64,6 +65,7 @@ const Konverter = () => {
                     toast.success(`Konverze proběhla v pořádku !`);
                     // Clear the selectedFiles state
                     setSelectedFiles([]);
+                    fileInputRef.current.value = "";
                 } else {
                     toast.error(`Soubory nebyly zpracovány !`);
                     throw new Error("Error downloading file");
@@ -157,6 +159,7 @@ const Konverter = () => {
                         type="file"
                         onChange={handleFileChange}
                         multiple
+                        ref={fileInputRef}
                     />
                     <Button
                         variant="contained"
