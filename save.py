@@ -54,7 +54,6 @@ def merge_csv_files(request):
 
     merged_rows = []
     headers = None
-    total_withdrawal = Decimal('0.00')
 
     for csv_file in csv_files:
         if csv_file.name.endswith('.csv'):
@@ -64,19 +63,7 @@ def merge_csv_files(request):
             if not headers:
                 headers = rows[0]
                 merged_rows.append(headers)
-            
-            # Calculate the total amount of "Withdrawal" and update the "Total (EUR)" field accordingly
-            for row in rows[1:]:
-                action = row[0]
-                total_eur = row[10]
-                if action.strip() == 'Withdrawal' and total_eur:
-                    total_withdrawal += Decimal(total_eur)
-
             merged_rows.extend(rows[1:])
-
-    # Append a row for "Total Withdrawal" at the end of the merged data
-    total_row = ['Total Withdrawal', '', '', '', '', '', '', '', '', '', str(total_withdrawal), '', '', '', '', '', '']
-    merged_rows.append(total_row)
 
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="merged_data.csv"'

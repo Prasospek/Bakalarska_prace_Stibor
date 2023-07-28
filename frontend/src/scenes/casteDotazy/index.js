@@ -129,6 +129,18 @@ const CasteDotazy = () => {
                     </AccordionDetails>
                 </Accordion>
             </Container>
+            <Typography
+                variant="h2" // Change the variant to h2 for a bigger font size
+                align="center" // Keep the alignment centered
+                sx={{
+                    marginTop: "4rem", // Increase the marginTop value for more spacing
+                    fontWeight: 700, // Add font weight for emphasis
+                    fontStyle: "italic", // Add italic style
+                }}
+            >
+                Co ShareTaxMax neumí
+            </Typography>
+            <h4>Dividendy, usd,czk,eur</h4>
         </div>
     );
 };
