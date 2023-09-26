@@ -81,7 +81,7 @@ import io
 #     return response
 
 
-# Mergefiles but only market sell
+# Mergefiles but only market selll
 @api_view(['POST'])
 @csrf_exempt
 def merge_csv_files(request):
