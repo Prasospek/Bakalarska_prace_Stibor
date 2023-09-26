@@ -1,7 +1,7 @@
 TODO LIST
 
 OBECNÉ<br>
-1.) Pravnicka vs Fyzicka osoba 19 vs 15%
+1.) Pravnicka (spoelcnost) vs Fyzicka (normalni clovek) osoba 19 vs 15%
 
 
 FE <br>
@@ -102,3 +102,11 @@ sectu vsechny a odectu to co prodali. Postupne odecitam zezadu FIFO
 _________________________________
 1.) Nebudu pocitat s dividendama - nemozny vypocitat
 2.) EUR,CZK,USD ONLY
+
+
+
+1.) SECTU VSECHNY NAKUPY PRO JEDNOTLIVOU AKCII -> AAPL 150$
+2.) Rozdelim to na 2 části. 
+3.) 1. Část budou peníze co prošly časovým testem 50$ a 2. Čast co nepřošly časovým testem 100$
+4.) Spočítam kolik toho prodal, třeba 80$
+5.) 

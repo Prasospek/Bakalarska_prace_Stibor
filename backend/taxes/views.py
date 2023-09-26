@@ -8,7 +8,11 @@ import csv
 from taxes.models import Email
 import pandas as pd
 from django.http import HttpResponse
+
 from django.views.decorators.csrf import csrf_exempt
+from rest_framework.decorators import api_view
+
+
 from decimal import Decimal
 import io
 
@@ -43,6 +47,41 @@ import io
 
 #     return JsonResponse({'error': 'No files uploaded'}, status=400)
 
+
+#MERGE FILES !!!
+
+# @api_view(['POST'])
+# @csrf_exempt
+# def merge_csv_files(request):
+#     csv_files = request.FILES.getlist('files')
+
+#     if not csv_files:
+#         return HttpResponse('No files uploaded', status=400)
+
+#     merged_rows = []
+#     headers = None
+
+#     for csv_file in csv_files:
+#         if csv_file.name.endswith('.csv'):
+#             csv_data = csv.reader(csv_file.read().decode('utf-8').splitlines())
+#             rows = list(csv_data)
+
+#             if not headers:
+#                 headers = rows[0]
+#                 merged_rows.append(headers)
+
+#             merged_rows.extend(rows[1:])
+
+#     response = HttpResponse(content_type='text/csv')
+#     response['Content-Disposition'] = 'attachment; filename="merged_data.csv"'
+
+#     csv_writer = csv.writer(response)
+#     csv_writer.writerows(merged_rows)
+
+#     return response
+
+
+# Mergefiles but only market sell
 @api_view(['POST'])
 @csrf_exempt
 def merge_csv_files(request):
@@ -56,22 +95,28 @@ def merge_csv_files(request):
 
     for csv_file in csv_files:
         if csv_file.name.endswith('.csv'):
-            csv_data = csv.reader(csv_file.read().decode('utf-8').splitlines())
+            csv_data = csv.reader(csv_file.read().decode('utf-8').splitlines(), quoting=csv.QUOTE_MINIMAL)
             rows = list(csv_data)
 
             if not headers:
                 headers = rows[0]
                 merged_rows.append(headers)
 
-            merged_rows.extend(rows[1:])
+            for row in rows[1:]:
+                if row and row[0] == 'Market sell':  # Filter rows with Action "Market sell"
+                    merged_rows.append(row)
+
+    if not merged_rows:
+        return HttpResponse('No "Market sell" records found', status=400)
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="merged_data.csv"'
+    response['Content-Disposition'] = 'attachment; filename="market_sell_data.csv"'
 
     csv_writer = csv.writer(response)
     csv_writer.writerows(merged_rows)
 
     return response
+
 
 
 
