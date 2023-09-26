@@ -87,6 +87,13 @@ market buy seradit podle datumu
 deposit me nezajima to jsou vlozene penize me zajima jen market buy
 
 
+zajima me jen 1.1.2013 -> 31.12.2023
+
+
+sortnu si to podle data
+sectu vsechny a odectu to co prodali. Postupne odecitam zezadu FIFO
+
+
 1.) pro kazdou akcii jednotlive secist vsechny koupě -> napr celkoev 1000dolaru kdy to pricitam udelam si druhe budget a ted ude kontrolovat zda to proslo casovym testem -> 700 dolaru ktery mám jsou bez daně 650
 2.) odectl vsechny nakupy ktery nejsou v roce 2023 ->mu zbyde napr 700 dolaru.
 3.) potrebuju aplikovat FIFO
