@@ -13,14 +13,12 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view
 
 from taxes.models import Email
-
+from datetime import datetime
 
 from decimal import Decimal
 import io
 
 # Create your views here.
-
-
 
 
 #MERGE FILES !!!
@@ -56,42 +54,6 @@ import io
 #     return response
 
 
-# Mergefiles but only market selll
-# @api_view(['POST'])
-# @csrf_exempt
-# def merge_csv_files(request):
-#     csv_files = request.FILES.getlist('files')
-
-#     if not csv_files:
-#         return HttpResponse('No files uploaded', status=400)
-
-#     merged_rows = []
-#     headers = None
-
-#     for csv_file in csv_files:
-#         if csv_file.name.endswith('.csv'):
-#             csv_data = csv.reader(csv_file.read().decode('utf-8').splitlines(), quoting=csv.QUOTE_MINIMAL)
-#             rows = list(csv_data)
-
-#             if not headers:
-#                 headers = rows[0]
-#                 merged_rows.append(headers)
-
-#             for row in rows[1:]:
-#                 if row and row[0] == 'Market sell':  # Filter rows with Action "Market sell"
-#                     merged_rows.append(row)
-
-#     if not merged_rows:
-#         return HttpResponse('No "Market sell" records found', status=400)
-
-#     response = HttpResponse(content_type='text/csv')
-#     response['Content-Disposition'] = 'attachment; filename="market_sell_data.csv"'
-
-#     csv_writer = csv.writer(response)
-#     csv_writer.writerows(merged_rows)
-
-#     return response
-
 
 
 @api_view(['POST'])
@@ -105,8 +67,10 @@ def merge_csv_files(request):
     merged_rows = []
     headers = None
 
-    # Create variables to track FIFO
-    fifo_stocks = []
+    total_tax_free = {}
+    total_taxed = {}
+    total_market_sell = {}
+    total_market_buy = {}  # Initialize total for Market Buy by currency
 
     for csv_file in csv_files:
         if csv_file.name.endswith('.csv'):
@@ -118,53 +82,54 @@ def merge_csv_files(request):
                 merged_rows.append(headers)
 
             for row in rows[1:]:
-                if row and row[0] == 'Market sell':  # Filter rows with Action "Market sell"
-                    merged_rows.append(row)
+                action = row[0]
+                action_time = datetime.strptime(row[1], '%Y-%m-%d %H:%M:%S')
 
-                    # Apply FIFO-based tax calculation
-                    calculate_taxes_for_sell(row, fifo_stocks, merged_rows)
+                # Calculate the difference in years
+                years_difference = (datetime.now() - action_time).days / 365
+
+                total = float(row[10]) if row[10] else 0.0
+                currency = row[7]  # Currency column index may vary; update accordingly
+
+                if action and 'Market sell' in action:  # Check for "Market sell" transactions
+                    if currency not in total_market_sell:
+                        total_market_sell[currency] = 0.0
+                    total_market_sell[currency] += total
+
+                if action and 'Market buy' in action:  # Check for "Market buy" transactions
+                    if currency not in total_market_buy:
+                        total_market_buy[currency] = 0.0
+                    total_market_buy[currency] += total
+
+                if years_difference > 3:
+                    if currency not in total_tax_free:
+                        total_tax_free[currency] = 0.0
+                    total_tax_free[currency] += total
+                else:
+                    if currency not in total_taxed:
+                        total_taxed[currency] = 0.0
+                    total_taxed[currency] += total
+
+                merged_rows.append(row)
 
     if not merged_rows:
-        return HttpResponse('No "Market sell" records found', status=400)
+        return HttpResponse('No records found', status=400)
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="market_sell_data.csv"'
+    response['Content-Disposition'] = 'attachment; filename="merged_market_data.csv"'
 
     csv_writer = csv.writer(response)
     csv_writer.writerows(merged_rows)
 
+    # Append the grand totals to the end of the CSV by currency
+    for currency, amount in total_market_sell.items():
+        csv_writer.writerow([f'Market sell with tax ({currency}):', amount])
+    for currency, amount in total_market_buy.items():
+        csv_writer.writerow([f'Market buy ({currency}):', amount])
+    for currency, amount in total_tax_free.items():
+        csv_writer.writerow([f'Total tax free ({currency}):', amount])
+
     return response
-
-def calculate_taxes_for_sell(sell_row, fifo_stocks, merged_rows):
-    sell_shares = float(sell_row[5])
-    sell_date = pd.to_datetime(sell_row[1])
-    total_profit = 0
-
-    while sell_shares > 0 and fifo_stocks:
-        buy_shares, buy_date, buy_price = fifo_stocks[0]
-        holding_period = (sell_date - pd.to_datetime(buy_date)).days
-
-        if buy_shares <= sell_shares:
-            profit = (sell_shares / buy_shares) * (float(sell_row[6]) - buy_price)
-            total_profit += profit
-            sell_shares -= buy_shares
-            fifo_stocks.pop(0)
-        else:
-            profit = sell_shares * (float(sell_row[6]) - buy_price)
-            total_profit += profit
-            fifo_stocks[0] = (buy_shares - sell_shares, buy_date, buy_price)
-            sell_shares = 0
-
-        # Check if the holding period is greater than 3 years (1095 days)
-        if holding_period >= 1095:
-            sell_row[-1] = 'Tax-exempt sale'
-        else:
-            sell_row[-1] = 'Taxable sale'
-
-        # Append tax information to the merged rows
-        merged_rows.append(sell_row)
-        merged_rows.append(['', '', '', '', '', '', '', '', '', f'Total Profit: {total_profit}', '', '', '', '', '', ''])
-
 
 
 @api_view(['POST'])
