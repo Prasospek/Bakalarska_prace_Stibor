@@ -117,6 +117,14 @@ def merge_csv_files(request):
     if not merged_rows:
         return HttpResponse('No records found', status=400)
 
+    # Calculate the combined sum of Market buys and Market sells
+    combined_market_buy_sum = sum(sum(buy_sums.values()) for buy_sums in market_buy_sums.values())
+    combined_market_sell_sum = sum(sum(sell_sums.values()) for sell_sums in market_sell_sums.values())
+
+    # Calculate the combined CZK amounts for the combined sums
+    combined_market_buy_czk = combined_market_buy_sum * 24.54
+    combined_market_sell_czk = combined_market_sell_sum * 24.54
+
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="merged_data.csv"'
 
@@ -130,11 +138,16 @@ def merge_csv_files(request):
             csv_writer.writerow([f'Sum of Market buys for {ticker} ({currency}):', f"{buy_sum:.2f} {currency} ({czk_amount:.2f} {currency_czk})"])
     for ticker, sell_sums in market_sell_sums.items():
         for currency, sell_sum in sell_sums.items():
-            total_eur = euro_to_float(sell_sum)
-            amount, currency_czk, czk_amount = convert_to_czk_or_usd(total_eur, currency)
+            amount, currency_czk, czk_amount = convert_to_czk_or_usd(sell_sum, currency)
             csv_writer.writerow([f'Sum of Market sells for {ticker} ({currency}):', f"{sell_sum:.2f} {currency} ({czk_amount:.2f} {currency_czk})"])
 
+    # Append the combined sums to the CSV file
+    csv_writer.writerow(['Combined Sum of Market Buys (EUR):', f"{combined_market_buy_sum:.2f} EUR ({combined_market_buy_czk:.2f} CZK)"])
+    csv_writer.writerow(['Combined Sum of Market Sells (EUR):', f"{combined_market_sell_sum:.2f} EUR ({combined_market_sell_czk:.2f} CZK)"])
+
     return response
+
+
 
 
 
