@@ -53,18 +53,17 @@ def merge_csv_files(request):
 
     for csv_file in csv_files:
         if csv_file.name.endswith('.csv'):
-            csv_data = csv.reader(csv_file.read().decode('utf-8').splitlines())
-            rows = list(csv_data)
-
-            if not headers:
-                headers = rows[0]
-                merged_rows.append(headers)
-
-            for row in rows[1:]:
-                action = row[0]
-                ticker = row[3]
-                total = row[10]
-                currency = row[11]
+            csv_data = csv.DictReader(csv_file.read().decode('utf-8').splitlines())
+            
+            for row in csv_data:
+                if not headers:
+                    headers = row.keys()
+                    merged_rows.append(headers)
+                
+                action = row['Action']
+                ticker = row['Ticker']
+                total = row['Total']
+                currency = row['Currency (Total)']
 
                 # Function to convert Euro currency value to float
                 def euro_to_float(euro_str):
@@ -78,8 +77,8 @@ def merge_csv_files(request):
                         market_buy_sums[ticker]['EUR'] += total
                     else:
                         # Extract exchange rate from the row (you may need to adjust this part)
-                        exchange_rate = euro_to_float(row[8])
-                        total_eur = euro_to_float(row[10])
+                        exchange_rate = euro_to_float(row['Exchange rate'])
+                        total_eur = euro_to_float(row['Total'])
                         if exchange_rate:
                             total = total_eur / exchange_rate
                             market_buy_sums[ticker][currency] += total
@@ -89,13 +88,13 @@ def merge_csv_files(request):
                         market_sell_sums[ticker]['EUR'] += total
                     else:
                         # Extract exchange rate from the row (you may need to adjust this part)
-                        exchange_rate = euro_to_float(row[8])
-                        total_eur = euro_to_float(row[10])
+                        exchange_rate = euro_to_float(row['Exchange rate'])
+                        total_eur = euro_to_float(row['Total'])
                         if exchange_rate:
                             total = total_eur / exchange_rate
                             market_sell_sums[ticker][currency] += total
 
-                merged_rows.append(row)  # Append the original row to merged_rows
+                merged_rows.append([row[header] for header in headers])  # Append the original row to merged_rows
 
     if not merged_rows:
         return HttpResponse('No records found', status=400)
