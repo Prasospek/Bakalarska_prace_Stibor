@@ -30,8 +30,6 @@ def email_submit(request):
 
 
 #MERGE FILES !!!
-
-
 @api_view(['POST'])
 @csrf_exempt
 def merge_csv_files(request):
@@ -56,18 +54,18 @@ def merge_csv_files(request):
                     headers = row.keys()
                     merged_rows.append(headers)
 
-                action = row['Action']
-                ticker = row['Ticker']
-                total = row['Total']
-                currency = row['Currency (Total)']
+                action = row.get('Action', '')
+                ticker = row.get('Ticker', '')
+                total = row.get('Total', '')
+                currency_total = row.get('Currency (Total)', '')
 
-                # Function to convert Euro currency value to float
-                def euro_to_float(euro_str):
-                    if isinstance(euro_str, str):
-                        euro_str = euro_str.replace(',', '.')  # Replace comma with dot
-                        return float(euro_str) if euro_str.replace('.', '', 1).isdigit() else 0.0
+                # Function to convert currency value to float
+                def currency_to_float(currency_str):
+                    if isinstance(currency_str, str):
+                        currency_str = currency_str.replace(',', '.')  # Replace comma with dot
+                        return float(currency_str) if currency_str.replace('.', '', 1).isdigit() else 0.0
                     else:
-                        return float(euro_str)  # If it's already a float, just return it
+                        return float(currency_str)  # If it's already a float, just return it
 
                 # Function to convert currency to CZK or USD
                 def convert_to_czk_or_usd(amount, currency):
@@ -75,42 +73,40 @@ def merge_csv_files(request):
                         czk_amount = amount * 24.54
                         return amount, 'CZK', czk_amount
                     elif currency == 'USD':
-                        czk_amount = amount * 0.038  # Assuming 1 USD is approximately 0.038 CZK
+                        czk_amount = amount * 23.41  # Corrected conversion rate
                         return amount, 'CZK', czk_amount
                     else:
                         return amount, currency, 0.0
 
+
                 # Check if the action is a Market buy or Market sell
                 if action == 'Market buy':
-                    if currency == 'EUR':
-                        total_eur = euro_to_float(total)
+                    if currency_total == 'EUR':
+                        total_eur = currency_to_float(total)
                         market_buy_sums[ticker]['EUR'] += total_eur
                         amount, currency_czk, czk_amount = convert_to_czk_or_usd(total_eur, 'EUR')
                         row['Total'] = f"{total_eur:.2f} EUR ({czk_amount:.2f} {currency_czk})"
-                    else:
-                        # Extract exchange rate from the row (you may need to adjust this part)
-                        exchange_rate = euro_to_float(row['Exchange rate'])
-                        total_eur = euro_to_float(row['Total'])
-                        if exchange_rate:
-                            total = total_eur / exchange_rate
-                            market_buy_sums[ticker][currency] += total
-                            amount, currency_czk, czk_amount = convert_to_czk_or_usd(total, currency)
-                            row['Total'] = f"{total:.2f} {currency} ({czk_amount:.2f} {currency_czk})"
+                    elif currency_total == 'USD':
+                        total_usd = currency_to_float(total)
+                        market_buy_sums[ticker]['USD'] += total_usd
+                        amount, currency_czk, czk_amount = convert_to_czk_or_usd(total_usd, 'USD')
+                        row['Total'] = f"{total_usd:.2f} USD ({czk_amount:.2f} {currency_czk})"
                 elif action == 'Market sell':
-                    if currency == 'EUR':
-                        total_eur = euro_to_float(total)
+                    if currency_total == 'EUR':
+                        total_eur = currency_to_float(total)
                         market_sell_sums[ticker]['EUR'] += total_eur
                         amount, currency_czk, czk_amount = convert_to_czk_or_usd(total_eur, 'EUR')
                         row['Total'] = f"{total_eur:.2f} EUR ({czk_amount:.2f} {currency_czk})"
-                    else:
-                        # Extract exchange rate from the row (you may need to adjust this part)
-                        exchange_rate = euro_to_float(row['Exchange rate'])
-                        total_eur = euro_to_float(row['Total'])
-                        if exchange_rate:
-                            total = total_eur / exchange_rate
-                            market_sell_sums[ticker][currency] += total
-                            amount, currency_czk, czk_amount = convert_to_czk_or_usd(total, currency)
-                            row['Total'] = f"{total:.2f} {currency} ({czk_amount:.2f} {currency_czk})"
+                    elif currency_total == 'USD':
+                        total_usd = currency_to_float(total)
+                        market_sell_sums[ticker]['USD'] += total_usd
+                        amount, currency_czk, czk_amount = convert_to_czk_or_usd(total_usd, 'USD')
+                        row['Total'] = f"{total_usd:.2f} USD ({czk_amount:.2f} {currency_czk})"
+
+                # Replace missing values with empty strings
+                for header in headers:
+                    if header not in row:
+                        row[header] = ''
 
                 merged_rows.append([row[header] for header in headers])  # Append the original row to merged_rows
 
@@ -118,12 +114,17 @@ def merge_csv_files(request):
         return HttpResponse('No records found', status=400)
 
     # Calculate the combined sum of Market buys and Market sells
-    combined_market_buy_sum = sum(sum(buy_sums.values()) for buy_sums in market_buy_sums.values())
-    combined_market_sell_sum = sum(sum(sell_sums.values()) for sell_sums in market_sell_sums.values())
+    combined_market_buy_sum_eur = sum(market_buy_sums[ticker]['EUR'] for ticker in market_buy_sums)
+    combined_market_buy_sum_usd = sum(market_buy_sums[ticker]['USD'] for ticker in market_buy_sums)
+
+    combined_market_sell_sum_eur = sum(market_sell_sums[ticker]['EUR'] for ticker in market_sell_sums)
+    combined_market_sell_sum_usd = sum(market_sell_sums[ticker]['USD'] for ticker in market_sell_sums)
 
     # Calculate the combined CZK amounts for the combined sums
-    combined_market_buy_czk = combined_market_buy_sum * 24.54
-    combined_market_sell_czk = combined_market_sell_sum * 24.54
+    # Calculate the combined CZK amounts for the combined sums
+    combined_market_buy_czk = (combined_market_buy_sum_eur * 24.54) + (combined_market_buy_sum_usd * 23.41)
+    combined_market_sell_czk = (combined_market_sell_sum_eur * 24.54) + (combined_market_sell_sum_usd * 23.41)
+
 
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="merged_data.csv"'
@@ -142,15 +143,11 @@ def merge_csv_files(request):
             csv_writer.writerow([f'Sum of Market sells for {ticker} ({currency}):', f"{sell_sum:.2f} {currency} ({czk_amount:.2f} {currency_czk})"])
 
     # Append the combined sums to the CSV file
-    csv_writer.writerow(['Combined Sum of Market Buys (EUR):', f"{combined_market_buy_sum:.2f} EUR ({combined_market_buy_czk:.2f} CZK)"])
-    csv_writer.writerow(['Combined Sum of Market Sells (EUR):', f"{combined_market_sell_sum:.2f} EUR ({combined_market_sell_czk:.2f} CZK)"])
+    csv_writer.writerow(['Combined Sum of Market Buys (EUR):', f"{combined_market_buy_sum_eur:.2f} EUR"])
+    csv_writer.writerow(['Combined Sum of Market Buys (USD):', f"{combined_market_buy_sum_usd:.2f} USD"])
+    csv_writer.writerow(['Combined Sum of Market Sells (EUR):', f"{combined_market_sell_sum_eur:.2f} EUR"])
+    csv_writer.writerow(['Combined Sum of Market Sells (USD):', f"{combined_market_sell_sum_usd:.2f} USD"])
+    csv_writer.writerow(['Combined Sum of Market Buys (CZK):', f"{combined_market_buy_czk:.2f} CZK"])
+    csv_writer.writerow(['Combined Sum of Market Sells (CZK):', f"{combined_market_sell_czk:.2f} CZK"])
 
     return response
-
-
-
-
-
-
-
-
