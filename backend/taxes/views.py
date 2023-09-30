@@ -148,6 +148,7 @@ def merge_csv_files(request):
     csv_writer.writerow(['Combined Sum of Market Sells (EUR):', f"{combined_market_sell_sum_eur:.2f} EUR"])
     csv_writer.writerow(['Combined Sum of Market Sells (USD):', f"{combined_market_sell_sum_usd:.2f} USD"])
     csv_writer.writerow(['Combined Sum of Market Buys (CZK):', f"{combined_market_buy_czk:.2f} CZK"])
-    csv_writer.writerow(['Combined Sum of Market Sells (CZK):', f"{combined_market_sell_czk:.2f} CZK"])
+    csv_writer.writerow( ['Combined Sum of Market Sells (CZK):', f"{combined_market_sell_czk:.2f} CZK"])
 
     return response
+ 
