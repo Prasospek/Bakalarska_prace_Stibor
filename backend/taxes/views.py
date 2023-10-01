@@ -29,7 +29,6 @@ def email_submit(request):
 
 
 
-#MERGE FILES !!!
 @api_view(['POST'])
 @csrf_exempt
 def merge_csv_files(request):
@@ -44,6 +43,7 @@ def merge_csv_files(request):
     # Initialize dictionaries to store sums for each Ticker and currency
     market_buy_sums = defaultdict(lambda: defaultdict(float))
     market_sell_sums = defaultdict(lambda: defaultdict(float))
+    share_purchase_dates = defaultdict(str)
 
     for csv_file in csv_files:
         if csv_file.name.endswith('.csv'):
@@ -78,30 +78,50 @@ def merge_csv_files(request):
                     else:
                         return amount, currency, 0.0
 
+                # Function to check if shares have been held for at least three years
+                def is_tax_exempt(purchase_date, current_date):
+                    # Replace this logic with actual date comparison based on your data format
+                    # For demonstration purposes, consider it tax-exempt if held for 3 years
+                    return (current_date - purchase_date).days >= 1095  # 3 years = 1095 days
 
                 # Check if the action is a Market buy or Market sell
                 if action == 'Market buy':
                     if currency_total == 'EUR':
                         total_eur = currency_to_float(total)
-                        market_buy_sums[ticker]['EUR'] += total_eur
+                        market_buy_sums[ticker]['EUR'] += total_eur  # Accumulate market buy amount
                         amount, currency_czk, czk_amount = convert_to_czk_or_usd(total_eur, 'EUR')
                         row['Total'] = f"{total_eur:.2f} EUR ({czk_amount:.2f} {currency_czk})"
                     elif currency_total == 'USD':
                         total_usd = currency_to_float(total)
-                        market_buy_sums[ticker]['USD'] += total_usd
+                        market_buy_sums[ticker]['USD'] += total_usd  # Accumulate market buy amount
                         amount, currency_czk, czk_amount = convert_to_czk_or_usd(total_usd, 'USD')
                         row['Total'] = f"{total_usd:.2f} USD ({czk_amount:.2f} {currency_czk})"
+                    
+                    # Assuming 'Time' column contains the purchase date in the format 'YYYY-MM-DD HH:MM:SS'
+                    purchase_date = row.get('Time', '')
+                    if purchase_date:
+                        purchase_date = datetime.strptime(purchase_date, '%Y-%m-%d %H:%M:%S')
+                        share_purchase_dates[ticker] = purchase_date
+
+                        # Check if shares have been held for at least three years
+                        current_date = datetime.now()
+                        if is_tax_exempt(purchase_date, current_date):
+                            row['Result'] = 'Tax-Exempt'
+
                 elif action == 'Market sell':
+                    total_eur = 0.0
+                    total_usd = 0.0
+
                     if currency_total == 'EUR':
                         total_eur = currency_to_float(total)
-                        market_sell_sums[ticker]['EUR'] += total_eur
-                        amount, currency_czk, czk_amount = convert_to_czk_or_usd(total_eur, 'EUR')
-                        row['Total'] = f"{total_eur:.2f} EUR ({czk_amount:.2f} {currency_czk})"
+                        market_sell_sums[ticker]['EUR'] += total_eur  # Accumulate market sell amount
                     elif currency_total == 'USD':
                         total_usd = currency_to_float(total)
-                        market_sell_sums[ticker]['USD'] += total_usd
-                        amount, currency_czk, czk_amount = convert_to_czk_or_usd(total_usd, 'USD')
-                        row['Total'] = f"{total_usd:.2f} USD ({czk_amount:.2f} {currency_czk})"
+                        market_sell_sums[ticker]['USD'] += total_usd  # Accumulate market sell amount
+                    
+                    # Calculate the CZK amount for the market sell total
+                    total_czk = (total_eur * 24.54) + (total_usd * 23.41)
+                    row['Total'] = f"{total_eur:.2f} EUR ({total_czk:.2f} CZK) ({total_usd:.2f} USD)"
 
                 # Replace missing values with empty strings
                 for header in headers:
@@ -120,11 +140,15 @@ def merge_csv_files(request):
     combined_market_sell_sum_eur = sum(market_sell_sums[ticker]['EUR'] for ticker in market_sell_sums)
     combined_market_sell_sum_usd = sum(market_sell_sums[ticker]['USD'] for ticker in market_sell_sums)
 
-    # Calculate the combined CZK amounts for the combined sums
+    # Calculate the tax-exempt market sell sum
+    combined_market_sell_tax_exempt_eur = sum(market_sell_sums[ticker]['EUR'] for ticker in market_sell_sums if is_tax_exempt(share_purchase_dates.get(ticker, ''), datetime.now()))
+
     # Calculate the combined CZK amounts for the combined sums
     combined_market_buy_czk = (combined_market_buy_sum_eur * 24.54) + (combined_market_buy_sum_usd * 23.41)
     combined_market_sell_czk = (combined_market_sell_sum_eur * 24.54) + (combined_market_sell_sum_usd * 23.41)
 
+    # Calculate the combined sum of Market sells to be taxed
+    combined_market_sell_to_be_taxed = combined_market_sell_sum_eur + combined_market_sell_sum_usd - combined_market_sell_tax_exempt_eur
 
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="merged_data.csv"'
@@ -137,18 +161,24 @@ def merge_csv_files(request):
         for currency, buy_sum in buy_sums.items():
             amount, currency_czk, czk_amount = convert_to_czk_or_usd(buy_sum, currency)
             csv_writer.writerow([f'Sum of Market buys for {ticker} ({currency}):', f"{buy_sum:.2f} {currency} ({czk_amount:.2f} {currency_czk})"])
+
     for ticker, sell_sums in market_sell_sums.items():
         for currency, sell_sum in sell_sums.items():
             amount, currency_czk, czk_amount = convert_to_czk_or_usd(sell_sum, currency)
-            csv_writer.writerow([f'Sum of Market sells for {ticker} ({currency}):', f"{sell_sum:.2f} {currency} ({czk_amount:.2f} {currency_czk})"])
+            if is_tax_exempt(share_purchase_dates.get(ticker, ''), datetime.now()):
+                csv_writer.writerow([f'Sum of Tax-Exempt Market sells for {ticker} ({currency}):', f"{sell_sum:.2f} {currency} ({czk_amount:.2f} {currency_czk})"])
+            else:
+                csv_writer.writerow([f'Sum of Market sells to be taxed for {ticker} ({currency}):', f"{sell_sum:.2f} {currency} ({czk_amount:.2f} {currency_czk})"])
 
     # Append the combined sums to the CSV file
     csv_writer.writerow(['Combined Sum of Market Buys (EUR):', f"{combined_market_buy_sum_eur:.2f} EUR"])
     csv_writer.writerow(['Combined Sum of Market Buys (USD):', f"{combined_market_buy_sum_usd:.2f} USD"])
     csv_writer.writerow(['Combined Sum of Market Sells (EUR):', f"{combined_market_sell_sum_eur:.2f} EUR"])
     csv_writer.writerow(['Combined Sum of Market Sells (USD):', f"{combined_market_sell_sum_usd:.2f} USD"])
+    csv_writer.writerow(['Combined Sum of Tax-Exempt Market Sells (EUR):', f"{combined_market_sell_tax_exempt_eur:.2f} EUR"])
+    csv_writer.writerow(['Combined Sum of Market Sells to be Taxed (EUR/USD):', f"{combined_market_sell_to_be_taxed:.2f} EUR/USD"])
     csv_writer.writerow(['Combined Sum of Market Buys (CZK):', f"{combined_market_buy_czk:.2f} CZK"])
-    csv_writer.writerow( ['Combined Sum of Market Sells (CZK):', f"{combined_market_sell_czk:.2f} CZK"])
+    csv_writer.writerow(['Combined Sum of Market Sells (CZK):', f"{combined_market_sell_czk:.2f} CZK"])
 
     return response
  
