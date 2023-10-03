@@ -8,12 +8,10 @@ from taxes.serializers import EmailSerializer
 from rest_framework import status
 import pandas as pd
 from .models import Transaction
-from datetime import datetime  # Import datetime
+from datetime import datetime, timedelta  # Import datetime
 
 # Define a dictionary to store securities' data
 securities = {}
-
-
 
 
 @api_view(['POST'])
@@ -56,6 +54,22 @@ def merge_csv_files(request):
 
                 # Append the original row to merged_rows
                 merged_rows.append([row[header] for header in headers])
+
+                # Update securities dictionary
+                action = row.get('Action', '')
+                ticker = row.get('Ticker', '')
+                date_str = row.get('Time', '')
+
+                if action == 'Market buy':
+                    purchase_date = datetime.strptime(date_str, '%Y-%m-%d %H:%M:%S')
+                    if ticker not in securities:
+                        securities[ticker] = {'purchase_date': purchase_date, 'transactions': []}
+                    securities[ticker]['transactions'].append({'date': purchase_date, 'action': 'buy'})
+
+                elif action == 'Market sell':
+                    if ticker in securities:
+                        sale_date = datetime.strptime(date_str, '%Y-%m-%d %H:%M:%S')
+                        securities[ticker]['transactions'].append({'date': sale_date, 'action': 'sell'})
 
     if not merged_rows:
         return HttpResponse('No records found', status=400)
