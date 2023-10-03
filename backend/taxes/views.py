@@ -7,7 +7,12 @@ from taxes.models import Email
 from taxes.serializers import EmailSerializer
 from rest_framework import status
 import pandas as pd
-from .models import Transaction  # Import your Transaction model
+from .models import Transaction
+from datetime import datetime  # Import datetime
+
+# Define a dictionary to store securities' data
+securities = {}
+
 
 
 
