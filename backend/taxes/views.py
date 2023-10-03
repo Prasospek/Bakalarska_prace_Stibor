@@ -129,6 +129,42 @@ def calculate_taxes(merged_rows, headers):
                     index = tax_results['Ticker'].index(ticker)
                     tax_results['Total Market Sell (USD)'][index] += total_usd
 
+    # Apply Time Test and calculate taxes based on it
+    for ticker in tax_results['Ticker']:
+        if ticker in securities:
+            short_term_gains_eur = 0
+            short_term_gains_usd = 0
+            long_term_gains_eur = 0
+            long_term_gains_usd = 0
+
+            # Define the time frame for short-term vs. long-term gains (e.g., 6 months)
+            time_frame = timedelta(days=180)
+
+            # Sort transactions by date
+            transactions = sorted(securities[ticker]['transactions'], key=lambda x: x['date'])
+
+            for i in range(len(transactions)):
+                if transactions[i]['action'] == 'sell':
+                    sale_date = transactions[i]['date']
+                    for j in range(i - 1, -1, -1):
+                        if transactions[j]['action'] == 'buy':
+                            purchase_date = transactions[j]['date']
+                            holding_period = sale_date - purchase_date
+
+                            # Check if it's a short-term or long-term gain
+                            if holding_period <= time_frame:
+                                short_term_gains_eur += tax_results['Total Market Sell (EUR)'][tax_results['Ticker'].index(ticker)]
+                                short_term_gains_usd += tax_results['Total Market Sell (USD)'][tax_results['Ticker'].index(ticker)]
+                            else:
+                                long_term_gains_eur += tax_results['Total Market Sell (EUR)'][tax_results['Ticker'].index(ticker)]
+                                long_term_gains_usd += tax_results['Total Market Sell (USD)'][tax_results['Ticker'].index(ticker)]
+
+            # Store the calculated gains back in tax_results
+            tax_results['Short-Term Gains (EUR)'] = short_term_gains_eur
+            tax_results['Short-Term Gains (USD)'] = short_term_gains_usd
+            tax_results['Long-Term Gains (EUR)'] = long_term_gains_eur
+            tax_results['Long-Term Gains (USD)'] = long_term_gains_usd
+
     return tax_results
 
 
