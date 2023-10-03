@@ -3,7 +3,6 @@ TODO LIST
 OBECNÉ<br>
 1.) Pravnicka (spoelcnost) vs Fyzicka (normalni clovek) osoba 19 vs 15%
 
-
 FE <br>
 1.) dodělat FQA otazky<br>
 3.) upravit v FAQ classy aby to nemelo 2905 radku
@@ -81,32 +80,28 @@ Rok USD EUR Zdroj
 2012 19.45 25.12 Pokyn GFŘ D-14 ze dne 2.1.2013
 2011 17.60 24.60 Pokyn GFŘ D-8 ze dne 2.1.2012
 
-
-market buy seradit podle datumu 
+market buy seradit podle datumu
 
 deposit me nezajima to jsou vlozene penize me zajima jen market buy
 
-
 zajima me jen 1.1.2013 -> 31.12.2023
-
 
 sortnu si to podle data
 sectu vsechny a odectu to co prodali. Postupne odecitam zezadu FIFO
-
 
 1.) pro kazdou akcii jednotlive secist vsechny koupě -> napr celkoev 1000dolaru kdy to pricitam udelam si druhe budget a ted ude kontrolovat zda to proslo casovym testem -> 700 dolaru ktery mám jsou bez daně 650
 2.) odectl vsechny nakupy ktery nejsou v roce 2023 ->mu zbyde napr 700 dolaru.
 3.) potrebuju aplikovat FIFO
 
+---
 
-_________________________________
 1.) Nebudu pocitat s dividendama - nemozny vypocitat
 2.) EUR,CZK,USD ONLY
-
-
 
 1.) SECTU VSECHNY NAKUPY PRO JEDNOTLIVOU AKCII -> AAPL 150$
 2.) Rozdelim to na 2 části. 
 3.) 1. Část budou peníze co prošly časovým testem 50$ a 2. Čast co nepřošly časovým testem 100$
 4.) Spočítam kolik toho prodal, třeba 80$
-5.) 
+5.)
+
+POKUD TAM JE MARKET SELL NEBO LIMIT SELL NEBO MARKET BUY NEBO LIMIT BUY TAK PREMENIT NA MARKTE SELL / BUY ticker

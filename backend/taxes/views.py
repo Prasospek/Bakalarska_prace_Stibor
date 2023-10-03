@@ -1,23 +1,15 @@
-from django.shortcuts import render
-from django.http import JsonResponse, HttpResponse
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from taxes.serializers import EmailSerializer
-from rest_framework import status
 import csv
-from taxes.models import Email
-
-
+from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view
-
+from rest_framework.response import Response
 from taxes.models import Email
-from datetime import datetime
-from collections import defaultdict
-from decimal import Decimal
-import io
+from taxes.serializers import EmailSerializer
+from rest_framework import status
+import pandas as pd
+from .models import Transaction  # Import your Transaction model
 
-# Create your views here.
+
 
 @api_view(['POST'])
 def email_submit(request):
@@ -28,6 +20,9 @@ def email_submit(request):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+from datetime import datetime
+
+# ...
 
 @api_view(['POST'])
 @csrf_exempt
@@ -40,160 +35,83 @@ def merge_csv_files(request):
     merged_rows = []
     headers = None
 
-    # Initialize dictionaries and FIFO queues to track shares and purchase dates
-    market_buy_sums = defaultdict(lambda: defaultdict(float))
-    market_sell_sums = defaultdict(lambda: defaultdict(float))
-    share_queues = defaultdict(deque)
-
     for csv_file in csv_files:
         if csv_file.name.endswith('.csv'):
             csv_data = csv.DictReader(csv_file.read().decode('utf-8').splitlines())
 
             for row in csv_data:
                 if not headers:
-                    headers = row.keys()
+                    headers = list(row.keys())
                     merged_rows.append(headers)
-
-                action = row.get('Action', '')
-                ticker = row.get('Ticker', '')
-                total = row.get('Total', '')
-                currency_total = row.get('Currency (Total)', '')
-
-                # Function to convert currency value to float
-                def currency_to_float(currency_str):
-                    if isinstance(currency_str, str):
-                        currency_str = currency_str.replace(',', '.')  # Replace comma with dot
-                        return float(currency_str) if currency_str.replace('.', '', 1).isdigit() else 0.0
-                    else:
-                        return float(currency_str)  # If it's already a float, just return it
-
-                # Function to convert currency to CZK or USD
-                def convert_to_czk_or_usd(amount, currency):
-                    if currency == 'EUR':
-                        czk_amount = amount * 24.54
-                        return amount, 'CZK', czk_amount
-                    elif currency == 'USD':
-                        czk_amount = amount * 23.41  # Corrected conversion rate
-                        return amount, 'CZK', czk_amount
-                    else:
-                        return amount, currency, 0.0
-
-                # Function to check if shares have been held for at least three years
-                def is_tax_exempt(purchase_date, current_date):
-                    return (current_date - purchase_date).days >= 1095  # 3 years = 1095 days
-
-                # Check if the action is a Market buy
-                if action == 'Market buy':
-                    if currency_total == 'EUR':
-                        total_eur = currency_to_float(total)
-                        market_buy_sums[ticker]['EUR'] += total_eur  # Accumulate market buy amount
-                        amount, currency_czk, czk_amount = convert_to_czk_or_usd(total_eur, 'EUR')
-                        row['Total'] = f"{total_eur:.2f} EUR ({czk_amount:.2f} {currency_czk})"
-                    elif currency_total == 'USD':
-                        total_usd = currency_to_float(total)
-                        market_buy_sums[ticker]['USD'] += total_usd  # Accumulate market buy amount
-                        amount, currency_czk, czk_amount = convert_to_czk_or_usd(total_usd, 'USD')
-                        row['Total'] = f"{total_usd:.2f} USD ({czk_amount:.2f} {currency_czk})"
-
-                    # Assuming 'Time' column contains the purchase date in the format 'YYYY-MM-DD HH:MM:SS'
-                    purchase_date = row.get('Time', '')
-                    if purchase_date:
-                        purchase_date = datetime.strptime(purchase_date, '%Y-%m-%d %H:%M:%S')
-                        share_queues[ticker].append((purchase_date, total_eur))  # Add purchase to FIFO queue
-
-                # Check if the action is a Market sell
-                elif action == 'Market sell':
-                    total_eur = 0.0
-                    total_usd = 0.0
-
-                    if currency_total == 'EUR':
-                        total_eur = currency_to_float(total)
-                        market_sell_sums[ticker]['EUR'] += total_eur  # Accumulate market sell amount
-                    elif currency_total == 'USD':
-                        total_usd = currency_to_float(total)
-                        market_sell_sums[ticker]['USD'] += total_usd  # Accumulate market sell amount
-
-                    # Calculate the CZK amount for the market sell total
-                    total_czk = (total_eur * 24.54) + (total_usd * 23.41)
-                    row['Total'] = f"{total_eur:.2f} EUR ({total_czk:.2f} CZK) ({total_usd:.2f} USD)"
-
-                    # Calculate the taxable gain
-                    current_date = datetime.now()
-                    taxable_gain = 0.0
-
-                    while total_eur > 0 and share_queues[ticker]:
-                        purchase_date, purchase_amount = share_queues[ticker][0]
-
-                        # Check if shares have been held for at least three years
-                        if is_tax_exempt(purchase_date, current_date):
-                            share_queues[ticker].popleft()  # Remove tax-exempt shares
-                            continue
-
-                        if total_eur >= purchase_amount:
-                            taxable_gain += purchase_amount
-                            total_eur -= purchase_amount
-                            share_queues[ticker].popleft()  # Remove shares from FIFO queue
-                        else:
-                            taxable_gain += total_eur
-                            share_queues[ticker][0] = (purchase_date, purchase_amount - total_eur)
-                            total_eur = 0
-
-                    # Add taxable gain to the row
-                    row['Taxable Gain'] = f"{taxable_gain:.2f} EUR"
 
                 # Replace missing values with empty strings
                 for header in headers:
                     if header not in row:
                         row[header] = ''
 
-                merged_rows.append([row[header] for header in headers])  # Append the original row to merged_rows
+                # Append the original row to merged_rows
+                merged_rows.append([row[header] for header in headers])
 
     if not merged_rows:
         return HttpResponse('No records found', status=400)
 
-    # Calculate the combined sum of Market buys and Market sells
-    combined_market_buy_sum_eur = sum(market_buy_sums[ticker]['EUR'] for ticker in market_buy_sums)
-    combined_market_buy_sum_usd = sum(market_buy_sums[ticker]['USD'] for ticker in market_buy_sums)
+    # Filter and sort the merged rows by date for 'Market sell' and 'Market buy'
+    filtered_rows = []
+    for row in merged_rows:
+        if row[0] == 'Market sell' or row[0] == 'Market buy':
+            filtered_rows.append(row)
 
-    combined_market_sell_sum_eur = sum(market_sell_sums[ticker]['EUR'] for ticker in market_sell_sums)
-    combined_market_sell_sum_usd = sum(market_sell_sums[ticker]['USD'] for ticker in market_sell_sums)
+    # Sort the filtered rows by date (assuming date is in the 'Time' column)
+    filtered_rows.sort(key=lambda x: datetime.strptime(x[1], '%Y-%m-%d %H:%M:%S'))
 
-    # Calculate the tax-exempt market sell sum
-    combined_market_sell_tax_exempt_eur = sum(market_sell_sums[ticker]['EUR'] for ticker in market_sell_sums if is_tax_exempt(share_queues.get(ticker, deque()), datetime.now()))
-    
-    # Calculate the combined sum of market sells to be taxed
-    combined_market_sell_to_be_taxed = combined_market_sell_sum_eur - combined_market_sell_tax_exempt_eur
-
-    # Calculate the combined CZK amounts for the combined sums
-    combined_market_buy_czk = (combined_market_buy_sum_eur * 24.54) + (combined_market_buy_sum_usd * 23.41)
-    combined_market_sell_czk = (combined_market_sell_sum_eur * 24.54) + (combined_market_sell_sum_usd * 23.41)
-
+    # Create a CSV response with the filtered and sorted data
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="merged_data.csv"'
+    response['Content-Disposition'] = 'attachment; filename="filtered_data.csv"'
 
     csv_writer = csv.writer(response)
-    csv_writer.writerows(merged_rows)
-
-    # Output the sums of Market buys and Market sells for each Ticker and currency
-    for ticker, buy_sums in market_buy_sums.items():
-        for currency, buy_sum in buy_sums.items():
-            amount, currency_czk, czk_amount = convert_to_czk_or_usd(buy_sum, currency)
-            csv_writer.writerow([f'Sum of Market buys for {ticker} ({currency}):', f"{buy_sum:.2f} {currency} ({czk_amount:.2f} {currency_czk})"])
-
-    for ticker, sell_sums in market_sell_sums.items():
-        for currency, sell_sum in sell_sums.items():
-            amount, currency_czk, czk_amount = convert_to_czk_or_usd(sell_sum, currency)
-            csv_writer.writerow([f'Sum of Market sells for {ticker} ({currency}):', f"{sell_sum:.2f} {currency} ({czk_amount:.2f} {currency_czk})"])
-
-    # Append the combined sums to the CSV file
-    csv_writer.writerow(['Combined Sum of Market Buys (EUR):', f"{combined_market_buy_sum_eur:.2f} EUR"])
-    csv_writer.writerow(['Combined Sum of Market Buys (USD):', f"{combined_market_buy_sum_usd:.2f} USD"])
-    csv_writer.writerow(['Combined Sum of Market Sells (EUR):', f"{combined_market_sell_sum_eur:.2f} EUR"])
-    csv_writer.writerow(['Combined Sum of Market Sells (USD):', f"{combined_market_sell_sum_usd:.2f} USD"])
-    csv_writer.writerow(['Combined Sum of Tax-Exempt Market Sells (EUR):', f"{combined_market_sell_tax_exempt_eur:.2f} EUR"])
-    csv_writer.writerow(['Combined Sum of Market Sells to be Taxed (EUR/USD):', f"{combined_market_sell_to_be_taxed:.2f} EUR/USD"])
-    csv_writer.writerow(['Combined Sum of Market Buys (CZK):', f"{combined_market_buy_czk:.2f} CZK"])
-    csv_writer.writerow(['Combined Sum of Market Sells (CZK):', f"{combined_market_sell_czk:.2f} CZK"])
+    csv_writer.writerows(filtered_rows)
 
     return response
- 
+
+
+
+def calculate_taxes(merged_rows, headers):
+    # Calculate taxes and store results in a dictionary
+    tax_results = {
+        'Ticker': [],
+        'Total Market Sell (EUR)': [],
+        'Total Market Sell (USD)': [],
+    }
+
+    # Iterate through the merged rows to calculate taxes
+    for row in merged_rows:
+        # Convert row to a dictionary
+        row_dict = dict(zip(headers, row))
+        action = row_dict.get('Action', '')
+        ticker = row_dict.get('Ticker', '')
+        total = row_dict.get('Total', '')
+        currency_total = row_dict.get('Currency (Total)', '')
+
+        if action == 'Market sell':
+            if currency_total == 'EUR':
+                total_eur = float(total.split(' ')[0])
+                if ticker not in tax_results['Ticker']:
+                    tax_results['Ticker'].append(ticker)
+                    tax_results['Total Market Sell (EUR)'].append(total_eur)
+                else:
+                    index = tax_results['Ticker'].index(ticker)
+                    tax_results['Total Market Sell (EUR)'][index] += total_eur
+            elif currency_total == 'USD':
+                total_usd = float(total.split(' ')[0])
+                if ticker not in tax_results['Ticker']:
+                    tax_results['Ticker'].append(ticker)
+                    tax_results['Total Market Sell (USD)'].append(total_usd)
+                else:
+                    index = tax_results['Ticker'].index(ticker)
+                    tax_results['Total Market Sell (USD)'][index] += total_usd
+
+    return tax_results
+
+
+
+
