@@ -109,7 +109,7 @@ def merge_csv_files(request):
 
     return response
 
-
+#s
 def calculate_taxes(merged_rows, headers):
     # Calculate taxes and store results in a dictionary
     tax_results = defaultdict(lambda: {'num_sells_eur': 0, 'total_sells_usd': 0.0, 'num_buys_eur': 0, 'total_buys_usd': 0.0})
