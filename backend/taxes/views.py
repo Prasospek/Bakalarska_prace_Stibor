@@ -1,4 +1,5 @@
 import csv
+import queue
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view
@@ -144,3 +145,58 @@ def calculate_taxes(merged_rows, headers):
                 tax_results[ticker]['total_buys_usd'] += total_usd
 
     return tax_results
+
+
+ 
+# Načte to CSV, proloopuje řádky a pro každej Buy/Sell to vytvoří do dict_of_queues nový klíč pro daného tickera a nastaví mu 2 queue.
+# Pokud již existuje, tak to do queues jen přidá.
+# Následně projíždí queues a porovnává (obě FIFO), je potřeba pořešit kontrolu data
+def processCSV():
+    dict_of_queues = {}
+    with open('2022.csv', newline='') as csvfile:
+        reader = csv.DictReader(csvfile, delimiter=',', quotechar='"')
+        for row in reader:
+            if "Market buy" in row["Action"]:
+                if row["Ticker"] in dict_of_queues:
+                    if "qBuy" in dict_of_queues[row["Ticker"]]:
+                        dict_of_queues[row["Ticker"]]["qBuy"].put(
+                            {"No. of shares": row["No. of shares"], "Time": row["Time"]})
+                    else:
+                        dict_of_queues[row["Ticker"]]["qBuy"] = queue.Queue()
+                        dict_of_queues[row["Ticker"]]["qBuy"].put(
+                            {"No. of shares": row["No. of shares"], "Time": row["Time"]})
+                else:
+                    qBuy = queue.Queue()
+                    qBuy.put({"No. of shares": row["No. of shares"], "Time": row["Time"]})
+                    dict_of_queues[row["Ticker"]] = {"qBuy": qBuy}
+            if "Market sell" in row["Action"]:
+                if row["Ticker"] in dict_of_queues:
+                    if "qSell" in dict_of_queues[row["Ticker"]]:
+                        dict_of_queues[row["Ticker"]]["qSell"].put(
+                            {"No. of shares": row["No. of shares"], "Time": row["Time"]})
+                    else:
+                        dict_of_queues[row["Ticker"]]["qSell"] = queue.Queue()
+                        dict_of_queues[row["Ticker"]]["qSell"].put(
+                            {"No. of shares": row["No. of shares"], "Time": row["Time"]})
+                else:
+                    qSell = queue.Queue()
+                    qSell.put({"No. of shares": row["No. of shares"], "Time": row["Time"]})
+                    dict_of_queues[row["Ticker"]] = {"qSell": qSell}
+        for ticker in dict_of_queues:
+            temp=0
+            while not ticker["qSell"].empty():
+                temp = ticker["qSell"].get()
+                first_bought = ticker["qBuy"].get()
+                new = first_bought["No. of shares"] - temp["No. of shares"]
+                # EXCEPTION když < 0
+                temp_queue = queue.Queue()
+                # Tady by mělo stačit porovnat čas u first_bought a temp a nastavit nějaký vhodný nový čas pro prvek new
+                # nejspíš to bude původní datum, případně pokud se prodejem zredukuje na 0, tak se už nebude přidávat a další řádek se skipne
+ 
+                temp_queue.put({"No. of shares": new, "Time": "DATUM PLACEHOLDER"})  # - jaký datum???
+                while not ticker["qBuy"].empty():
+                    temp_queue.put(ticker["qBuy"].get())
+                ticker["qBuy"] = temp_queue
+                print(first_bought["No. of shares"], temp["No. of shares"], new["No. of shares"])
+ 
+processCSV()
