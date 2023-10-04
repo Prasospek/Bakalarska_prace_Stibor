@@ -6,9 +6,8 @@ from rest_framework.response import Response
 from taxes.models import Email
 from taxes.serializers import EmailSerializer
 from rest_framework import status
-import pandas as pd
-from .models import Transaction
-from datetime import datetime, timedelta  # Import datetime
+from collections import defaultdict  # Import defaultdict
+from datetime import datetime, timedelta
 
 # Define a dictionary to store securities' data
 securities = {}
@@ -22,8 +21,6 @@ def email_submit(request):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
-from datetime import datetime
 
 # ...
 
@@ -83,24 +80,39 @@ def merge_csv_files(request):
     # Sort the filtered rows by date (assuming date is in the 'Time' column)
     filtered_rows.sort(key=lambda x: datetime.strptime(x[1], '%Y-%m-%d %H:%M:%S'))
 
-    # Create a CSV response with the filtered and sorted data
+    # Calculate taxes
+    tax_results = calculate_taxes(filtered_rows, headers)
+
+        # In your merge_csv_files function, modify the CSV header and writing part like this:
+
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="filtered_data.csv"'
 
     csv_writer = csv.writer(response)
-    csv_writer.writerows(filtered_rows)
+    csv_writer.writerow(['Action', 'Time', 'Ticker', 'Total', 'Currency (Total)'])  # Header for the merged data
+
+    for row in filtered_rows:  # Write the filtered rows first
+        csv_writer.writerow(row)
+
+    csv_writer.writerow([])  # Add an empty row for separation
+
+    csv_writer.writerow(['Ticker', 'Number of Market Sells (EUR)', 'Total Market Sells (USD)', 'Number of Market Buys (EUR)', 'Total Market Buys (USD)'])  # Additional header
+
+    for ticker, tax_data in tax_results.items():
+        csv_writer.writerow([
+            ticker,
+            tax_data['num_sells_eur'],
+            tax_data['total_sells_usd'],
+            tax_data['num_buys_eur'],
+            tax_data['total_buys_usd']
+        ])
 
     return response
 
 
-
 def calculate_taxes(merged_rows, headers):
     # Calculate taxes and store results in a dictionary
-    tax_results = {
-        'Ticker': [],
-        'Total Market Sell (EUR)': [],
-        'Total Market Sell (USD)': [],
-    }
+    tax_results = defaultdict(lambda: {'num_sells_eur': 0, 'total_sells_usd': 0.0, 'num_buys_eur': 0, 'total_buys_usd': 0.0})
 
     # Iterate through the merged rows to calculate taxes
     for row in merged_rows:
@@ -114,59 +126,21 @@ def calculate_taxes(merged_rows, headers):
         if action == 'Market sell':
             if currency_total == 'EUR':
                 total_eur = float(total.split(' ')[0])
-                if ticker not in tax_results['Ticker']:
-                    tax_results['Ticker'].append(ticker)
-                    tax_results['Total Market Sell (EUR)'].append(total_eur)
-                else:
-                    index = tax_results['Ticker'].index(ticker)
-                    tax_results['Total Market Sell (EUR)'][index] += total_eur
+                tax_results[ticker]['num_sells_eur'] += 1
+                tax_results[ticker]['total_sells_usd'] += total_eur
             elif currency_total == 'USD':
                 total_usd = float(total.split(' ')[0])
-                if ticker not in tax_results['Ticker']:
-                    tax_results['Ticker'].append(ticker)
-                    tax_results['Total Market Sell (USD)'].append(total_usd)
-                else:
-                    index = tax_results['Ticker'].index(ticker)
-                    tax_results['Total Market Sell (USD)'][index] += total_usd
+                tax_results[ticker]['num_sells_usd'] += 1
+                tax_results[ticker]['total_sells_usd'] += total_usd
 
-    # Apply Time Test and calculate taxes based on it
-    for ticker in tax_results['Ticker']:
-        if ticker in securities:
-            short_term_gains_eur = 0
-            short_term_gains_usd = 0
-            long_term_gains_eur = 0
-            long_term_gains_usd = 0
-
-            # Define the time frame for short-term vs. long-term gains (e.g., 6 months)
-            time_frame = timedelta(days=180)
-
-            # Sort transactions by date
-            transactions = sorted(securities[ticker]['transactions'], key=lambda x: x['date'])
-
-            for i in range(len(transactions)):
-                if transactions[i]['action'] == 'sell':
-                    sale_date = transactions[i]['date']
-                    for j in range(i - 1, -1, -1):
-                        if transactions[j]['action'] == 'buy':
-                            purchase_date = transactions[j]['date']
-                            holding_period = sale_date - purchase_date
-
-                            # Check if it's a short-term or long-term gain
-                            if holding_period <= time_frame:
-                                short_term_gains_eur += tax_results['Total Market Sell (EUR)'][tax_results['Ticker'].index(ticker)]
-                                short_term_gains_usd += tax_results['Total Market Sell (USD)'][tax_results['Ticker'].index(ticker)]
-                            else:
-                                long_term_gains_eur += tax_results['Total Market Sell (EUR)'][tax_results['Ticker'].index(ticker)]
-                                long_term_gains_usd += tax_results['Total Market Sell (USD)'][tax_results['Ticker'].index(ticker)]
-
-            # Store the calculated gains back in tax_results
-            tax_results['Short-Term Gains (EUR)'] = short_term_gains_eur
-            tax_results['Short-Term Gains (USD)'] = short_term_gains_usd
-            tax_results['Long-Term Gains (EUR)'] = long_term_gains_eur
-            tax_results['Long-Term Gains (USD)'] = long_term_gains_usd
+        elif action == 'Market buy':
+            if currency_total == 'EUR':
+                total_eur = float(total.split(' ')[0])
+                tax_results[ticker]['num_buys_eur'] += 1
+                tax_results[ticker]['total_buys_usd'] += total_eur
+            elif currency_total == 'USD':
+                total_usd = float(total.split(' ')[0])
+                tax_results[ticker]['num_buys_usd'] += 1
+                tax_results[ticker]['total_buys_usd'] += total_usd
 
     return tax_results
-
-
-
-
