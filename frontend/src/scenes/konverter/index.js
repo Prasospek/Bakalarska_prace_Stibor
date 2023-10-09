@@ -46,7 +46,7 @@ const Konverter = () => {
 
             try {
                 const response = await fetch(
-                    "http://localhost:8001/api/merge-csv/",
+                    "http://localhost:8001/api/process-csv/",
                     {
                         method: "POST",
                         body: formData,
