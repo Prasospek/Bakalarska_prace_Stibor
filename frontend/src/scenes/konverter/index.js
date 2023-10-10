@@ -22,7 +22,7 @@ const Konverter = () => {
     const navigate = useNavigate();
     const fileInputRef = useRef(null);
 
-    const handleJakPouzivat = () => {
+    const handleZiskaniDat = () => {
         navigate("/jak-pouzivat");
     };
 
@@ -242,8 +242,8 @@ const Konverter = () => {
                         Používáte stránku poprvé? Přečtěte si krátký návod{" "}
                         <Link
                             component={RouterLink}
-                            to="/jak-pouzivat"
-                            onClick={handleJakPouzivat}
+                            to="/ziskani-dat"
+                            onClick={handleZiskaniDat}
                             sx={{
                                 cursor: "pointer",
                                 "&:hover": {
@@ -251,7 +251,7 @@ const Konverter = () => {
                                 },
                             }}
                         >
-                            Jak Používat ShareTaxMax
+                            Jak získat data z Trading212
                         </Link>
                     </Typography>
                 </Box>

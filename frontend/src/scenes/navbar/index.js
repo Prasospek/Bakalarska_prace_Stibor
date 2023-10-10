@@ -97,9 +97,9 @@ function Navbar() {
                                     textDecoration: "underline",
                                 },
                             }}
-                            onClick={() => handleNavigate("/jak-pouzivat")}
+                            onClick={() => handleNavigate("/ziskani-dat")}
                         >
-                            Jak používat
+                            Získání dat
                         </Typography>
 
                         <Typography
@@ -180,9 +180,9 @@ function Navbar() {
                             <Divider />
                             <ListItem
                                 button
-                                onClick={() => handleNavigate("/jak-pouzivat")}
+                                onClick={() => handleNavigate("/ziskani-dat")}
                             >
-                                <ListItemText primary="Jak používat" />
+                                <ListItemText primary="Získání dat" />
                             </ListItem>
                             <ListItem
                                 button

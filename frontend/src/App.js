@@ -27,7 +27,7 @@ function App() {
                         <Route path="/" element={<MainPage />} />
                         <Route path="/help" element={<Helper />} />
                         <Route path="/caste-dotazy" element={<CasteDotazy />} />
-                        <Route path="/jak-pouzivat" element={<JakPouzivat />} />
+                        <Route path="/ziskani-dat" element={<JakPouzivat />} />
                         <Route path="/konverter" element={<Konverter />} />
 
                         {/* Fallback for invalid routes */}
