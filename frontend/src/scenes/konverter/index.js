@@ -182,7 +182,7 @@ const Konverter = () => {
                             fontSize: "1.5rem",
                         }}
                     >
-                        Konvertuj soubory
+                        Přehled daní PDF
                     </Button>
                 </Box>
                 <Box marginTop="3rem" textAlign="center">
