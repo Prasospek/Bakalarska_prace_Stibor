@@ -208,7 +208,7 @@ def processCSV(request):
     # Add your tax calculation information to the PDF here
     pdf.drawString(100, 430, f"Final tax (Brutto): {final_tax}")
     pdf.drawString(100, 400, f"Final tax (Netto):  {final_tax_netto}")
-    pdf.drawString(100, 380, "___________________________________")
+    pdf.drawString(100, 380, "____________________________________")
 
     pdf.save()
 
