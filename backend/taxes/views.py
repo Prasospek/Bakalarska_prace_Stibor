@@ -12,6 +12,7 @@ from rest_framework.response import Response
 from io import BytesIO
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
+import pandas as pd
 
 @api_view(['POST'])
 def email_submit(request):
@@ -222,9 +223,6 @@ def processCSV(request):
     return response
 
 
-import csv
-from datetime import datetime
-
 @api_view(['POST'])
 @csrf_exempt
 def merge_csv_files(request):
@@ -233,24 +231,24 @@ def merge_csv_files(request):
     if not csv_files:
         return HttpResponse('No files uploaded', status=400)
 
-    merged_rows = []
-    headers = None
+    merged_data = pd.DataFrame()
 
     for csv_file in csv_files:
         if csv_file.name.endswith('.csv'):
-            csv_data = csv.reader(csv_file.read().decode('utf-8').splitlines())
-            rows = list(csv_data)
+            df = pd.read_csv(csv_file)
+            merged_data = merged_data.append(df, ignore_index=True)
 
-            if not headers:
-                headers = rows[0]
-                merged_rows.append(headers)
+    if merged_data.empty:
+        return HttpResponse('No matching rows found', status=400)
 
-            merged_rows.extend(rows[1:])
+    # Sort the merged data by the "Time" column (assuming "Time" is the name of the date column)
+    merged_data['Time'] = pd.to_datetime(merged_data['Time'], format='%Y-%m-%d %H:%M:%S')
+    merged_data.sort_values(by='Time', inplace=True)
 
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="merged_data.csv"'
 
-    csv_writer = csv.writer(response)
-    csv_writer.writerows(merged_rows)
-
+    merged_data.to_csv(response, index=False)
+    
     return response
+
