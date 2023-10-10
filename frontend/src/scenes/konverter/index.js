@@ -37,7 +37,7 @@ const Konverter = () => {
         setSelectedFiles(updatedFiles);
     };
 
-    const handleUpload = async () => {
+    const handleTaxesPDF = async () => {
         if (selectedFiles.length > 0) {
             const formData = new FormData();
             for (let i = 0; i < selectedFiles.length; i++) {
@@ -72,6 +72,45 @@ const Konverter = () => {
                 }
             } catch (error) {
                 console.error("Error downloading PDF:", error);
+            }
+        }
+    };
+
+    const handleMerge = async () => {
+        if (selectedFiles.length > 0) {
+            const formData = new FormData();
+            for (let i = 0; i < selectedFiles.length; i++) {
+                formData.append("files", selectedFiles[i]);
+            }
+
+            try {
+                const response = await fetch(
+                    "http://localhost:8001/api/merge-csv/",
+                    {
+                        method: "POST",
+                        body: formData,
+                    }
+                );
+
+                if (response.ok) {
+                    const blob = await response.blob();
+                    const url = window.URL.createObjectURL(blob);
+                    const link = document.createElement("a");
+                    link.href = url;
+                    link.download = "modified_data.csv";
+                    link.click();
+                    window.URL.revokeObjectURL(url);
+                    console.log("File downloaded successfully!");
+                    toast.success(`Konverze proběhla v pořádku !`);
+                    // Clear the selectedFiles state
+                    setSelectedFiles([]);
+                    fileInputRef.current.value = "";
+                } else {
+                    toast.error(`Soubory nebyly zpracovány !`);
+                    throw new Error("Error downloading file");
+                }
+            } catch (error) {
+                console.error("Error downloading file:", error);
             }
         }
     };
@@ -175,10 +214,23 @@ const Konverter = () => {
                     <Button
                         variant="contained"
                         color="primary"
-                        onClick={handleUpload}
+                        onClick={handleMerge}
                         disabled={selectedFiles.length === 0}
                         style={{ marginTop: "1.5rem" }}
                         sx={{
+                            fontSize: "1.5rem",
+                        }}
+                    >
+                        Spojené CSV soubory
+                    </Button>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={handleTaxesPDF}
+                        disabled={selectedFiles.length === 0}
+                        style={{ marginTop: "1.5rem" }}
+                        sx={{
+                            marginLeft: "2rem",
                             fontSize: "1.5rem",
                         }}
                     >

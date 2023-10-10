@@ -220,3 +220,37 @@ def processCSV(request):
     response['Content-Disposition'] = 'attachment; filename="generated_pdf.pdf"'
 
     return response
+
+
+import csv
+from datetime import datetime
+
+@api_view(['POST'])
+@csrf_exempt
+def merge_csv_files(request):
+    csv_files = request.FILES.getlist('files')
+
+    if not csv_files:
+        return HttpResponse('No files uploaded', status=400)
+
+    merged_rows = []
+    headers = None
+
+    for csv_file in csv_files:
+        if csv_file.name.endswith('.csv'):
+            csv_data = csv.reader(csv_file.read().decode('utf-8').splitlines())
+            rows = list(csv_data)
+
+            if not headers:
+                headers = rows[0]
+                merged_rows.append(headers)
+
+            merged_rows.extend(rows[1:])
+
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="merged_data.csv"'
+
+    csv_writer = csv.writer(response)
+    csv_writer.writerows(merged_rows)
+
+    return response
