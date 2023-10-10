@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import Navbar from "../navbar";
 import {
@@ -26,8 +26,25 @@ const MainPage = () => {
         navigate("/konverter");
     };
 
+    // Overflow hidden 
+    useEffect(() => {
+        // Add the class to the body element when the component mounts
+        document.body.classList.add("overflow-hidden");
+
+        // Remove the class when the component unmounts
+        return () => {
+            document.body.classList.remove("overflow-hidden");
+        };
+    }, []); // Empty dependency array ensures this effect runs only once
+
     return (
-        <div style={{ width: "100%", height: "100%", overflow: "hidden" }}>
+        <div
+            style={{
+                width: "100%",
+                height: "100%",
+                overflow: "hidden", // Add this line to hide overflow
+            }}
+        >
             <Navbar />
 
             {!isMobile ? (

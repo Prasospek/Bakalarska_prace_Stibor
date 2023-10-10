@@ -31,7 +31,7 @@ function App() {
                         <Route path="/konverter" element={<Konverter />} />
 
                         {/* Fallback for invalid routes */}
-                        {/* <Route path="*" element={<Navigate to="/" />} /> */}
+                        <Route path="*" element={<Navigate to="/" />} /> 
                     </Routes>
                 </BrowserRouter>
             </div>
