@@ -9,7 +9,9 @@ from rest_framework import status
 from collections import defaultdict
 from datetime import datetime, timedelta
 from rest_framework.response import Response
-
+from io import BytesIO
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
 
 @api_view(['POST'])
 def email_submit(request):
@@ -28,8 +30,15 @@ def processCSV(request):
     merged_rows = []
     headers = None
     
+    
+     # Create a PDF buffer
+    pdf_buffer = BytesIO()
+
+    # Create a PDF document
+    pdf = canvas.Canvas(pdf_buffer, pagesize=letter)
 
     csv_files = request.FILES.getlist('files')
+    
 
     if not csv_files:
         return HttpResponse('No files uploaded', status=400)
@@ -154,6 +163,32 @@ def processCSV(request):
             print("Loss (Currency):", loss)
             print("Left in stack:", new)
             print()
+            
+          
+             
+        
+            pdf.setFont("Times-Roman", 18)
+            pdf.drawString(100, 770, "___________________________________________________ ")
+            pdf.drawString(100, 770, "___________________________________________________ ")
+            pdf.drawString(100, 730, "Action: Market sell")
+            pdf.drawString(100, 710, "Ticker: " + ticker)
+            pdf.drawString(100, 690, "No. of shares (Sold): " + str(temp["No. of shares"]))
+            pdf.drawString(100, 670, "Time (Sold): " + temp["Time"])
+            pdf.drawString(100, 650, "Not for tax (Shares): " + str(not_for_tax))
+            pdf.drawString(100, 630, "Not for tax (Currency): " + str((value_to_sell / temp["No. of shares"]) * not_for_tax))
+            pdf.drawString(100, 610, "To tax (Shares): " + str(no_to_sell))
+            pdf.drawString(100, 590, "To tax (Currency): " + str((value_to_sell / temp["No. of shares"]) * no_to_sell))
+            pdf.drawString(100, 570, "Tax: " + str(tax))
+            pdf.drawString(100, 550, "Tax (After loss subtraction): " + str(tax - loss))
+            pdf.drawString(100, 530, "Earnings: " + str(value_to_sell))
+            pdf.drawString(100, 510, "Loss (Currency): " + str(loss))
+            pdf.drawString(100, 490, "Left in stack: " + str(new))
+            pdf.drawString(100, 470, "___________________________________________________ ")
+            pdf.drawString(100, 470, "___________________________________________________ ")
+
+
+            pdf.showPage()
+            
 
     print("--------------------------------------------")
     print("Final tax (Brutto):", final_tax)
@@ -161,18 +196,22 @@ def processCSV(request):
     print("--------------------------------------------")
     
 
-    # Prepare the CSV response
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="merged_data.csv"'
+    # Add content to the PDF
+    pdf.drawString(100, 750, "Tax Information Report")
+    pdf.drawString(100, 730, "--------------------------------")
 
-    csv_writer = csv.writer(response)
+    # Add your tax calculation information to the PDF here
+    pdf.drawString(100, 710, f"Final tax (Brutto): {final_tax}")
+    pdf.drawString(100, 690, f"Final tax (Netto): {final_tax_netto}")
+    pdf.drawString(100, 670, "--------------------------------")
 
-    # Include headers and sorted data in the CSV response
-    csv_writer.writerow(headers)
-    csv_writer.writerows(merged_rows)
+    pdf.save()
 
-    
+    # Reset the buffer position to the beginning
+    pdf_buffer.seek(0)
 
-    
+    # Prepare the PDF response
+    response = HttpResponse(pdf_buffer, content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="generated_pdf.pdf"'
 
     return response

@@ -58,20 +58,20 @@ const Konverter = () => {
                     const url = window.URL.createObjectURL(blob);
                     const link = document.createElement("a");
                     link.href = url;
-                    link.download = "merged_files.csv";
+                    link.download = "generated_pdf.pdf"; // Update the filename to have a .pdf extension
                     link.click();
                     window.URL.revokeObjectURL(url);
-                    console.log("File downloaded successfully!");
+                    console.log("PDF downloaded successfully!");
                     toast.success(`Konverze proběhla v pořádku !`);
                     // Clear the selectedFiles state
                     setSelectedFiles([]);
                     fileInputRef.current.value = "";
                 } else {
                     toast.error(`Soubory nebyly zpracovány !`);
-                    throw new Error("Error downloading file");
+                    throw new Error("Error downloading PDF");
                 }
             } catch (error) {
-                console.error("Error downloading file:", error);
+                console.error("Error downloading PDF:", error);
             }
         }
     };
