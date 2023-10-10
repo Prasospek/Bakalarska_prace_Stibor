@@ -196,14 +196,19 @@ def processCSV(request):
     print("--------------------------------------------")
     
 
+    x1, y1 = 100, 640  # Starting point
+    x2, y2 = 500, 640
+    pdf.line(x1, y1, x2, y2)
+    
     # Add content to the PDF
-    pdf.drawString(100, 750, "Tax Information Report")
-    pdf.drawString(100, 730, "--------------------------------")
+    pdf.setFont("Times-Roman", 23)
+    pdf.drawString(190, 650, "Tax Information Report")
+    pdf.drawString(100, 470, "____________________________________")
 
     # Add your tax calculation information to the PDF here
-    pdf.drawString(100, 710, f"Final tax (Brutto): {final_tax}")
-    pdf.drawString(100, 690, f"Final tax (Netto): {final_tax_netto}")
-    pdf.drawString(100, 670, "--------------------------------")
+    pdf.drawString(100, 430, f"Final tax (Brutto): {final_tax}")
+    pdf.drawString(100, 400, f"Final tax (Netto):  {final_tax_netto}")
+    pdf.drawString(100, 380, "___________________________________")
 
     pdf.save()
 
