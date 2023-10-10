@@ -11,7 +11,7 @@ import { themeSettings } from "./theme";
 import { Navigate } from "react-router-dom";
 import Helper from "./scenes/helper";
 import CasteDotazy from "./scenes/casteDotazy";
-import JakPouzivat from "./scenes/jakPouzivat";
+import JakZiskat from "./scenes/jakZiskat";
 import Konverter from "./scenes/konverter";
 
 function App() {
@@ -27,11 +27,11 @@ function App() {
                         <Route path="/" element={<MainPage />} />
                         <Route path="/help" element={<Helper />} />
                         <Route path="/caste-dotazy" element={<CasteDotazy />} />
-                        <Route path="/ziskani-dat" element={<JakPouzivat />} />
+                        <Route path="/ziskani-dat" element={<JakZiskat />} />
                         <Route path="/konverter" element={<Konverter />} />
 
                         {/* Fallback for invalid routes */}
-                        <Route path="*" element={<Navigate to="/" />} /> 
+                        <Route path="*" element={<Navigate to="/" />} />
                     </Routes>
                 </BrowserRouter>
             </div>

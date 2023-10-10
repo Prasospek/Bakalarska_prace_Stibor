@@ -10,7 +10,7 @@ import {
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import Navbar from "../navbar";
 import { Link as RouterLink } from "react-router-dom";
-import JakPouzivat from "../jakPouzivat";
+import JakPouzivat from "../jakZiskat";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";

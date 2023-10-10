@@ -18,7 +18,7 @@ import trading_4 from "../../assets/trading_4.png";
 import { useNavigate } from "react-router-dom";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 
-const HowToArticle = () => {
+const JakZiskat = () => {
     const navigate = useNavigate();
     const [isMobileMenuToggled, setIsMobileMenuToggled] = useState(false);
     const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
@@ -300,4 +300,4 @@ const HowToArticle = () => {
     );
 };
 
-export default HowToArticle;
+export default JakZiskat;

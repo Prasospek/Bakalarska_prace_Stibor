@@ -28,7 +28,6 @@ const createAccordionSection = (title, content) => (
 );
 
 const CasteDotazy = () => {
-
     return (
         <div>
             <Navbar />
@@ -44,35 +43,42 @@ const CasteDotazy = () => {
                 FAQ
             </Typography>
             <Container sx={{ maxWidth: "md", mt: 5 }}>
-                {/* Accordion Section 1 */}
+                {createAccordionSection(
+                    "Jak ShareTaxMax funguje ?",
+                    "Časový test narozdíl od hodnotového platí i pro zámožnější investory. Tento test nám říká, že pokud od doby mezi nákupem a prodejem cenného papíru byla delší doba než 3 roky, tak je daná osoba zcela osvobozena od daně."
+                )}
+
+                {createAccordionSection(
+                    "Jaký kurz měn se používá ?",
+                    "Časový test narozdíl od hodnotového platí i pro zámožnější investory. Tento test nám říká, že pokud od doby mezi nákupem a prodejem cenného papíru byla delší doba než 3 roky, tak je daná osoba zcela osvobozena od daně."
+                )}
+
                 {createAccordionSection(
                     "Jaké jsou daňové povinnosti spojené s prodejem akcií?",
                     "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quasi tempore blanditiis explicabo numquam, quisquam sit nemo unde tempora dolor, nesciunt itaque modi optio ad molestiae, impedit magnam perspiciatis dolore cumque!"
                 )}
 
-                {/* Accordion Section 2 */}
                 {createAccordionSection(
                     "Jaké jsou daňové povinnosti spojené s vyplácením dividend z akcií?",
                     "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quasi tempore blanditiis explicabo numquam, quisquam sit nemo unde tempora dolor, nesciunt itaque modi optio ad molestiae, impedit magnam perspiciatis dolore cumque!"
                 )}
 
-                {/* Accordion Section 3 */}
                 {createAccordionSection(
                     "Jaké jsou daňové sazby pro zisky z prodeje akcií?",
                     "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quasi tempore blanditiis explicabo numquam, quisquam sit nemo unde tempora dolor, nesciunt itaque modi optio ad molestiae, impedit magnam perspiciatis dolore cumque!"
                 )}
 
-                {/* Accordion Section 4 */}
                 {createAccordionSection(
                     "Co je to hodnotový test ?",
                     "Tento test se zaměřuje především na menší investory. Uvádí, že od zdanění jsou osvobozeni lidé, jejichž příjmy z prodeje cenných papíru nepřesáhlo v daném zdaňovacím období 100 000 Kč."
                 )}
 
-                {/* Accordion Section 5 */}
                 {createAccordionSection(
                     "Co je to časový test ?",
                     "Časový test narozdíl od hodnotového platí i pro zámožnější investory. Tento test nám říká, že pokud od doby mezi nákupem a prodejem cenného papíru byla delší doba než 3 roky, tak je daná osoba zcela osvobozena od daně."
                 )}
+
+            
             </Container>
             <Typography
                 variant="h2"
@@ -86,34 +92,14 @@ const CasteDotazy = () => {
                 Co ShareTaxMax neumí
             </Typography>
             <Container sx={{ maxWidth: "md", mt: 5 }}>
-                {/* Accordion Section 6 */}
                 {createAccordionSection(
-                    "Jaké jsou daňové povinnosti spojené s prodejem akcií?",
+                    "Neumí počítat dividendy z akcií",
                     "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quasi tempore blanditiis explicabo numquam, quisquam sit nemo unde tempora dolor, nesciunt itaque modi optio ad molestiae, impedit magnam perspiciatis dolore cumque!"
                 )}
 
-                {/* Accordion Section 7 */}
                 {createAccordionSection(
-                    "Jaké jsou daňové povinnosti spojené s vyplácením dividend z akcií?",
+                    "Omezení na měnu",
                     "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quasi tempore blanditiis explicabo numquam, quisquam sit nemo unde tempora dolor, nesciunt itaque modi optio ad molestiae, impedit magnam perspiciatis dolore cumque!"
-                )}
-
-                {/* Accordion Section 8 */}
-                {createAccordionSection(
-                    "Jaké jsou daňové sazby pro zisky z prodeje akcií?",
-                    "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quasi tempore blanditiis explicabo numquam, quisquam sit nemo unde tempora dolor, nesciunt itaque modi optio ad molestiae, impedit magnam perspiciatis dolore cumque!"
-                )}
-
-                {/* Accordion Section 9 */}
-                {createAccordionSection(
-                    "Co je to hodnotový test ?",
-                    "Tento test se zaměřuje především na menší investory. Uvádí, že od zdanění jsou osvobozeni lidé, jejichž příjmy z prodeje cenných papíru nepřesáhlo v daném zdaňovacím období 100 000 Kč."
-                )}
-
-                {/* Accordion Section 10 */}
-                {createAccordionSection(
-                    "Co je to časový test ?",
-                    "Časový test narozdíl od hodnotového platí i pro zámožnější investory. Tento test nám říká, že pokud od doby mezi nákupem a prodejem cenného papíru byla delší doba než 3 roky, tak je daná osoba zcela osvobozena od daně."
                 )}
             </Container>
         </div>
