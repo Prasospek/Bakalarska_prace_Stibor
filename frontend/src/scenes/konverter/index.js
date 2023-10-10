@@ -64,7 +64,7 @@ const Konverter = () => {
                     console.log("PDF downloaded successfully!");
                     toast.success(`Konverze proběhla v pořádku !`);
                     // Clear the selectedFiles state
-                    setSelectedFiles([]);
+                    //setSelectedFiles([]);
                     fileInputRef.current.value = "";
                 } else {
                     toast.error(`Soubory nebyly zpracovány !`);
@@ -103,7 +103,7 @@ const Konverter = () => {
                     console.log("File downloaded successfully!");
                     toast.success(`Konverze proběhla v pořádku !`);
                     // Clear the selectedFiles state
-                    setSelectedFiles([]);
+                    //setSelectedFiles([]);
                     fileInputRef.current.value = "";
                 } else {
                     toast.error(`Soubory nebyly zpracovány !`);

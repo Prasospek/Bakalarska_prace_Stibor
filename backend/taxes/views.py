@@ -22,6 +22,9 @@ def email_submit(request):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
+
+
 @api_view(['POST'])
 @csrf_exempt
 def processCSV(request):
@@ -169,8 +172,10 @@ def processCSV(request):
              
         
             pdf.setFont("Times-Roman", 18)
-            pdf.drawString(100, 770, "___________________________________________________ ")
-            pdf.drawString(100, 770, "___________________________________________________ ")
+            draw_pdf_line(pdf, 100,760,500,760)
+            draw_pdf_line(pdf, 100,760,500,760)
+            
+    
             pdf.drawString(100, 730, "Action: Market sell")
             pdf.drawString(100, 710, "Ticker: " + ticker)
             pdf.drawString(100, 690, "No. of shares (Sold): " + str(temp["No. of shares"]))
@@ -184,8 +189,9 @@ def processCSV(request):
             pdf.drawString(100, 530, "Earnings: " + str(value_to_sell))
             pdf.drawString(100, 510, "Loss (Currency): " + str(loss))
             pdf.drawString(100, 490, "Left in stack: " + str(new))
-            pdf.drawString(100, 470, "___________________________________________________ ")
-            pdf.drawString(100, 470, "___________________________________________________ ")
+         
+            draw_pdf_line(pdf, 100,470,500,470)
+            draw_pdf_line(pdf, 100,470,500,470)
 
 
             pdf.showPage()
@@ -196,20 +202,37 @@ def processCSV(request):
     print("Final tax (Netto):", final_tax_netto)
     print("--------------------------------------------")
     
-
-    x1, y1 = 100, 640  # Starting point
-    x2, y2 = 500, 640
-    pdf.line(x1, y1, x2, y2)
+     
+    # PDF  
+     
+    pdf.setFont("Times-Roman", 35)
     
-    # Add content to the PDF
-    pdf.setFont("Times-Roman", 23)
-    pdf.drawString(190, 650, "Tax Information Report")
-    pdf.drawString(100, 470, "____________________________________")
+    # Title line
+    draw_pdf_line(pdf, 100,640,500,640)
+    pdf.drawString(140, 650, "Tax Information Report")
+    
+    # EUR lines
+    
+    draw_pdf_line(pdf, 100,510,500,510)
+    draw_pdf_line(pdf, 100,430,500,430)
+    
+    # CZK lines
+    draw_pdf_line(pdf, 100,320,500,320)
+    draw_pdf_line(pdf, 100,220,500,220)
 
     # Add your tax calculation information to the PDF here
-    pdf.drawString(100, 430, f"Final tax (Brutto): {final_tax}")
-    pdf.drawString(100, 400, f"Final tax (Netto):  {final_tax_netto}")
-    pdf.drawString(100, 380, "____________________________________")
+    draw_bold_text(pdf, 280, 530, "EUR", 20)
+    pdf.setFont("Times-Roman", 20)
+    pdf.drawString(100, 480, f"Final tax (Brutto): {final_tax:.2f}")
+    pdf.drawString(100, 450, f"Final tax (Netto):  {final_tax_netto:.2f}")
+    
+   
+    draw_bold_text(pdf, 280, 340, "CZK", 20)
+    pdf.setFont("Times-Roman", 20)
+    pdf.drawString(100, 290, f"Final tax (Brutto): {final_tax * 23.54:.2f}")
+    pdf.drawString(100, 240, f"Final tax (Netto):  {final_tax_netto * 23.54:.2f}")
+
+    
 
     pdf.save()
 
@@ -221,6 +244,14 @@ def processCSV(request):
     response['Content-Disposition'] = 'attachment; filename="generated_pdf.pdf"'
 
     return response
+
+
+def draw_pdf_line(pdf, x1, y1, x2, y2):
+    pdf.line(x1, y1, x2, y2)
+    
+def draw_bold_text(pdf, x, y, text, font_size):
+    pdf.setFont("Times-Bold", font_size)
+    pdf.drawString(x, y, text)
 
 
 @api_view(['POST'])
