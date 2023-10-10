@@ -58,7 +58,7 @@ const Konverter = () => {
                     const url = window.URL.createObjectURL(blob);
                     const link = document.createElement("a");
                     link.href = url;
-                    link.download = "modified_data.csv";
+                    link.download = "merged_files.csv";
                     link.click();
                     window.URL.revokeObjectURL(url);
                     console.log("File downloaded successfully!");
