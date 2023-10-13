@@ -140,8 +140,11 @@ def processCSV(request):
                 if (temp["Total"] / temp["No. of shares"]) < (first_bought["Total"] / first_bought["No. of shares"]):
                     loss = loss + (((first_bought["Total"] / first_bought["No. of shares"]) -
                                     (temp["Total"] / temp["No. of shares"])) * temp["No. of shares"])
-
-            tax = (value_to_sell / temp["No. of shares"]) * no_to_sell * 0.23
+                    
+                    
+                    
+            #Pozor !!! Nemusím to danit 0.15 vubec, co kdyz nepreashne 100k? a kdyz jo tak jen to co je nad 100k
+            tax = (value_to_sell / temp["No. of shares"]) * no_to_sell * 0.15
 
             temp_queue = queue.Queue()
             temp_queue.put({"No. of shares": new, "Time": first_bought["Time"],

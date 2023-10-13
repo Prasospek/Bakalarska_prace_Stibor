@@ -10,7 +10,7 @@ import {
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import Navbar from "../navbar";
 import { Link as RouterLink } from "react-router-dom";
-import JakPouzivat from "../jakZiskat";
+import jakZiskat from "../jakZiskat";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -23,7 +23,7 @@ const Konverter = () => {
     const fileInputRef = useRef(null);
 
     const handleZiskaniDat = () => {
-        navigate("/jak-pouzivat");
+        navigate("/ziskani-dat");
     };
 
     const handleFileChange = (event) => {
@@ -239,15 +239,27 @@ const Konverter = () => {
                 </Box>
                 <Box marginTop="3rem" textAlign="center">
                     <Typography variant="h4">
-                        Používáte stránku poprvé? Přečtěte si krátký návod{" "}
+                        Používate stránku poprvé? Přečtěte si krátký návod{" "}
                         <Link
                             component={RouterLink}
                             to="/ziskani-dat"
                             onClick={handleZiskaniDat}
                             sx={{
                                 cursor: "pointer",
-                                "&:hover": {
-                                    textDecoration: "underline",
+                                position: "relative", // Add this to make the ::after element relative to the link
+                                "&::after": {
+                                    content: "''",
+                                    position: "absolute",
+                                    bottom: "0",
+                                    left: "0",
+                                    width: "100%",
+                                    height: "2px",
+                                    backgroundColor: "currentColor",
+                                    transform: "scaleX(0)",
+                                    transition: "transform 0.3s",
+                                },
+                                "&:hover::after": {
+                                    transform: "scaleX(1)", // This scales the underline to 100% width on hover
                                 },
                             }}
                         >

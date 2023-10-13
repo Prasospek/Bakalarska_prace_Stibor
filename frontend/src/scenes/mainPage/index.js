@@ -26,7 +26,7 @@ const MainPage = () => {
         navigate("/konverter");
     };
 
-    // Overflow hidden 
+    // Overflow hidden
     useEffect(() => {
         // Add the class to the body element when the component mounts
         document.body.classList.add("overflow-hidden");

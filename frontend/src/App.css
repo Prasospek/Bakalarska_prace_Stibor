@@ -24,15 +24,18 @@
     user-select: none;
     -webkit-user-select: none;
     touch-action: manipulation;
-    width: 30%;
+    width: 33%;
+
+    /* Define shake animation */
+    animation: shake 0.5s ease-in-out infinite;
+
+    /* Apply lift on hover */
+    transform: translateY(0);
 }
 
 .overflow-hidden {
     overflow: hidden;
 }
-
-
-
 
 .helper-accordion {
     margin-bottom: 1rem;

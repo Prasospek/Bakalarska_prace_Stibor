@@ -77,8 +77,6 @@ const CasteDotazy = () => {
                     "Co je to časový test ?",
                     "Časový test narozdíl od hodnotového platí i pro zámožnější investory. Tento test nám říká, že pokud od doby mezi nákupem a prodejem cenného papíru byla delší doba než 3 roky, tak je daná osoba zcela osvobozena od daně."
                 )}
-
-            
             </Container>
             <Typography
                 variant="h2"
