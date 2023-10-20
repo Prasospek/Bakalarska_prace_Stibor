@@ -209,3 +209,33 @@ Před provedením změny se daňový počítal základ způsobem, který byl dř
 
 
 Okamžik pořízení či prodeje je dán okamžikem vypořádání, nikoli okamžikem sjednání obchodu. Většina zdrojů to sice uvádí odlišně, ale Pokyn GFŘ D-22 hovoří jednoznačně. V článku "K § 4 odst. 1" se praví, že okamžik nabytí CP je
+
+ZJISTIT CO CHYBÍ V BP
+- Když koupím / prodam akcii za 10 euro v roce 2018 = např 240kč
+
+- Tax loss harvesting - 
+
+
+Podivat se jestli to tam je zapocitany
+Upravit kod - aby do tax harvestingu dal i poplatek ? Protože to je taky naklad na ziskani akcie
+Jako výdaj si můžete odečíst i související poplatky, pokud jste je platili zvlášť.
+
+při směně měny za účelem nákupu cenných papírů nevzniká z pohledu daňové legislativy zisk či ztráta. - Podivat se do kodu jestli odečítám curency conversion fee commision je co zas
+
+Pokud uplynul časovej test ani nedaním ani nemůžu dát do ztráty
+
+
+Deh suedhahá deh vypořádání - jak to je ? Dám 3 roky + 3 dny ?
+
+
+Stahnout 2023 data a podivat se na market buy market sell
+
+___________
+
+V roce 2018 jsme nakoupili 10 akcií po 110 USD, celkem jsme zaplatili včetně poplatků 1 105 USD. To je daňový náklad, který přepočteme na CZK kurzem pro rok 2018. Tedy
+
+1 105 USD × 21,78 CZK/USD = 24 066,90 CZK
+
+roce 2019 jsme nakoupili 10 akcií po 120 USD, ale zde použijeme již jen 5 akcií (celkem jsme prodali jen 25 akcií, 5 akcií nám musí zbýt). Výpočet je podobný jako v roce 2018, uplatníme ale jen polovinu. Takže daňové náklady v roce 2019 budou
+
+1 205 USD × 5/10 × 22,93 CZK/USD = 13 815,33 CZK
