@@ -1,32 +1,35 @@
 TODO LIST
 
-OBECNÉ<br>
-1.) Pravnicka (spoelcnost) vs Fyzicka (normalni clovek) osoba 19 vs 15%
-
-Poznatky:
+!!!!!!!!!!!FAKTA !!!!!!!!!<br>
+1.) Pravnicka (spoelcnost) vs Fyzicka (normalni clovek) osoba 19 vs 15% https://www.uol.cz/wp-content/uploads/2022/12/UOL-e-book_Cenne-papiry_aktualizace_2022_web.pdf
 Fyzické osoby -15% daň pokud více jak 1,867 728 (48krát měsíční průměrnou mzdu ) tak 23%
-
-3.) divdendy, uroky zdanovaci obdobi 6 000kc u zeměstnancu, u všech ostatních je to 15 000 rocne
-POZOR ZMENILO SE TO NA 20 000KC PRO ZAMESTNANCE A 50 000K PRO OSTATNÍ ! je to tak ????
 4.) Příjmy z prodeje v zahraničních měnách se přepočítávají do korun jednotným kurzem vyhlášeným správcem daně pro daný rok. Je však možné používat i metodu skutečných kurzů při realizaci obchodů.
-
 5.) v Německu je například 26,375 %, v Rakousku pak 27,5 %. V USA standardně 30 %. W8ben strhava 15%, ale treba Irsko nestrhava.
 6.) Rakousko, Nizozemí či Francie, kde je možno započíst jen 10% sazbu
 7.) pokud eminent dluhopisu v čr tak jiz zdanena 15% stejne jak ceska dividenda
 8.) je možny odecist ztraty od dane (tax-loss harvesting)
 
-13.) Prepocet na koruny - Aktuálním kurzem – každý nákup a prodej bude mít svůj denní kurz devizového trhu vyhlašovaný Českou národní bankou.
+13.) Prepocet na koruny - Aktuálním kurzem – každý nákup a prodej bude mít svůj denní kurz devizového trhu vyhlašovaný Českou národní bankou. Buď celoroční nebo denní nelze kombinovat
 Nebo jednodtnym kurzem - Jednotným kurzem vyhlašovaným Generálním finančním ředitelstvím za daný kalendářní rok. Jedná se o průměr kurzů konce měsíce vyhlašovaných Českou národní bankou. Všechny prodeje cenných papírů a také přijaté dividendy se přepočítají do korun použitím tohoto jednotného kurzu. Zde je ale důležité si uvědomit, že spárované nákupy uskutečněné v předchozích letech musí být přepočteny jednotným kurzem roku, ve kterém byly uskutečněny. Tento přístup využíváme ve Fondee v našem ročním daňovém výpisu pro klienty
+Zde je ale důležité si uvědomit, že spárované nákupy uskutečněné v předchozích letech musí být přepočteny jednotným kurzem roku, ve kterém byly uskutečněny
 
 14.) Pokud jednodnuty prodej vice jak 5mil musim zonamit ackoliv je osvobotzen
 15.) dan vsude jinak cesko nic -> amerika 30% pokud w8ben -> 15%
 
+16.) Fyzické osoby - nepodnikatelé, mohou prodané cenné papíry párovat s nákupy zcela libovolně kombiance LIFO FIFO je ok
+
 fyzické osoby, pro které platí, že je možno ztrátu z prodeje jedné akcie započítat proti zisku z prodeje jiné akcie (kompenzace). To je možno provádět pouze v rámci kalendářního roku a pouze v rámci výnosů z cenných papírů. Případnou ztrátu z obchodování s akciemi nelze uplatnit například proti příjmům ze závislé činnosti. Ztrátu z obchodování nelze ani přenést do dalšího roku. ????????????
 
-obchodovani na přelomnu roku
+!!!!!! DOMĚNKY !!!!!!!!!
+3.) divdendy, uroky zdanovaci obdobi 6 000kc u zeměstnancu, u všech ostatních je to 15 000 rocne
+POZOR ZMENILO SE TO NA 20 000KC PRO ZAMESTNANCE A 50 000K PRO OSTATNÍ ! je to tak ????
+Od roku 2023 se limity zvyšují na 20 000 Kč pro zaměstnance a 50 000 Kč pro ostatní. U příjmů za rok 2022 a případné daňové přiznání, které se podává na jaře 2023, však stále platí původní částky uvedené v odrážkách výše.
+Co to znamená pro ostatní ?
 
-1.) Nebudu pocitat s dividendama - nemozny vypocitat
-2.) EUR,CZK,USD ONLY
+4.) obchodovani na přelomnu roku
+
+5.) Podle daňových předpisů si metodu párování můžeme vybrat libovolně. Existuje k tomu vícero přístupů, lze využít i průměrování nákupních cen. Obecně nejznámější jsou však dva přístupy: FIFO a
+LIFO. (pozorumět tomu ? gpt ?)
 
 <br>
 ____________________________________________________
@@ -38,21 +41,7 @@ https://www.penize.cz/dane/433067-jak-zdanit-prijmy-z-prodeje-akcii-a-podilovych
 https://edofinance.cz/zdaneni-investic-aneb-aby-se-vlk-nazral-a-koza-zustala-cela/
 https://www.fondee.cz/blog/jak-na-zdaneni-investic-do-etf-akcii-a-dalsich-cennych-papiru
 
-fyzicke osoby 15%
-daně v čr nedaním
-
-Od roku 2023 se limity zvyšují na 20 000 Kč pro zaměstnance a 50 000 Kč pro ostatní. U příjmů za rok 2022 a případné daňové přiznání, které se podává na jaře 2023, však stále platí původní částky uvedené v odrážkách výše.
-
-Podle daňových předpisů si metodu párování můžeme vybrat libovolně. Existuje k tomu vícero přístupů, lze využít i průměrování nákupních cen. Obecně nejznámější jsou však dva přístupy: FIFO a
-LIFO.
-
-prepočet na kč
-Aktuálním kurzem – každý nákup a prodej bude mít svůj denní kurz devizového trhu vyhlašovaný Českou národní bankou.
-Jednotným kurzem vyhlašovaným Generálním finančním ředitelstvím za daný kalendářní rok. Jedná se o průměr kurzů konce měsíce vyhlašovaných Českou národní bankou. Všechny prodeje cenných papírů a také přijaté dividendy se přepočítají do korun použitím tohoto jednotného kurzu. Zde je ale důležité si uvědomit, že spárované nákupy uskutečněné v předchozích letech musí být přepočteny jednotným kurzem roku, ve kterém byly uskutečněny. Tento přístup využíváme ve Fondee v našem ročním daňovém výpisu pro klienty.
-
-Zde je ale důležité si uvědomit, že spárované nákupy uskutečněné v předchozích letech musí být přepočteny jednotným kurzem roku, ve kterém byly uskutečněny.
-
-Nelze kombinovat zpusoby vzdy stejnym zpusobem
+<br>
 
 Jedná se skutečně o hodnotu příjmů, to znamená prodejních cen daných cenných papírů. Nejde o hodnotu zisku z daného prodeje.
 
@@ -94,14 +83,14 @@ Zisky a ztráty z různých cenných papírů si lze vzájemně započíst. To z
 
 Drobný investor si nemůže převést ztrátu z jednoho kalendářního roku do toho následujícího a odečíst si ji tak z budoucího zisku
 
--   Ajo jasny už chapu, že prodej z 2017 nemůžu mrdnout do 2023
+-   Ajo jasny už chapu, že prodej z 2017 nemůžu hodit dnout do 2023
 
 Takže kupuju za 100 mám 99.70 ->strhne mi to 0.30 centu tak ty si můžu odečíst ?
 Jak to řeší kalkulačka kačka?
 
 mě vlastně nezajima za kolik jsem to tehdy koupil ale počet kusu akcie
 
-PRAVNICKÉ OSOBY DANĚ ???
+
 
 Jinou metodou stanovení pořizovací ceny cenného papíru je vážený aritmetický průměr.
 
@@ -111,42 +100,33 @@ Zdroj: https://www.penize.cz/investice/425626-dan-z-prodeje-cennych-papiru-jak-u
 Pozor: pro přepočet výdajů na pořízení cenného papíru se dle rozhodnutí Nejvyššího správního soudu použije historický kurz, tedy kurz platný v roce nákupu cenného papíru k datu uskutečnění nákupu, nebo jednotný kurz zveřejněný pro rok pořízení cenného papíru.  
 Zdroj: https://www.penize.cz/investice/425626-dan-z-prodeje-cennych-papiru-jak-urcit-porizovaci-cenu-a-kurz
 
-příjmy z prodeje cenných papírů (kapitálové zisky nebo ztráty)
+https://www.uol.cz/wp-content/uploads/2022/12/UOL-e-book_Cenne-papiry_aktualizace_2022_web.pdf
 
-Sazba daně z příjmů činí pro FO 15 % a pro PO 19 %.
+příjmy z prodeje cenných papírů (kapitálové zisky nebo ztráty)
 
 Příjmy z kapitálového majetku jsou především úroky, dividendy a jiné výnosy (§ 8 zákona).
 
 Akumulační a distribuční můžu popsat ?
 
-Mělo by se to vůbec nasobit 0.15x ????
 
 při směně měny za účelem nákupu cenných papírů nevzniká z pohledu daňové legislativy zisk či ztráta.
 
 100k - zmíněná částka se vztahuje k celkové výši příjmů z prodeje cenných papírů – tedy nejen z Portu – a to v úhrnné hrubé výši !!! nesnížené o náklady !!!
 
-okud kromě příjmů ze závislé činnosti (pouze od jednoho zaměstnavatele, a nebo postupně od více při podepsaném prohlášení k dani) a oněch příjmů z prodeje cenných papírů pod 100 000 Kč nemáte jiné příjmy dle § 7 – § 10 zákona o dani z příjmů vyšší než 20 000 Kč, nemusíte podávat daňové přiznání (do roku 2022 byl tento limit 6 000 Kč).
-
-Danění dluhopisu (např. Prague Real Estate nebo KKIG) uz zdanen 15% ÚŘOK SE NEPOČÍTÁ DO 20K
-Zkrátka můžete tento příjem pro účely daňového přiznání zcela ignorovat.,
-
-jo nenasobit to 0.15 to vlastne nedava smysl
 
 umim pracovat jen v eur, neumim split a kdyz je dividenda vyplacena v akciich
 
 I když koupím akcii za jednu korunu a její cena na burze okamžitě mnohonásobně vzroste, dokud akcii neprodám, nerealizoval jsem žádný zisk a neplatím ani žádné daně.
 
-co je to relativní zisk ?
 
 Základ daně jsou daňové příjmy snížené o daňové výdaje. Je to podobné jako u zisku, jen trochu komplikované tím, že ne všechny příjmy a výdaje se zahrnují do daní.
 
 Přitom daňovým příjmem je takový příjem, který navíc splní časový test. Pokud mezi koupí a prodejem akcie uplynula dostatečně dlouhá doba, zisk (ani ztráta) z tohoto prodeje neovlivní daňový základ. když to splnilo casovej test neo nemuzu si zapocitat ztrátu pokud to prošlo časovým testem
 
-POJMY
-Základ daně jsou daňové příjmy snížené o daňové výdaje. Je to podobné jako u zisku, jen trochu komplikované tím, že ne všechny příjmy a výdaje se zahrnují do daní.
-Daňový příjem je částka, kterou obdržíme za prodej cenných papírů. Je to částka nesnížená o poplatky (ty patří do výdajů). Přitom daňovým příjmem je takový příjem, který navíc splní časový test. Pokud mezi koupí a prodejem akcie uplynula dostatečně dlouhá doba, zisk (ani ztráta) z tohoto prodeje neovlivní daňový základ.
+
+Daňový příjem je částka, kterou obdržíme za prodej cenných papírů. Je to částka nesnížená o poplatky (ty patří do výdajů). Přitom daňovým příjmem je takový příjem, který navíc splní časový test. 
 Daňový výdaj zahrnuje náklady související s prodejem cenného papíru. Sem patří jak nákupní cena, tak i poplatky související s nákupem tohoto cenného papíru.
-POJMY
+
 
 Případnou ztrátu z obchodování s akciemi nelze uplatnit například proti příjmům ze závislé činnosti
 Ztrátu z obchodování nelze ani přenést do dalšího roku.
@@ -180,7 +160,6 @@ dyž výnos nezdaním, protože neprošel častovým testem, nemohu jej ani sní
 
 že jde o takzvaný "short sale", neboli prodej nakrátko. Prodávají se tedy vypůjčené akcie, které se později koupí
 
-2016 prodáváte akcii, kterou jste koupili v roce 2014? Je potřeba stáhnout postupně data z let 2014, 2015 i 2016
 
 ---
 
@@ -194,7 +173,6 @@ Den sjednání je den, kdy se obchod sjedná a dohodne, zatímco den vypořádá
 
 Řekněme že v roce 2022 nakoupíme 1000 akcií firmy AAA a 30. prosince 2022 je prodáme. Prodej bude vypořádán až 2. ledna 2023,
 
-Den sjednání den vypořádání trading212. Když koupím 20.6 stock realne tam bude market buy 20.6 nebo az 22.6
 
 Příjmy z prodeje CP patří mezi ostatní příjmy podle § 10.
 
@@ -228,3 +206,6 @@ Dílčí základ daně z kapitálového majetku podle § 8. -> dividendy
 Po provedení změny se vše počítá tak, jak je uvedeno v návodu, tedy výnosy i náklady se přepočítají kurzem pro daný kalendářní rok.
 
 Před provedením změny se daňový počítal základ způsobem, který byl dříve obvyklý, ale zřejmě nikoli správný: pro výpočet daně v daném roce se jednoduše spočítaly daňové příjmy i daňové náklady v dané měně, a ty se přepočítaly kurzem vyhlášeným pro rok, za který se podávalo daňové přiznání. Tedy pokud bychom se přidrželi příkladu v návodu, pro daňové přiznání za rok 2020 se daňové příjmy i daňové náklady přepočítaly na koruny kurzem roku 2020 bez ohledu na to, že daňové náklady vznikly v letech 2018 a 2019
+
+
+Okamžik pořízení či prodeje je dán okamžikem vypořádání, nikoli okamžikem sjednání obchodu. Většina zdrojů to sice uvádí odlišně, ale Pokyn GFŘ D-22 hovoří jednoznačně. V článku "K § 4 odst. 1" se praví, že okamžik nabytí CP je
