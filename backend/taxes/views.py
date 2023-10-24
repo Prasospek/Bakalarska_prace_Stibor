@@ -23,6 +23,7 @@ def email_submit(request):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+ #Pokud to nenajde kurz vezme to te nejbližší tzn year > 2012 vezme to 2012
 #EUROS
 EURO_2022 = 24.54
 EURO_2021 = 25.65
@@ -122,7 +123,14 @@ def processCSV(request):
                            "Time": row_data["Time"], "Total": float(row_data["Total"])})
                 dict_of_queues[row_data["Ticker"]] = {"qSell": qSell}
                 
-            total_costs += float(row_data["Total"])
+                
+            #spatne ?
+            shares_sold = float(row_data["No. of shares"])
+            price_per_share = float(row_data["Price / share"])
+            cost = shares_sold * price_per_share
+
+            # Update the total_costs variable
+            total_costs += cost
 
     for ticker, data in dict_of_queues.items():
         if "qSell" not in data:
