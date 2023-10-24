@@ -55,6 +55,7 @@ USD_2012 = 19.45
 def processCSV(request):
     final_tax = 0
     final_tax_netto = 0
+    total_costs = 0
     dict_of_queues = {}
     merged_rows = []
     headers = None
@@ -120,6 +121,8 @@ def processCSV(request):
                 qSell.put({"No. of shares": float(row_data["No. of shares"]),
                            "Time": row_data["Time"], "Total": float(row_data["Total"])})
                 dict_of_queues[row_data["Ticker"]] = {"qSell": qSell}
+                
+            total_costs += float(row_data["Total"])
 
     for ticker, data in dict_of_queues.items():
         if "qSell" not in data:
@@ -228,6 +231,7 @@ def processCSV(request):
     print("--------------------------------------------")
     print("Final tax (Brutto):", final_tax)
     print("Final tax (Netto):", final_tax_netto)
+    print("Total Costs of Shares Sold:", total_costs)
     print("--------------------------------------------")
     
      
@@ -250,16 +254,17 @@ def processCSV(request):
     # Add your tax calculation information to the PDF here
     draw_bold_text(pdf, 280, 530, "EUR", 20)
     pdf.setFont("Times-Roman", 20)
-    pdf.drawString(100, 480, f"Costs: Úvest zde nakup cenu akcii + transcation fee ")
+    pdf.drawString(100, 480, f"Costs A TRANSACTION COSTS CHYHBI: {total_costs:.2f}")
     pdf.drawString(100, 450, f"Final tax (Brutto): {final_tax:.2f}")
     pdf.drawString(100, 420, f"Final tax (Netto):  {final_tax_netto:.2f}")
     
    
     draw_bold_text(pdf, 280, 340, "CZK", 20)
     pdf.setFont("Times-Roman", 20)
-    pdf.drawString(100, 290, f"Costs: Úvest zde nakup cenu akcii + transcation fee")
+    pdf.drawString(100, 290, f"Costs A TRANSACTION COSTS CHYHBI: {total_costs * 23.54:.2f}")
     pdf.drawString(100, 260, f"Final tax (Brutto): {final_tax * 23.54:.2f}")
     pdf.drawString(100, 230, f"Final tax (Netto):  {final_tax_netto * 23.54:.2f}")
+
 
     
 
