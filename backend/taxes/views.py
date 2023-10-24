@@ -23,6 +23,31 @@ def email_submit(request):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+#EUROS
+EURO_2022 = 24.54
+EURO_2021 = 25.65
+EURO_2020 = 26.50
+EURO_2019 = 25.66
+EURO_2018 = 25.68
+EURO_2017 = 26.29
+EURO_2016 = 27.04
+EURO_2015 = 27.27
+EURO_2014 = 27.55
+EURO_2013 = 26.03
+EURO_2012 = 25.12
+
+#USD
+USD_2022 = 23.41
+USD_2021 = 21.72
+USD_2020 = 23.14
+USD_2019 = 22.93
+USD_2018 = 21.78
+USD_2017 = 23.18
+USD_2016 = 24.53
+USD_2015 = 24.69
+USD_2014 = 20.90
+USD_2013 = 19.56
+USD_2012 = 19.45
 
 
 @api_view(['POST'])
@@ -144,7 +169,7 @@ def processCSV(request):
                     
                     
             #Pozor !!! Nemusím to danit 0.15 vubec, co kdyz nepreashne 100k? a kdyz jo tak jen to co je nad 100k
-            tax = (value_to_sell / temp["No. of shares"]) * no_to_sell * 0.15
+            tax = (value_to_sell / temp["No. of shares"]) * no_to_sell                    # * 0.15
 
             temp_queue = queue.Queue()
             temp_queue.put({"No. of shares": new, "Time": first_bought["Time"],
@@ -215,25 +240,26 @@ def processCSV(request):
     pdf.drawString(140, 650, "Tax Information Report")
     
     # EUR lines
-    
     draw_pdf_line(pdf, 100,510,500,510)
-    draw_pdf_line(pdf, 100,430,500,430)
+    draw_pdf_line(pdf, 100,400,500,400)
     
     # CZK lines
     draw_pdf_line(pdf, 100,320,500,320)
-    draw_pdf_line(pdf, 100,220,500,220)
+    draw_pdf_line(pdf, 100,210,500,210)
 
     # Add your tax calculation information to the PDF here
     draw_bold_text(pdf, 280, 530, "EUR", 20)
     pdf.setFont("Times-Roman", 20)
-    pdf.drawString(100, 480, f"Final tax (Brutto): {final_tax:.2f}")
-    pdf.drawString(100, 450, f"Final tax (Netto):  {final_tax_netto:.2f}")
+    pdf.drawString(100, 480, f"Costs: Úvest zde nakup cenu akcii + transcation fee ")
+    pdf.drawString(100, 450, f"Final tax (Brutto): {final_tax:.2f}")
+    pdf.drawString(100, 420, f"Final tax (Netto):  {final_tax_netto:.2f}")
     
    
     draw_bold_text(pdf, 280, 340, "CZK", 20)
     pdf.setFont("Times-Roman", 20)
-    pdf.drawString(100, 290, f"Final tax (Brutto): {final_tax * 23.54:.2f}")
-    pdf.drawString(100, 240, f"Final tax (Netto):  {final_tax_netto * 23.54:.2f}")
+    pdf.drawString(100, 290, f"Costs: Úvest zde nakup cenu akcii + transcation fee")
+    pdf.drawString(100, 260, f"Final tax (Brutto): {final_tax * 23.54:.2f}")
+    pdf.drawString(100, 230, f"Final tax (Netto):  {final_tax_netto * 23.54:.2f}")
 
     
 

@@ -52,17 +52,17 @@ Opět připomeneme, že od roku 2023 se hranice ostatních příjmů pro povinn�
 
 že pokud prodáte cenné papíry jednoho ISINu (identifikátor cenného papíru) během jednoho obchodního dne v objemu přesahujícím 5 milionů Kč, a tento příjem splňuje podmínku časového testu, pak je třeba prodej oznámit finančnímu úřadu. Jedná se o oznamovací povinnost podle §38v ZDP. Pokud nebude takový osvobozený příjem oznámen, hrozí obrovská pokuta až ve výši 15 % tohoto příjmu.
 
-Sleva na manželka manželku Fondee
+Rozdíl mezi příjmy a výdaji pak tvoří dílčí základ daně
 
-Paušální daň
+Je vubec mozny brat v potaz Fees ? Protoze v predeslym mohl prodat treba jen 15/25 a to ja uz nevím
 
 Jde o zisk z projdee nad 100k tzn ikdyz prodelam 60k ale furt budu nad 100 tak podavam dan priznani
-
-Zisk do výše zmíněného 48násobku se tedy daní sazbou 15 procent, zbytek převyšující tento limit pak sazbou 23 procent.
 
 Je možné vzájemně započítat zisky a ztráty z různých akciových titulů. Pokud například dosáhnete zisku ve výši 30 tisíc korun z akcií společnosti X a ztráty ve výši pěti tisíc korun z prodeje akcií společnosti Y, sníží se váš daňový základ na 25 tisíc korun.
 
 příjmu z kapitálového majetku a jsou na ně uplatňovány sazby 15 procent dividendy
+
+Základní lhůta pro podání daňového přiznání za uplynulé zdaňovací období, kterým je kalendářní rok, je tedy do 1. 4. následujícího kalendářního roku.
 
 Tudíž pokud klient prodal v období cenné papíry za 120 000 Kč, přičemž příjem 70 000 Kč splnil časový test a 50 000 Kč nesplnil, je nutno podat daňové přiznání, ael bude uvedeno jen 50k
 
@@ -76,21 +76,11 @@ Třetím případem, kdy daňové přiznání nepodáváte jsou další příjmy
 příjem celá částka
 zisk to co jsem vydělal
 
-Upravit kod - aby do tax harvestingu dal i poplatek ? Protože to je taky naklad na ziskani akcie
-Jako výdaj si můžete odečíst i související poplatky, pokud jste je platili zvlášť.
+Jako výdaj si můžete odečíst i související poplatky, pokud jste je platili zvlášť. - ALE NÉ ZA SMĚNU TO SE NEPOČÍTÁ
 
 Zisky a ztráty z různých cenných papírů si lze vzájemně započíst. To znamená, že pokud jste třeba na akciích jedné společnosti měli zisk 20 000 Kč, ale akcie druhé společnosti jste prodali se ztrátou 8000 Kč, sníží se váš daňový základ na 12 000 Kč.
 
 Drobný investor si nemůže převést ztrátu z jednoho kalendářního roku do toho následujícího a odečíst si ji tak z budoucího zisku
-
--   Ajo jasny už chapu, že prodej z 2017 nemůžu hodit dnout do 2023
-
-Takže kupuju za 100 mám 99.70 ->strhne mi to 0.30 centu tak ty si můžu odečíst ?
-Jak to řeší kalkulačka kačka?
-
-mě vlastně nezajima za kolik jsem to tehdy koupil ale počet kusu akcie
-
-
 
 Jinou metodou stanovení pořizovací ceny cenného papíru je vážený aritmetický průměr.
 
@@ -102,34 +92,26 @@ Zdroj: https://www.penize.cz/investice/425626-dan-z-prodeje-cennych-papiru-jak-u
 
 https://www.uol.cz/wp-content/uploads/2022/12/UOL-e-book_Cenne-papiry_aktualizace_2022_web.pdf
 
-příjmy z prodeje cenných papírů (kapitálové zisky nebo ztráty)
+Kapitálový zisk představuje nárůst hodnoty kapitálového aktiva oproti jeho kupní ceně
 
 Příjmy z kapitálového majetku jsou především úroky, dividendy a jiné výnosy (§ 8 zákona).
-
-Akumulační a distribuční můžu popsat ?
-
 
 při směně měny za účelem nákupu cenných papírů nevzniká z pohledu daňové legislativy zisk či ztráta.
 
 100k - zmíněná částka se vztahuje k celkové výši příjmů z prodeje cenných papírů – tedy nejen z Portu – a to v úhrnné hrubé výši !!! nesnížené o náklady !!!
 
-
 umim pracovat jen v eur, neumim split a kdyz je dividenda vyplacena v akciich
 
 I když koupím akcii za jednu korunu a její cena na burze okamžitě mnohonásobně vzroste, dokud akcii neprodám, nerealizoval jsem žádný zisk a neplatím ani žádné daně.
-
 
 Základ daně jsou daňové příjmy snížené o daňové výdaje. Je to podobné jako u zisku, jen trochu komplikované tím, že ne všechny příjmy a výdaje se zahrnují do daní.
 
 Přitom daňovým příjmem je takový příjem, který navíc splní časový test. Pokud mezi koupí a prodejem akcie uplynula dostatečně dlouhá doba, zisk (ani ztráta) z tohoto prodeje neovlivní daňový základ. když to splnilo casovej test neo nemuzu si zapocitat ztrátu pokud to prošlo časovým testem
 
-
-Daňový příjem je částka, kterou obdržíme za prodej cenných papírů. Je to částka nesnížená o poplatky (ty patří do výdajů). Přitom daňovým příjmem je takový příjem, který navíc splní časový test. 
+Daňový příjem je částka, kterou obdržíme za prodej cenných papírů. Je to částka nesnížená o poplatky (ty patří do výdajů). Přitom daňovým příjmem je takový příjem, který navíc splní časový test.
 Daňový výdaj zahrnuje náklady související s prodejem cenného papíru. Sem patří jak nákupní cena, tak i poplatky související s nákupem tohoto cenného papíru.
 
-
 Případnou ztrátu z obchodování s akciemi nelze uplatnit například proti příjmům ze závislé činnosti
-Ztrátu z obchodování nelze ani přenést do dalšího roku.
 
 Pořadí je v tomto případě stanoveno podle okamžiku sjednání obchodu. Tedy nikoli podle dne vypořádání, ten je rozhodující pro zařazení do zdaňovacího období a pro časový test.
 
@@ -141,9 +123,12 @@ fyzické osoby - nepodnikatelé, mohou prodané cenné papíry párovat s nákup
 
 Uzavírání otevřených pozic na konci roku ?+
 
+-\_\_\_
 GPT
 Uzavírání otevřených pozic na konci roku znamená, že lidé prodávají své investice, aby uzavřeli své investiční aktivity před začátkem nového roku. Dělají to z několika důvodů:
 Daně: Pro některé lidi záleží na tom, kolik daní budou platit za své investice. Uzavíráním pozic mohou ovlivnit svou daňovou situaci.
+
+Daňové důvody: Investoři a obchodníci mohou uzavírat pozice na konci roku, aby minimalizovali své daňové povinnosti. V některých jurisdikcích mohou být kapitálové výnosy, jako jsou zisky z prodeje cenných papírů, zdaněny s nižší sazbou, pokud jsou drženy po určitou dobu (například jeden rok). Proto mohou investoři uzavírat pozice, které jim umožní splnit tuto podmínku a snížit své daňové povinnosti.
 
 Zisk a ztráta: Když prodají své investice, zjistí, jestli vydělali nebo prodělali peníze během roku.
 
@@ -154,12 +139,15 @@ Ochrana peněz: Pokud mají zisky, chtějí je chránit tím, že peníze invest
 Když uzavírají pozice, znamená to, že prodávají své akcie, podíly nebo jiné investice a mohou tak ovlivnit své peníze a daně před novým rokem.
 GPT
 
+Likvidita a zajištění zisků: Někteří obchodníci mohou uzavírat pozice na konci roku, aby získali likviditu nebo zajištění zisků. To může být obzvláště relevantní, pokud mají očekávání ohledně tržní volatility nebo poklesu hodnoty aktiv v následujícím roce.
+
+---
+
 Takže například u akcie pořízené (vypořádané!) 31. 8. 2012 je poslední den časového testu 28. 2. 2013
 
-dyž výnos nezdaním, protože neprošel častovým testem, nemohu jej ani snížit o související náklady. To se zdá být samozřejmé, ale důsledkem je netriviální závěr, že ztráta z takového obchodu mi nesníží daňový základ.
+když výnos nezdaním, protože neprošel častovým testem, nemohu jej ani snížit o související náklady. To se zdá být samozřejmé, ale důsledkem je netriviální závěr, že ztráta z takového obchodu mi nesníží daňový základ.
 
 že jde o takzvaný "short sale", neboli prodej nakrátko. Prodávají se tedy vypůjčené akcie, které se později koupí
-
 
 ---
 
@@ -173,7 +161,6 @@ Den sjednání je den, kdy se obchod sjedná a dohodne, zatímco den vypořádá
 
 Řekněme že v roce 2022 nakoupíme 1000 akcií firmy AAA a 30. prosince 2022 je prodáme. Prodej bude vypořádán až 2. ledna 2023,
 
-
 Příjmy z prodeje CP patří mezi ostatní příjmy podle § 10.
 
 Znamená to, že proti zisku z jedné akcie mohu uplatnit ztrátu z akcie jiné.
@@ -184,20 +171,13 @@ https://www.zakonyprolidi.cz/cs/1992-586#p38v to o těch 5mega že se musí dani
 
 Přepočet jednotným kurzem je prováděn v souladu s judikátem nejvyššího správního soudu z roku 2019. Správný postup (podle NSS) je takový, že se jednotným kurzem pro určitý rok přepočítají daňové příjmy a daňové výdaje realizované v daném roce. Jednotný kurz vyhlašuje Generální finanční ředitelství a dá se najít na webu Ministerstva financí. Hledejte Daně a cla a tam Pokyny GFŘ. GFŘ vydává příslušný Pokyn někdy v polovině ledna. Kurzy pro USD a EUR používané Kačkou vycházejí z
 
-V roce 2018 jsme nakoupili 10 akcií po 110 USD, celkem jsme zaplatili včetně poplatků 1 105 USD. To je daňový náklad, který přepočteme na CZK kurzem pro rok 2018. Tedy
-
-1 105 USD × 21,78 CZK/USD = 24 066,90 CZK
-
-roce 2019 jsme nakoupili 10 akcií po 120 USD, ale zde použijeme již jen 5 akcií (celkem jsme prodali jen 25 akcií, 5 akcií nám musí zbýt). Výpočet je podobný jako v roce 2018, uplatníme ale jen polovinu. Takže daňové náklady v roce 2019 budou
-
-1 205 USD × 5/10 × 22,93 CZK/USD = 13 815,33 CZK
+Pokud mezi koupí a prodejem akcie uplynula dostatečně dlouhá doba, zisk (ani ztráta) z tohoto prodeje neovlivní daňový základ.
+Pokud časový test uběhl nezapočítám ZISK ani ZTRÁTU!
 
 Prodal jsem 2020 -> EURO 2020 se divam
 Nakoupil jsem 2018 -> EURO 2018 se divam
 
-K nákladům přidáme ještě alikvotní část poplatku, který jsme zaplatili při prodeji akcií v roce 2020. Celkový poplatek byl 10 USD, z něj ale můžeme uplatnit jen část, tedy 15/25 (prodali jsme 25 akcií, ale daňově uplaňujeme jen 15). A přepočteme na CZK kurzem roku 2020 (23,14 CZK/USD):
-
-10 USD × 15/25 × 23,14 CZK/USD = 138,84 CZK.
+Prodám 15/20 akcii ve 2020 -> tak z nákladů odečtu 15/20 transaction fee / mam 25 akcii z nich 10 proslo casovým testem tak 15/25 transaction fee
 
 Počet EURO _ počet akcii co musim danit / počet co danit nemusím _ kurz -> náklady nelze brát kde probehl čas test
 
@@ -207,35 +187,28 @@ Po provedení změny se vše počítá tak, jak je uvedeno v návodu, tedy výno
 
 Před provedením změny se daňový počítal základ způsobem, který byl dříve obvyklý, ale zřejmě nikoli správný: pro výpočet daně v daném roce se jednoduše spočítaly daňové příjmy i daňové náklady v dané měně, a ty se přepočítaly kurzem vyhlášeným pro rok, za který se podávalo daňové přiznání. Tedy pokud bychom se přidrželi příkladu v návodu, pro daňové přiznání za rok 2020 se daňové příjmy i daňové náklady přepočítaly na koruny kurzem roku 2020 bez ohledu na to, že daňové náklady vznikly v letech 2018 a 2019
 
-
 Okamžik pořízení či prodeje je dán okamžikem vypořádání, nikoli okamžikem sjednání obchodu. Většina zdrojů to sice uvádí odlišně, ale Pokyn GFŘ D-22 hovoří jednoznačně. V článku "K § 4 odst. 1" se praví, že okamžik nabytí CP je
 
-ZJISTIT CO CHYBÍ V BP
-- Když koupím / prodam akcii za 10 euro v roce 2018 = např 240kč
+Podáte-li daňové přiznání elektronicky, je lhůta pro podání přiznání 4 měsíce po uplynutí zdaňovacího období. V případě zdaňovacího období, kterým je kalendářní rok, je tato lhůta do 1. 5. následujícího kalendářního roku.
 
-- Tax loss harvesting - 
-
-
-Podivat se jestli to tam je zapocitany
-Upravit kod - aby do tax harvestingu dal i poplatek ? Protože to je taky naklad na ziskani akcie
-Jako výdaj si můžete odečíst i související poplatky, pokud jste je platili zvlášť.
+Jestliže za vás podává daňové přiznání k dani z příjmů fyzických osob daňový poradce nebo advokát, platí lhůta 6 měsíců po uplynutí zdaňovacího období. V případě zdaňovacího období, kterým je kalendářní rok, je tato lhůta do 1. 7. následujícího kalendářního roku.
 
 při směně měny za účelem nákupu cenných papírů nevzniká z pohledu daňové legislativy zisk či ztráta. - Podivat se do kodu jestli odečítám curency conversion fee commision je co zas
 
-Pokud uplynul časovej test ani nedaním ani nemůžu dát do ztráty
+Akumulační a distribuční můžu popsat ?
 
+Příjmy ze zaměstnaní, z podnikání, z kapitalového majetku (držby majetku ne prodeje), z nájmu a ostatní příjmy kam se háže všechno co nespadá do těchto ostatních
 
-Deh suedhahá deh vypořádání - jak to je ? Dám 3 roky + 3 dny ?
+Proč lidi investují ? První investice kdy byla ? Kolik procent čechů investuje ?
+React, Django, Docker popularita, proč právě to
+ETF ?
 
+Příjem kolik jsem dostal a výdaje co to stálo + transakční poplatky
+To je jediný co se dáva do daňového přiznaná
+https://ctrlv.cz/shots/2023/10/23/IrLv.png
 
-Stahnout 2023 data a podivat se na market buy market sell
+Dividenda z ČR se nezapočítáva
 
-___________
+Do 50k paušalní daň nemusí danit dividendy?
 
-V roce 2018 jsme nakoupili 10 akcií po 110 USD, celkem jsme zaplatili včetně poplatků 1 105 USD. To je daňový náklad, který přepočteme na CZK kurzem pro rok 2018. Tedy
-
-1 105 USD × 21,78 CZK/USD = 24 066,90 CZK
-
-roce 2019 jsme nakoupili 10 akcií po 120 USD, ale zde použijeme již jen 5 akcií (celkem jsme prodali jen 25 akcií, 5 akcií nám musí zbýt). Výpočet je podobný jako v roce 2018, uplatníme ale jen polovinu. Takže daňové náklady v roce 2019 budou
-
-1 205 USD × 5/10 × 22,93 CZK/USD = 13 815,33 CZK
+od roku 2023 20k a ne 6
