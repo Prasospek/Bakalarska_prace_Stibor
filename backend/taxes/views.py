@@ -123,14 +123,7 @@ def processCSV(request):
                            "Time": row_data["Time"], "Total": float(row_data["Total"])})
                 dict_of_queues[row_data["Ticker"]] = {"qSell": qSell}
                 
-                
-            #spatne ?
-            shares_sold = float(row_data["No. of shares"])
-            price_per_share = float(row_data["Price / share"])
-            cost = shares_sold * price_per_share
-
-            # Update the total_costs variable
-            total_costs += cost
+        
 
     for ticker, data in dict_of_queues.items():
         if "qSell" not in data:
@@ -155,14 +148,18 @@ def processCSV(request):
             if (datetime.strptime(temp["Time"], "%Y-%m-%d %H:%M:%S") - purchase_date).days < (365 * 3):
                 pass
             else:
-                no_to_sell = no_to_sell - first_bought["No. of shares"]
-                not_for_tax = not_for_tax + first_bought["No. of shares"]
+                if no_to_sell - first_bought["No. of shares"]>0:
+                    no_to_sell = no_to_sell - first_bought["No. of shares"]
+                    not_for_tax = not_for_tax + first_bought["No. of shares"]
+                else:
+                    not_for_tax=no_to_sell
+                    no_to_sell=0                    
 
             if (temp["Total"] / temp["No. of shares"]) < (first_bought["Total"] / first_bought["No. of shares"]):
                 loss = loss + (((first_bought["Total"] / first_bought["No. of shares"]) -
                                 (temp["Total"] / temp["No. of shares"])) * temp["No. of shares"])
-
             while new < 0:
+                print("Jsem an nule")
                 first_bought = data["qBuy"].get()
                 new = first_bought["No. of shares"] + new
 
@@ -170,15 +167,18 @@ def processCSV(request):
                     pass
 
                 else:
-                    no_to_sell = no_to_sell - first_bought["No. of shares"]
-                    not_for_tax = not_for_tax + first_bought["No. of shares"]
+                    if no_to_sell - first_bought["No. of shares"]>0:
+                        no_to_sell = no_to_sell - first_bought["No. of shares"]
+                        not_for_tax = not_for_tax + first_bought["No. of shares"]
+                    else:
+                        not_for_tax=no_to_sell
+                        no_to_sell=0 
 
                 if (temp["Total"] / temp["No. of shares"]) < (first_bought["Total"] / first_bought["No. of shares"]):
                     loss = loss + (((first_bought["Total"] / first_bought["No. of shares"]) -
                                     (temp["Total"] / temp["No. of shares"])) * temp["No. of shares"])
                     
-                    
-                    
+            
             #Pozor !!! Nemusím to danit 0.15 vubec, co kdyz nepreashne 100k? a kdyz jo tak jen to co je nad 100k
             tax = (value_to_sell / temp["No. of shares"]) * no_to_sell                    # * 0.15
 
@@ -190,7 +190,10 @@ def processCSV(request):
             data["qBuy"] = temp_queue
 
             final_tax = final_tax + tax
-            final_tax_netto = final_tax_netto + (tax - loss)
+            if tax-loss>0:
+                final_tax_netto = final_tax_netto + (tax - loss)
+            else:
+                final_tax_netto = final_tax_netto + (0)
 
             print("Action: Market sell")
             print("Ticker:", ticker)
@@ -201,7 +204,10 @@ def processCSV(request):
             print("To tax (Shares):", no_to_sell)
             print("To tax (Currency):", (value_to_sell / temp["No. of shares"]) * no_to_sell)
             print("Tax:", tax)
-            print("Tax (After loss subtraction):", tax - loss)
+            if tax-loss>0:
+                print("Tax (After loss subtraction):", tax - loss)
+            else:
+                print("Tax (After loss subtraction):", 0)
             print("Earnings:", value_to_sell)
             print("Loss (Currency):", loss)
             print("Left in stack:", new)
@@ -224,7 +230,10 @@ def processCSV(request):
             pdf.drawString(100, 610, "To tax (Shares): " + str(no_to_sell))
             pdf.drawString(100, 590, "To tax (Currency): " + str((value_to_sell / temp["No. of shares"]) * no_to_sell))
             pdf.drawString(100, 570, "Tax: " + str(tax))
-            pdf.drawString(100, 550, "Tax (After loss subtraction): " + str(tax - loss))
+            if tax-loss>0:
+                pdf.drawString(100, 550, "Tax (After loss subtraction): " + str(tax - loss))
+            else:
+                pdf.drawString(100, 550, "Tax (After loss subtraction): " + str(0))
             pdf.drawString(100, 530, "Earnings: " + str(value_to_sell))
             pdf.drawString(100, 510, "Loss (Currency): " + str(loss))
             pdf.drawString(100, 490, "Left in stack: " + str(new))
@@ -239,7 +248,7 @@ def processCSV(request):
     print("--------------------------------------------")
     print("Final tax (Brutto):", final_tax)
     print("Final tax (Netto):", final_tax_netto)
-    print("Total Costs of Shares Sold:", total_costs)
+    
     print("--------------------------------------------")
     
      
@@ -262,14 +271,13 @@ def processCSV(request):
     # Add your tax calculation information to the PDF here
     draw_bold_text(pdf, 280, 530, "EUR", 20)
     pdf.setFont("Times-Roman", 20)
-    pdf.drawString(100, 480, f"Costs A TRANSACTION COSTS CHYHBI: {total_costs:.2f}")
+    
     pdf.drawString(100, 450, f"Final tax (Brutto): {final_tax:.2f}")
     pdf.drawString(100, 420, f"Final tax (Netto):  {final_tax_netto:.2f}")
     
    
     draw_bold_text(pdf, 280, 340, "CZK", 20)
     pdf.setFont("Times-Roman", 20)
-    pdf.drawString(100, 290, f"Costs A TRANSACTION COSTS CHYHBI: {total_costs * 23.54:.2f}")
     pdf.drawString(100, 260, f"Final tax (Brutto): {final_tax * 23.54:.2f}")
     pdf.drawString(100, 230, f"Final tax (Netto):  {final_tax_netto * 23.54:.2f}")
 
