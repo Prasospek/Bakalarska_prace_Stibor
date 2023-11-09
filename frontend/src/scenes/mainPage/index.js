@@ -26,16 +26,17 @@ const MainPage = () => {
         navigate("/konverter");
     };
 
-    // Overflow hidden
     useEffect(() => {
-        // Add the class to the body element when the component mounts
-        document.body.classList.add("overflow-hidden");
+        if (isNonMobileScreens) {
+            // Add the class to the body element when the component mounts
+            document.body.classList.add("overflow-hidden");
 
-        // Remove the class when the component unmounts
-        return () => {
-            document.body.classList.remove("overflow-hidden");
-        };
-    }, []); // Empty dependency array ensures this effect runs only once
+            // Remove the class when the component unmounts
+            return () => {
+                document.body.classList.remove("overflow-hidden");
+            };
+        }
+    }, [isNonMobileScreens]);
 
     return (
         <div
@@ -132,7 +133,7 @@ const MainPage = () => {
                     flexDirection="column"
                     marginLeft={"1rem"}
                     marginRight={"1rem"}
-                    style={{ height: "calc(100% - 4rem)", overflowY: "hidden" }}
+                    style={{ height: "calc(100% - 4rem)", overflowY: "auto" }}
                 >
                     <Box
                         width={"100%"}

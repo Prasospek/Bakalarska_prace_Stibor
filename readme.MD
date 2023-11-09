@@ -1,7 +1,7 @@
 TODO LIST
 
 !!!!!!!!!!!FAKTA !!!!!!!!!<br>
-1.) Pravnicka (spoelcnost) vs Fyzicka (normalni clovek) osoba 19 vs 15% https://www.uol.cz/wp-content/uploads/2022/12/UOL-e-book_Cenne-papiry_aktualizace_2022_web.pdf
+1.) Pravnicka (spoelcnost) vs Fyzicka (normalni clovek) osoba 19 vs 15% https://www.uol.cz/wp-content/uploads/2022/12/UOL-e-book_Cenne-papiry_aktualizace_2022_web.pdf¸
 Fyzické osoby -15% daň pokud více jak 1,867 728 (48krát měsíční průměrnou mzdu ) tak 23%
 4.) Příjmy z prodeje v zahraničních měnách se přepočítávají do korun jednotným kurzem vyhlášeným správcem daně pro daný rok. Je však možné používat i metodu skutečných kurzů při realizaci obchodů.
 5.) v Německu je například 26,375 %, v Rakousku pak 27,5 %. V USA standardně 30 %. W8ben strhava 15%, ale treba Irsko nestrhava.
@@ -17,6 +17,20 @@ Zde je ale důležité si uvědomit, že spárované nákupy uskutečněné v p�
 15.) dan vsude jinak cesko nic -> amerika 30% pokud w8ben -> 15%
 
 16.) Fyzické osoby - nepodnikatelé, mohou prodané cenné papíry párovat s nákupy zcela libovolně kombiance LIFO FIFO je ok
+
+
+https://www.patria.cz/pravo/4342292/jak-spravne-zdanit-prijmy-z-cennych-papiru---druha-cast.html
+giga informace
+
+příjmy z podílu na zisku = dividenda
+Sazba daně z příjmů činí pro FO 15 % a pro PO 19 %.
+
+Sazba daně z příjmů činí pro FO 15 % a pro PO 19 %.
+
+Dividendy
+Dividendy podléhají srážkové dani, která činí 15 %. Pokud má společnost za společníka nebo akcionáře PO, která po dobu 12 měsíců (a tuto podmínku lze splnit i následně) drží nepřetržitě alespoň 10% podíl na jejím základním kapitálu, jsou příjmy z dividend osvobozeny.
+
+U právnických osob připadá v úvahu rovněž osvobození od zdanění, pokud je příjemcem právnická osoba, která drží v akciové společnosti podíl minimálně 12 měsíců a podíl je alespoň ve výši 10 %.
 
 fyzické osoby, pro které platí, že je možno ztrátu z prodeje jedné akcie započítat proti zisku z prodeje jiné akcie (kompenzace). To je možno provádět pouze v rámci kalendářního roku a pouze v rámci výnosů z cenných papírů. Případnou ztrátu z obchodování s akciemi nelze uplatnit například proti příjmům ze závislé činnosti. Ztrátu z obchodování nelze ani přenést do dalšího roku. ????????????
 
@@ -215,3 +229,23 @@ od roku 2023 20k a ne 6
 __________________________________________________________________________________________________
 O čem psát ?
 ________________________________________________________
+
+
+DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA 
+DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA
+DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA 
+DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA 
+
+vDODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA 
+DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA 
+DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA 
+DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA 
+
+DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA 
+DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA 
+DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA 
+DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA 
+DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA 
+DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA 
+DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA 
+DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA DODELAT QNA 

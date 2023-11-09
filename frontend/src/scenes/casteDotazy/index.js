@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import {
+    Box,
     Accordion,
     AccordionSummary,
     AccordionDetails,
@@ -29,13 +30,13 @@ const createAccordionSection = (title, content) => (
 
 const CasteDotazy = () => {
     return (
-        <div>
+        <Box paddingBottom="3rem">
             <Navbar />
             <Typography
                 variant="h2"
                 align="center"
                 sx={{
-                    marginTop: "4rem",
+                    marginTop: "3rem",
                     fontWeight: 700,
                     fontStyle: "italic",
                 }}
@@ -100,7 +101,7 @@ const CasteDotazy = () => {
                     "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quasi tempore blanditiis explicabo numquam, quisquam sit nemo unde tempora dolor, nesciunt itaque modi optio ad molestiae, impedit magnam perspiciatis dolore cumque!"
                 )}
             </Container>
-        </div>
+        </Box>
     );
 };
 
