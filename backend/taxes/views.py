@@ -16,7 +16,8 @@ from django.utils import timezone
 from datetime import datetime
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-
+from decouple import config
+from postmarker.core import PostmarkClient
 
 
 @csrf_exempt
@@ -24,29 +25,26 @@ from email.mime.multipart import MIMEMultipart
 def email_submit(request):
     try:
         data = json.loads(request.body.decode('utf-8'))
-        sender_email = data.get('email')  # Use sender's email as the sender
+        sender_email = data.get('email')
         message = data.get('message')
+        
+        print(sender_email)
 
         # Save to the Email model
         email_instance = Email.objects.create(email=sender_email, message=message, sent_at=timezone.now())
 
         # Email credentials
-        smtp_server = "smtp.gmail.com"
-        smtp_port = 587
-        email_user = "sharetaxmaxideas@gmail.com"
-        email_password = "kszf qgxd lxfh eegr"
-
-        # Recipient email address
-        email_to = "sharetaxmaxideas@gmail.com"
-
-        # Email content
-        subject = "Subject of the Email"
+        smtp_server = config('SMTP_SERVER', default='smtp.gmail.com')
+        smtp_port = config('SMTP_PORT', default='587')
+        
+        my_email = config('EMAIL_USER', default='')
+        email_password = config('EMAIL_PASSWORD', default='')
 
         # Create message container
         msg = MIMEMultipart()
         msg['From'] = sender_email
-        msg['To'] = email_to
-        msg['Subject'] = subject
+        msg['To'] = my_email
+        msg['Subject'] = message
 
         # Attach the body to the message
         msg.attach(MIMEText(message, 'plain'))
@@ -54,19 +52,22 @@ def email_submit(request):
         # Setup the SMTP server
         server = smtplib.SMTP(smtp_server, smtp_port)
         server.starttls()
-
+        print(sender_email)
         # Login to the email account
-        server.login(email_user, email_password)
+        server.login(my_email, email_password)
 
         # Send the email
-        server.sendmail(sender_email, email_to, msg.as_string())
+        server.sendmail(sender_email, my_email, msg.as_string())
 
         # Quit the server
         server.quit()
+        
+        
 
         return JsonResponse({'message': 'Email saved and sent successfully'}, status=status.HTTP_200_OK)
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
 
 
 
