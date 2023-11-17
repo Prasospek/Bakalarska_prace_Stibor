@@ -55,7 +55,7 @@ const Konverter = () => {
                     const url = window.URL.createObjectURL(blob);
                     const link = document.createElement("a");
                     link.href = url;
-                    link.download = "generated_pdf.pdf"; // Update the filename to have a .pdf extension
+                    link.download = "Generované_PDF.pdf"; //
                     link.click();
                     window.URL.revokeObjectURL(url);
                     console.log("PDF downloaded successfully!");
@@ -94,7 +94,7 @@ const Konverter = () => {
                     const url = window.URL.createObjectURL(blob);
                     const link = document.createElement("a");
                     link.href = url;
-                    link.download = "modified_data.csv";
+                    link.download = "Spojená_CSV_data.csv";
                     link.click();
                     window.URL.revokeObjectURL(url);
                     console.log("File downloaded successfully!");
@@ -244,7 +244,7 @@ const Konverter = () => {
                             onClick={handleZiskaniDat}
                             sx={{
                                 cursor: "pointer",
-                                position: "relative", // Add this to make the ::after element relative to the link
+                                position: "relative",
                                 "&::after": {
                                     content: "''",
                                     position: "absolute",

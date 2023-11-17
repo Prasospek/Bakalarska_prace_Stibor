@@ -53,12 +53,12 @@ function Helper() {
         <div>
             <Navbar />
             <Typography
-                variant="h4" // Change the variant to h2 for a bigger font size
-                align="center" // Keep the alignment centered
+                variant="h4"
+                align="center"
                 sx={{
-                    marginTop: "12rem", // Increase the marginTop value for more spacing
-                    fontWeight: 700, // Add font weight for emphasis
-                    fontStyle: "italic", // Add italic style
+                    marginTop: "12rem",
+                    fontWeight: 700,
+                    fontStyle: "italic",
                 }}
             >
                 Máte technický problém nebo otázku ? Neváhejte nám napsat

@@ -146,7 +146,7 @@ const JakZiskat = () => {
                     <Card sx={{ width: "100%" }}>
                         <CardMedia
                             component="img"
-                            image={trading_1} // Replace with the actual image path
+                            image={trading_1}
                             alt="Trading212"
                             style={{ maxWidth: "100%", height: "auto" }}
                         />
@@ -183,7 +183,7 @@ const JakZiskat = () => {
                     <Card sx={{ width: "100%", maxWidth: "300px" }}>
                         <CardMedia
                             component="img"
-                            image={trading_2} // Replace with the actual image path
+                            image={trading_2}
                             alt="Trading212"
                             style={{ maxWidth: "100%", height: "auto" }}
                         />
@@ -221,7 +221,7 @@ const JakZiskat = () => {
                     <Card sx={{ width: "100%" }}>
                         <CardMedia
                             component="img"
-                            image={trading_3} // Replace with the actual image path
+                            image={trading_3}
                             alt="Trading212"
                             style={{ maxWidth: "100%", height: "auto" }}
                         />

@@ -28,10 +28,10 @@ const MainPage = () => {
 
     useEffect(() => {
         if (isNonMobileScreens) {
-            // Add the class to the body element when the component mounts
+            // add class on mount
             document.body.classList.add("overflow-hidden");
 
-            // Remove the class when the component unmounts
+            // Remove on onmount
             return () => {
                 document.body.classList.remove("overflow-hidden");
             };
@@ -43,7 +43,7 @@ const MainPage = () => {
             style={{
                 width: "100%",
                 height: "100%",
-                overflow: "hidden", // Add this line to hide overflow
+                overflow: "hidden",
             }}
         >
             <Navbar />

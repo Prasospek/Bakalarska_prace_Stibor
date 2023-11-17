@@ -6,7 +6,7 @@ env/
 db.sqlite3
 *.sqlite3
 
-# Ignore static files collected by Django
+# Ignore static files
 staticfiles/
 
 # Ignore media files uploaded by users

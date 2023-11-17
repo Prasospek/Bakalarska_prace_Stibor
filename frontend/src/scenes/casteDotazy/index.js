@@ -11,7 +11,7 @@ import {
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Navbar from "../navbar";
 
-// Custom function to generate an accordion section
+// Func to generate Accordion
 const createAccordionSection = (title, content) => (
     <Accordion key={title} className="helper-accordion">
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
