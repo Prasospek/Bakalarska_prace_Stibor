@@ -230,8 +230,9 @@ const Konverter = () => {
                         disabled={selectedFiles.length === 0}
                         style={{ marginTop: "1.5rem" }}
                         sx={{
-                            marginLeft: "2rem",
                             fontSize: "1.5rem",
+                            width: "20rem",
+                            marginLeft: isNonMobileScreens ? "3rem" : 0, // Add this line
                         }}
                     >
                         Přehled daní PDF

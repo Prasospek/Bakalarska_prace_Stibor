@@ -1,54 +1,35 @@
 import csv
 import queue
-from django.http import HttpResponse
+import json
+from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view
 from taxes.models import Email
 from taxes.serializers import EmailSerializer
 from rest_framework import status
-from collections import defaultdict
-from datetime import datetime, timedelta
-from rest_framework.response import Response
 from io import BytesIO
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 import pandas as pd
+from django.utils import timezone
 
+
+
+@csrf_exempt
 @api_view(['POST'])
 def email_submit(request):
-    serializer = EmailSerializer(data=request.data)
-    if serializer.is_valid():
-        email = serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    try:
+        data = json.loads(request.body.decode('utf-8'))
+        user_email = data.get('email')
+        message = data.get('message')
 
+        # Save to the Email model
+        email_instance = Email.objects.create(email=user_email, message=message, sent_at=timezone.now())
 
- #Pokud to nenajde kurz vezme to te nejbližší tzn year > 2012 vezme to 2012
-#EUROS
-EURO_2022 = 24.54
-EURO_2021 = 25.65
-EURO_2020 = 26.50
-EURO_2019 = 25.66
-EURO_2018 = 25.68
-EURO_2017 = 26.29
-EURO_2016 = 27.04
-EURO_2015 = 27.27
-EURO_2014 = 27.55
-EURO_2013 = 26.03
-EURO_2012 = 25.12
+        return JsonResponse({'message': 'Email saved successfully'}, status=status.HTTP_200_OK)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-#USD
-USD_2022 = 23.41
-USD_2021 = 21.72
-USD_2020 = 23.14
-USD_2019 = 22.93
-USD_2018 = 21.78
-USD_2017 = 23.18
-USD_2016 = 24.53
-USD_2015 = 24.69
-USD_2014 = 20.90
-USD_2013 = 19.56
-USD_2012 = 19.45
 
 
 @api_view(['POST'])
@@ -143,7 +124,7 @@ def processCSV(request):
             not_for_tax = 0
             loss = 0
             purchase_date = datetime.strptime(first_bought["Time"], '%Y-%m-%d %H:%M:%S')
-            tax_free_date = purchase_date + timedelta(days=3 * 365)
+            
 
             if (datetime.strptime(temp["Time"], "%Y-%m-%d %H:%M:%S") - purchase_date).days < (365 * 3):
                 pass
@@ -179,8 +160,8 @@ def processCSV(request):
                                     (temp["Total"] / temp["No. of shares"])) * temp["No. of shares"])
                     
             
-            #Pozor !!! Nemusím to danit 0.15 vubec, co kdyz nepreashne 100k? a kdyz jo tak jen to co je nad 100k
-            tax = (value_to_sell / temp["No. of shares"]) * no_to_sell                    # * 0.15
+            
+            tax = (value_to_sell / temp["No. of shares"]) * no_to_sell                    
 
             temp_queue = queue.Queue()
             temp_queue.put({"No. of shares": new, "Time": first_bought["Time"],
@@ -213,8 +194,6 @@ def processCSV(request):
             print("Left in stack:", new)
             print()
             
-          
-             
         
             pdf.setFont("Times-Roman", 18)
             draw_pdf_line(pdf, 100,760,500,760)

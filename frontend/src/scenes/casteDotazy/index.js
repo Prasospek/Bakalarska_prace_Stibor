@@ -46,27 +46,22 @@ const CasteDotazy = () => {
             <Container sx={{ maxWidth: "md", mt: 5 }}>
                 {createAccordionSection(
                     "Jak ShareTaxMax funguje ?",
-                    "Časový test narozdíl od hodnotového platí i pro zámožnější investory. Tento test nám říká, že pokud od doby mezi nákupem a prodejem cenného papíru byla delší doba než 3 roky, tak je daná osoba zcela osvobozena od daně."
+                    "Po nahrání CSV souborů v častí konverter máte na výběr pokud chcete data spojit pro vlastní kontrolu nebo chcete výpočet v PDF formátu. ShareTaxMax používá metodu FIFO a bere v potaz hodnotový i časový test"
                 )}
 
                 {createAccordionSection(
                     "Jaký kurz měn se používá ?",
-                    "Časový test narozdíl od hodnotového platí i pro zámožnější investory. Tento test nám říká, že pokud od doby mezi nákupem a prodejem cenného papíru byla delší doba než 3 roky, tak je daná osoba zcela osvobozena od daně."
+                    "ShareTaxMax počítá v EUR"
                 )}
 
                 {createAccordionSection(
                     "Jaké jsou daňové povinnosti spojené s prodejem akcií?",
-                    "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quasi tempore blanditiis explicabo numquam, quisquam sit nemo unde tempora dolor, nesciunt itaque modi optio ad molestiae, impedit magnam perspiciatis dolore cumque!"
-                )}
-
-                {createAccordionSection(
-                    "Jaké jsou daňové povinnosti spojené s vyplácením dividend z akcií?",
-                    "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quasi tempore blanditiis explicabo numquam, quisquam sit nemo unde tempora dolor, nesciunt itaque modi optio ad molestiae, impedit magnam perspiciatis dolore cumque!"
+                    "Jednoduše řečeno, pokud příjmy (NE ZISK) překročí limit 100 000 Kč, máte povinnost podat daňové přiznání a danit částku přesahující 100 000 Kč."
                 )}
 
                 {createAccordionSection(
                     "Jaké jsou daňové sazby pro zisky z prodeje akcií?",
-                    "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quasi tempore blanditiis explicabo numquam, quisquam sit nemo unde tempora dolor, nesciunt itaque modi optio ad molestiae, impedit magnam perspiciatis dolore cumque!"
+                    "V rámci fyzických osob se jedná o sazbu 15% a v případě že jste za zdaňovací období prodali 48násobek pruměrné mzdy za daný rok, tak daníte 23% sazbou. V roce 2022 tato částka byla 1 867 728 Kč."
                 )}
 
                 {createAccordionSection(
@@ -93,12 +88,12 @@ const CasteDotazy = () => {
             <Container sx={{ maxWidth: "md", mt: 5 }}>
                 {createAccordionSection(
                     "Neumí počítat dividendy z akcií",
-                    "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quasi tempore blanditiis explicabo numquam, quisquam sit nemo unde tempora dolor, nesciunt itaque modi optio ad molestiae, impedit magnam perspiciatis dolore cumque!"
+                    "Danění dividend je mimo rozsah této aplikace a tedy nedokáže problém vyřešit. Pro každou zemi je individuální daňová sazba a tedy záleží kde se společnost, která nám vyplací dividendy nachází. Taktéž zaleží zda má Česká Republika s danou zemí podepsaný formulář o dvojím zdanění. "
                 )}
 
                 {createAccordionSection(
                     "Omezení na měnu",
-                    "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quasi tempore blanditiis explicabo numquam, quisquam sit nemo unde tempora dolor, nesciunt itaque modi optio ad molestiae, impedit magnam perspiciatis dolore cumque!"
+                    "Většina investorů obchoduje v EUR, protože se jedná o nejvýhodnější variantu a tedy v tuto chvíli je to omezeno pouze na EUR"
                 )}
             </Container>
         </Box>
