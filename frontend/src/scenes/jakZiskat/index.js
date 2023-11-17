@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Navbar from "../navbar";
 import {
     Typography,
@@ -9,7 +9,6 @@ import {
     Button,
     useMediaQuery,
     Fab,
-    Zoom,
 } from "@mui/material";
 import trading_1 from "../../assets/trading_1.png";
 import trading_2 from "../../assets/trading_2.png";
@@ -20,15 +19,10 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 
 const JakZiskat = () => {
     const navigate = useNavigate();
-    const [isMobileMenuToggled, setIsMobileMenuToggled] = useState(false);
     const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
 
     const handleConverter = () => {
         navigate("/konverter");
-    };
-
-    const handleScrollTop = () => {
-        window.scrollTo({ top: 0, behavior: "smooth" });
     };
 
     const ScrollTopButton = () => {

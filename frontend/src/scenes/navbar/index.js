@@ -4,7 +4,6 @@ import {
     Toolbar,
     Typography,
     IconButton,
-    Icon,
     Tooltip,
     Box,
     useMediaQuery,

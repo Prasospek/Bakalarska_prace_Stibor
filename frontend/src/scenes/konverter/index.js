@@ -7,17 +7,14 @@ import {
     Link,
     Box,
 } from "@mui/material";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import Navbar from "../navbar";
 import { Link as RouterLink } from "react-router-dom";
-import jakZiskat from "../jakZiskat";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Konverter = () => {
     const [selectedFiles, setSelectedFiles] = useState([]);
-    const [isMobileMenuToggled, setIsMobileMenuToggled] = useState(false);
     const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
     const navigate = useNavigate();
     const fileInputRef = useRef(null);
