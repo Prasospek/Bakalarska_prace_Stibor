@@ -1,6 +1,7 @@
 import csv
 import queue
 import json
+import smtplib
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view
@@ -13,6 +14,8 @@ from reportlab.pdfgen import canvas
 import pandas as pd
 from django.utils import timezone
 from datetime import datetime
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 
 
 
@@ -21,15 +24,51 @@ from datetime import datetime
 def email_submit(request):
     try:
         data = json.loads(request.body.decode('utf-8'))
-        user_email = data.get('email')
+        sender_email = data.get('email')  # Use sender's email as the sender
         message = data.get('message')
 
         # Save to the Email model
-        email_instance = Email.objects.create(email=user_email, message=message, sent_at=timezone.now())
+        email_instance = Email.objects.create(email=sender_email, message=message, sent_at=timezone.now())
 
-        return JsonResponse({'message': 'Email saved successfully'}, status=status.HTTP_200_OK)
+        # Email credentials
+        smtp_server = "smtp.gmail.com"
+        smtp_port = 587
+        email_user = "sharetaxmaxideas@gmail.com"
+        email_password = "kszf qgxd lxfh eegr"
+
+        # Recipient email address
+        email_to = "sharetaxmaxideas@gmail.com"
+
+        # Email content
+        subject = "Subject of the Email"
+
+        # Create message container
+        msg = MIMEMultipart()
+        msg['From'] = sender_email
+        msg['To'] = email_to
+        msg['Subject'] = subject
+
+        # Attach the body to the message
+        msg.attach(MIMEText(message, 'plain'))
+
+        # Setup the SMTP server
+        server = smtplib.SMTP(smtp_server, smtp_port)
+        server.starttls()
+
+        # Login to the email account
+        server.login(email_user, email_password)
+
+        # Send the email
+        server.sendmail(sender_email, email_to, msg.as_string())
+
+        # Quit the server
+        server.quit()
+
+        return JsonResponse({'message': 'Email saved and sent successfully'}, status=status.HTTP_200_OK)
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
 
 
 
