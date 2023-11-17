@@ -38,7 +38,6 @@ def email_submit(request):
 def processCSV(request):
     final_tax = 0
     final_tax_netto = 0
-    total_costs = 0
     dict_of_queues = {}
     merged_rows = []
     headers = None
@@ -195,6 +194,8 @@ def processCSV(request):
             print("Left in stack:", new)
             print()
             
+            
+            # PDF GENERATED TEXT
         
             pdf.setFont("Times-Roman", 18)
             draw_pdf_line(pdf, 100,760,500,760)
@@ -248,14 +249,14 @@ def processCSV(request):
     draw_pdf_line(pdf, 100,320,500,320)
     draw_pdf_line(pdf, 100,210,500,210)
 
-    # Add your tax calculation information to the PDF here
     draw_bold_text(pdf, 280, 530, "EUR", 20)
     pdf.setFont("Times-Roman", 20)
     
+    # FINAL EUR
     pdf.drawString(100, 450, f"Final tax (Brutto): {final_tax:.2f}")
     pdf.drawString(100, 420, f"Final tax (Netto):  {final_tax_netto:.2f}")
     
-   
+   # FINAL CZK
     draw_bold_text(pdf, 280, 340, "CZK", 20)
     pdf.setFont("Times-Roman", 20)
     pdf.drawString(100, 260, f"Final tax (Brutto): {final_tax * 23.54:.2f}")
