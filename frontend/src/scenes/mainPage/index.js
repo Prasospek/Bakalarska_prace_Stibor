@@ -151,7 +151,7 @@ const MainPage = () => {
                         textAlign="center"
                         sx={{ minWidth: "30rem" }}
                     >
-                        <Typography variant="h4">
+                        <Typography variant="h4" padding="0 2rem">
                             Stresují Vás složité každoroční daňová přiznání z
                             prodeje cenných papírů? ShareTaxMax vyřeší všechny
                             problémy za vás a to vše během pár kliknutí.
@@ -167,7 +167,7 @@ const MainPage = () => {
                         <Typography variant="h2" marginBottom={"0.8rem"}>
                             Jednoduchost
                         </Typography>
-                        <Typography variant="h4">
+                        <Typography variant="h4" padding="0 3.5rem">
                             Díky jednoduchému uživatelskému rozhraní jednoduše
                             vyplníte své daňové přiznání bez zdlouhavých a
                             komplikovaných postupů.
@@ -182,7 +182,7 @@ const MainPage = () => {
                         <Typography variant="h2" marginBottom={"0.8rem"}>
                             Čas
                         </Typography>
-                        <Typography variant="h4">
+                        <Typography variant="h4" padding="0 3.5rem">
                             Ušetříte čas a stres spojený s vyplňováním složitých
                             daňových přiznání z prodeje cenných papírů díky jeho
                             jednoduchosti a přehlednosti.
@@ -197,7 +197,7 @@ const MainPage = () => {
                         <Typography variant="h2" marginBottom={"0.8rem"}>
                             Flexibilita
                         </Typography>
-                        <Typography variant="h4">
+                        <Typography variant="h4" padding="0 3.5rem">
                             Můžete snadno upravit své daňové přiznání v případě
                             změn nebo dodatečných informací.
                         </Typography>
@@ -216,6 +216,7 @@ const MainPage = () => {
                                 fontSize: "1.9rem",
                                 width: "fit-content",
                                 padding: "2.5rem",
+                                marginBottom: "3rem",
                             }}
                             onClick={handleNavigate}
                         >

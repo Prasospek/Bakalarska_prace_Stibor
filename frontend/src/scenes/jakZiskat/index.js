@@ -175,7 +175,7 @@ const JakZiskat = () => {
                     </Box>
                     <Box ml={2}>
                         <Typography variant="h4" fontWeight={700}>
-                            Krok 3: Otevřete kolonku History
+                            Krok 3: Otevřete History
                         </Typography>
                     </Box>
                 </Box>

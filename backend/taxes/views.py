@@ -62,7 +62,6 @@ def email_submit(request):
         # Quit the server
         server.quit()
         
-        
 
         return JsonResponse({'message': 'Email saved and sent successfully'}, status=status.HTTP_200_OK)
     except Exception as e:
@@ -76,12 +75,12 @@ def email_submit(request):
 @api_view(['POST'])
 @csrf_exempt
 def processCSV(request):
+    # initialization of variables
     final_tax = 0
     final_tax_netto = 0
     dict_of_queues = {}
     merged_rows = []
     headers = None
-    
     
      # Create a PDF buffer
     pdf_buffer = BytesIO()
@@ -89,12 +88,14 @@ def processCSV(request):
     # Create a PDF document
     pdf = canvas.Canvas(pdf_buffer, pagesize=letter)
 
+    # get files from FE
     csv_files = request.FILES.getlist('files')
     
 
     if not csv_files:
         return HttpResponse('No files uploaded', status=400)
-
+    
+    # Processing CSV
     for csv_file in csv_files:
         if csv_file.name.endswith('.csv'):
             csv_data = csv.reader(csv_file.read().decode('utf-8').splitlines())
@@ -107,45 +108,74 @@ def processCSV(request):
             for row in rows[1:]:
                 merged_rows.append(row)
 
+    # Sort by time
     merged_rows.sort(key=lambda x: datetime.strptime(x[1], '%Y-%m-%d %H:%M:%S'))
     
     for row in merged_rows:
+        # create a dictionary pairing individual header with row for easier access to values
         row_data = dict(zip(headers, row))
         if "Market buy" in row_data["Action"]:
+            #Check if given Ticker in dict_of_queues
             if row_data["Ticker"] in dict_of_queues:
                 if "qBuy" in dict_of_queues[row_data["Ticker"]]:
+                    # Information about Market buy trasnaction for ticker to track transactions
                     dict_of_queues[row_data["Ticker"]]["qBuy"].put(
-                        {"No. of shares": float(row_data["No. of shares"]),
-                         "Time": row_data["Time"], "Total": float(row_data["Total"])})
+                        {
+                         "No. of shares": float(row_data["No. of shares"]),
+                         "Time": row_data["Time"], 
+                         "Total": float(row_data["Total"])
+                        })
                 else:
+                    # if qBuy is not present create new queue and add transaction to it
                     dict_of_queues[row_data["Ticker"]]["qBuy"] = queue.Queue()
                     dict_of_queues[row_data["Ticker"]]["qBuy"].put(
-                        {"No. of shares": float(row_data["No. of shares"]),
-                         "Time": row_data["Time"], "Total": float(row_data["Total"])})
+                        {
+                         "No. of shares": float(row_data["No. of shares"]),
+                         "Time": row_data["Time"], 
+                         "Total": float(row_data["Total"])
+                        })
             else:
+                # new Queue for market buy
                 qBuy = queue.Queue()
-                qBuy.put({"No. of shares": float(row_data["No. of shares"]),
-                          "Time": row_data["Time"], "Total": float(row_data["Total"])})
+                qBuy.put(
+                    {
+                        "No. of shares": float(row_data["No. of shares"]),
+                        "Time": row_data["Time"], 
+                        "Total": float(row_data["Total"])
+                    })
                 dict_of_queues[row_data["Ticker"]] = {"qBuy": qBuy}
+                
         if "Market sell" in row_data["Action"]:
             if row_data["Ticker"] in dict_of_queues:
                 if "qSell" in dict_of_queues[row_data["Ticker"]]:
+                    # If the Ticker is present and has a "qSell" queue, add the current "Market sell" transaction to the queue
                     dict_of_queues[row_data["Ticker"]]["qSell"].put(
-                        {"No. of shares": float(row_data["No. of shares"]),
-                         "Time": row_data["Time"], "Total": float(row_data["Total"])})
+                        {
+                        "No. of shares": float(row_data["No. of shares"]),
+                         "Time": row_data["Time"], 
+                         "Total": float(row_data["Total"])
+                        })
                 else:
+                    # If the Ticker is present but doesn't have a "qSell" queue, create a new one and add the transaction
                     dict_of_queues[row_data["Ticker"]]["qSell"] = queue.Queue()
                     dict_of_queues[row_data["Ticker"]]["qSell"].put(
-                        {"No. of shares": float(row_data["No. of shares"]),
-                         "Time": row_data["Time"], "Total": float(row_data["Total"])})
+                        {
+                         "No. of shares": float(row_data["No. of shares"]),
+                         "Time": row_data["Time"], 
+                         "Total": float(row_data["Total"])
+                        })
             else:
+                # If the Ticker is not present, create a new "qSell" queue and add the transaction
                 qSell = queue.Queue()
-                qSell.put({"No. of shares": float(row_data["No. of shares"]),
-                           "Time": row_data["Time"], "Total": float(row_data["Total"])})
+                qSell.put(
+                    {
+                        "No. of shares": float(row_data["No. of shares"]),
+                        "Time": row_data["Time"], 
+                        "Total": float(row_data["Total"])
+                    })
                 dict_of_queues[row_data["Ticker"]] = {"qSell": qSell}
                 
         
-
     for ticker, data in dict_of_queues.items():
         if "qSell" not in data:
             continue
@@ -153,11 +183,15 @@ def processCSV(request):
         temp = 0
 
         while not data["qSell"].empty():
+            # assign next sell transaction from que qSell and assign it to temp
             temp = data["qSell"].get()
             if "qBuy" not in data:
                 break
+            # get next buy transaction from qBuy and assign to first_bought
             first_bought = data["qBuy"].get()
+            # new number of shares
             new = first_bought["No. of shares"] - temp["No. of shares"]
+            # initialization of variables
             tax = 0
             no_to_sell = temp["No. of shares"]
             value_to_sell = temp["Total"]
@@ -165,29 +199,35 @@ def processCSV(request):
             loss = 0
             purchase_date = datetime.strptime(first_bought["Time"], '%Y-%m-%d %H:%M:%S')
             
-
+            # Time test
             if (datetime.strptime(temp["Time"], "%Y-%m-%d %H:%M:%S") - purchase_date).days < (365 * 3):
                 pass
             else:
                 if no_to_sell - first_bought["No. of shares"]>0:
+                     # Reduce the remaining shares to sell by the number of shares from the current buy transaction
                     no_to_sell = no_to_sell - first_bought["No. of shares"]
+                    # Add the number of shares from the current buy transaction to the "not_for_tax" variable
                     not_for_tax = not_for_tax + first_bought["No. of shares"]
                 else:
                     not_for_tax=no_to_sell
                     no_to_sell=0                    
 
+            # Calculating potentional loss on shares if share we sold had lower / higher price 
             if (temp["Total"] / temp["No. of shares"]) < (first_bought["Total"] / first_bought["No. of shares"]):
+                # Calculate the loss by comparing the average prices and multiplying by the number of shares sold
                 loss = loss + (((first_bought["Total"] / first_bought["No. of shares"]) -
                                 (temp["Total"] / temp["No. of shares"])) * temp["No. of shares"])
             while new < 0:
-                print("Jsem an nule")
-                first_bought = data["qBuy"].get()
+                print("Jsem na nule")
+                first_bought = data["qBuy"].get()   #get next buy transaction from queue
                 new = first_bought["No. of shares"] + new
 
+                # Time test
                 if (datetime.strptime(temp["Time"], "%Y-%m-%d %H:%M:%S") - datetime.strptime(first_bought["Time"], "%Y-%m-%d %H:%M:%S")).days < (365 * 3):
                     pass
 
                 else:
+                    # If the remaining shares to sell is greater than the current buy transaction, adjust variables
                     if no_to_sell - first_bought["No. of shares"]>0:
                         no_to_sell = no_to_sell - first_bought["No. of shares"]
                         not_for_tax = not_for_tax + first_bought["No. of shares"]
@@ -195,17 +235,26 @@ def processCSV(request):
                         not_for_tax=no_to_sell
                         no_to_sell=0 
 
+                # Calculating potentional loss on shares if share we sold had lower / higher price 
                 if (temp["Total"] / temp["No. of shares"]) < (first_bought["Total"] / first_bought["No. of shares"]):
                     loss = loss + (((first_bought["Total"] / first_bought["No. of shares"]) -
                                     (temp["Total"] / temp["No. of shares"])) * temp["No. of shares"])
                     
             
-            
+            # Calculatiion of tax
             tax = (value_to_sell / temp["No. of shares"]) * no_to_sell                    
 
             temp_queue = queue.Queue()
-            temp_queue.put({"No. of shares": new, "Time": first_bought["Time"],
-                            "Total": (first_bought["Total"] / first_bought["No. of shares"]) * new})
+            
+            # Add modified buy transaction to temp_queue
+            temp_queue.put(
+                {
+                    "No. of shares": new, 
+                    "Time": first_bought["Time"],
+                    "Total": (first_bought["Total"] / first_bought["No. of shares"]) * new
+                })
+            
+            #Transfer remaining buy transactions to temp_queue
             while not data["qBuy"].empty():
                 temp_queue.put(data["qBuy"].get())
             data["qBuy"] = temp_queue
@@ -269,12 +318,10 @@ def processCSV(request):
     print("--------------------------------------------")
     print("Final tax (Brutto):", final_tax)
     print("Final tax (Netto):", final_tax_netto)
-    
     print("--------------------------------------------")
     
-     
+    
     # PDF  
-     
     pdf.setFont("Times-Roman", 35)
     
     # Title line
@@ -314,6 +361,7 @@ def processCSV(request):
     response = HttpResponse(pdf_buffer, content_type='application/pdf')
     response['Content-Disposition'] = 'attachment; filename="generated_pdf.pdf"'
 
+
     return response
 
 
@@ -328,11 +376,13 @@ def draw_bold_text(pdf, x, y, text, font_size):
 @api_view(['POST'])
 @csrf_exempt
 def merge_csv_files(request):
+    # Files z FE
     csv_files = request.FILES.getlist('files')
 
     if not csv_files:
         return HttpResponse('No files uploaded', status=400)
 
+    # Initialize pandas DataFrame
     merged_data = pd.DataFrame()
 
     for csv_file in csv_files:
@@ -343,10 +393,11 @@ def merge_csv_files(request):
     if merged_data.empty:
         return HttpResponse('No matching rows found', status=400)
 
-    # Sort the merged data by the "Time" column (assuming "Time" is the name of the date column)
+    # Sort the merged data by the "Time" column ("Time" is the name of the date column)
     merged_data['Time'] = pd.to_datetime(merged_data['Time'], format='%Y-%m-%d %H:%M:%S')
     merged_data.sort_values(by='Time', inplace=True)
 
+    # Type of csv -> download
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="merged_data.csv"'
 
@@ -354,3 +405,13 @@ def merge_csv_files(request):
     
     return response
 
+# Visualisation of row_data
+# {
+#     "Action": "Market buy",
+#     "Time": "2022-01-03 14:30:29",
+#     "ISIN": "US5949181045",
+#     "Ticker": "MSFT",
+#     "Name": "Microsoft",
+#     "No. of shares": 1.3471614000,
+#     # ... etc etc
+# }
