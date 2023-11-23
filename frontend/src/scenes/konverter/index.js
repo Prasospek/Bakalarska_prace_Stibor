@@ -65,7 +65,7 @@ const Konverter = () => {
                     fileInputRef.current.value = "";
                 } else {
                     const errorText = await response.text();
-                    toast.error(`Chyba při zpracování souborů: ${errorText}`);
+                    toast.error(`Chyba při zpracování souborů ! ${errorText}`);
                     throw new Error("Error při stahování PDF");
                 }
             } catch (error) {
