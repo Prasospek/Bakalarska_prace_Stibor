@@ -82,6 +82,14 @@ def processCSV(request):
     merged_rows = []
     headers = None
     
+    expected_columns = [
+        "Action", "Time", "ISIN", "Ticker", "Name", "No. of shares", "Price / share",
+        "Currency (Price / share)", "Exchange rate", "Result", "Currency (Result)",
+        "Total", "Currency (Total)", "Withholding tax", "Currency (Withholding tax)",
+        "Charge amount", "Currency (Charge amount)", "Notes", "ID",
+        "Currency conversion fee", "Currency (Currency conversion fee)"
+    ]
+    
      # Create a PDF buffer
     pdf_buffer = BytesIO()
 
@@ -91,10 +99,16 @@ def processCSV(request):
     # get files from FE
     csv_files = request.FILES.getlist('files')
     
-
+    # no files uploaded
     if not csv_files:
-        return HttpResponse('No files uploaded', status=400)
-    
+        return HttpResponse('Nebyly vložený žadné soubory !', status=400)
+
+    # Check content type
+    for csv_file in csv_files:
+        if csv_file.content_type != 'text/csv' or not csv_file.name.endswith('.csv'):
+            return HttpResponse('Nevalidní soubory! Prosím vložte soubor typu CSV', status=400)
+
+
     # Processing CSV
     for csv_file in csv_files:
         if csv_file.name.endswith('.csv'):
@@ -103,6 +117,10 @@ def processCSV(request):
 
             if not headers:
                 headers = rows[0]
+                
+            # Check columns
+            if not set(expected_columns).issubset(set(headers)):
+                return HttpResponse('Chyba! Chybí části hlavičky souboru !', status=400)
 
             # Skip the header row (if present) and add data rows
             for row in rows[1:]:
@@ -318,9 +336,10 @@ def processCSV(request):
     print("--------------------------------------------")
     print("Final tax (Brutto):", final_tax)
     print("Final tax (Netto):", final_tax_netto)
+    print("Final loss:", final_tax - final_tax_netto)
     print("--------------------------------------------")
     
-    
+    final_loss = final_tax - final_tax_netto
     # PDF  
     pdf.setFont("Times-Roman", 35)
     
@@ -340,14 +359,17 @@ def processCSV(request):
     pdf.setFont("Times-Roman", 20)
     
     # FINAL EUR
-    pdf.drawString(100, 450, f"Final tax (Brutto): {final_tax:.2f}")
-    pdf.drawString(100, 420, f"Final tax (Netto):  {final_tax_netto:.2f}")
+    pdf.drawString(100, 480, f"Final tax (Brutto): {final_tax:.2f}")
+    pdf.drawString(100, 450, f"Final tax (Netto):  {final_tax_netto:.2f}")
+    pdf.drawString(100, 420, f"Final loss:  {final_loss:.2f}")
     
    # FINAL CZK
     draw_bold_text(pdf, 280, 340, "CZK", 20)
     pdf.setFont("Times-Roman", 20)
-    pdf.drawString(100, 260, f"Final tax (Brutto): {final_tax * 23.54:.2f}")
-    pdf.drawString(100, 230, f"Final tax (Netto):  {final_tax_netto * 23.54:.2f}")
+    pdf.drawString(100, 290, f"Final tax (Brutto): {final_tax * 23.54:.2f}")
+    pdf.drawString(100, 260, f"Final tax (Netto):  {final_tax_netto * 23.54:.2f}")
+    pdf.drawString(100, 230, f"Final loss:  {final_loss * 23.54:.2f}")
+    
 
 
     

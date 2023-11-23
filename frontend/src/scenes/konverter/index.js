@@ -64,11 +64,12 @@ const Konverter = () => {
                     //setSelectedFiles([]);
                     fileInputRef.current.value = "";
                 } else {
-                    toast.error(`Soubory nebyly zpracovány !`);
-                    throw new Error("Error downloading PDF");
+                    const errorText = await response.text();
+                    toast.error(`Chyba při zpracování souborů: ${errorText}`);
+                    throw new Error("Error při stahování PDF");
                 }
             } catch (error) {
-                console.error("Error downloading PDF:", error);
+                console.error("Error při stahování PDF: ", error);
             }
         }
     };
