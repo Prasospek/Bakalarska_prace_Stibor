@@ -34,8 +34,12 @@ const Konverter = () => {
         setSelectedFiles(updatedFiles);
     };
 
+    const isValidFiles = (files) => {
+        return files.every((file) => file.type === "text/csv");
+    };
+
     const handleTaxesPDF = async () => {
-        if (selectedFiles.length > 0) {
+        if (selectedFiles.length > 0 && isValidFiles(selectedFiles)) {
             const formData = new FormData();
             for (let i = 0; i < selectedFiles.length; i++) {
                 formData.append("files", selectedFiles[i]);
@@ -71,6 +75,10 @@ const Konverter = () => {
             } catch (error) {
                 console.error("Error při stahování PDF: ", error);
             }
+        } else {
+            toast.error(
+                "Prosím vyberte validní CSV soubory před generováním PDF."
+            );
         }
     };
 
@@ -104,11 +112,12 @@ const Konverter = () => {
                     //setSelectedFiles([]);
                     fileInputRef.current.value = "";
                 } else {
-                    toast.error(`Soubory nebyly zpracovány !`);
-                    throw new Error("Error downloading file");
+                    const errorText = await response.text();
+                    toast.error(`Chyba při zpojování souborů ! ${errorText}`);
+                    throw new Error("Error při stahování PDF");
                 }
             } catch (error) {
-                console.error("Error downloading file:", error);
+                console.error("Error při spojování souborů !", error);
             }
         }
     };

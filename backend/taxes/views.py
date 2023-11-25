@@ -18,6 +18,8 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from decouple import config
 from postmarker.core import PostmarkClient
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError
 
 
 @csrf_exempt
@@ -26,9 +28,8 @@ def email_submit(request):
     try:
         data = json.loads(request.body.decode('utf-8'))
         sender_email = data.get('email')
+        validate_email(sender_email)
         message = data.get('message')
-        
-        print(sender_email)
 
         # Save to the Email model
         email_instance = Email.objects.create(email=sender_email, message=message, sent_at=timezone.now())
@@ -52,7 +53,7 @@ def email_submit(request):
         # Setup the SMTP server
         server = smtplib.SMTP(smtp_server, smtp_port)
         server.starttls()
-        print(sender_email)
+        
         # Login to the email account
         server.login(my_email, email_password)
 
@@ -63,13 +64,12 @@ def email_submit(request):
         server.quit()
         
 
-        return JsonResponse({'message': 'Email saved and sent successfully'}, status=status.HTTP_200_OK)
+        return JsonResponse({'message': 'Email uložen a odeslán !'}, status=status.HTTP_200_OK)
+    except ValidationError as ve:
+        return JsonResponse({'Chyba! Nevalidní emailová adresa'}, status=status.HTTP_400_BAD_REQUEST)
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-
-
-
+    
 
 
 @api_view(['POST'])
@@ -134,8 +134,7 @@ def processCSV(request):
         for row in merged_rows:
             # create a dictionary pairing individua
             # l header with row for easier access to values
-            row_data = dict(zip(headers, row))
-            
+            row_data = dict(zip(headers, row))  
             
             if "Market buy" in row_data["Action"]:
                 #Check if given Ticker in dict_of_queues
@@ -306,7 +305,6 @@ def processCSV(request):
                 print("Left in stack:", new)
                 print()
                 
-                
                 # PDF GENERATED TEXT
             
                 pdf.setFont("Times-Roman", 18)
@@ -375,10 +373,7 @@ def processCSV(request):
         pdf.drawString(100, 260, f"Final tax (Netto):  {final_tax_netto * 23.54:.2f}")
         pdf.drawString(100, 230, f"Final loss:  {final_loss * 23.54:.2f}")
         
-
-
         
-
         pdf.save()
 
         # Reset the buffer position to the beginning
@@ -407,42 +402,46 @@ def draw_bold_text(pdf, x, y, text, font_size):
 @api_view(['POST'])
 @csrf_exempt
 def merge_csv_files(request):
-    # Files z FE
-    csv_files = request.FILES.getlist('files')
+    try:
+        # Files from FE
+        csv_files = request.FILES.getlist('files')
 
-    if not csv_files:
-        return HttpResponse('No files uploaded', status=400)
+        if not csv_files:
+            return HttpResponse('No files uploaded', status=400)
+   
+        # Initialize pandas DataFrame
+        merged_data = pd.DataFrame()
+        non_csv_files = []
 
-    # Initialize pandas DataFrame
-    merged_data = pd.DataFrame()
+        for csv_file in csv_files:
+            if not csv_file.name.endswith('.csv'):
+                non_csv_files.append(csv_file.name)
+                continue
 
-    for csv_file in csv_files:
-        if csv_file.name.endswith('.csv'):
             df = pd.read_csv(csv_file)
             merged_data = merged_data.append(df, ignore_index=True)
 
-    if merged_data.empty:
-        return HttpResponse('No matching rows found', status=400)
+        if non_csv_files:
+            # Handle non-CSV files separately
+            error_message = f"Chybné soubory: {', '.join(non_csv_files)}. Prosím vkládejte pouze CSV soubory."
+            return HttpResponse(error_message, status=400)
 
-    # Sort the merged data by the "Time" column ("Time" is the name of the date column)
-    merged_data['Time'] = pd.to_datetime(merged_data['Time'], format='%Y-%m-%d %H:%M:%S')
-    merged_data.sort_values(by='Time', inplace=True)
+        if merged_data.empty:
+            return HttpResponse('No matching rows found', status=400)
 
-    # Type of csv -> download
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="merged_data.csv"'
+        # Sort the merged data by the "Time" column ("Time" is the name of the date column)
+        merged_data['Time'] = pd.to_datetime(merged_data['Time'], format='%Y-%m-%d %H:%M:%S')
+        merged_data.sort_values(by='Time', inplace=True)
 
-    merged_data.to_csv(response, index=False)
+        # Type of csv -> download
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="merged_data.csv"'
+
+        merged_data.to_csv(response, index=False)
+    except Exception as e:
+        # Log the error for further investigation
+        print(f"Error merging CSV files: {str(e)}")
+        return JsonResponse({'error': 'Chyba !'}, status=500)
     
     return response
 
-# Visualisation of row_data
-# {
-#     "Action": "Market buy",
-#     "Time": "2022-01-03 14:30:29",
-#     "ISIN": "US5949181045",
-#     "Ticker": "MSFT",
-#     "Name": "Microsoft",
-#     "No. of shares": 1.3471614000,
-#     # ... etc etc
-# }
