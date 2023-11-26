@@ -1,14 +1,19 @@
+version: "3" # Verze Docker Compose
 services:
-    - name: frontend
-      env: production
-      buildCommand: docker build -t render-frontend ./frontend
-      startCommand: docker run -p 8000:8000 render-frontend
-      ports:
-          - 8000
+    frontend:
+        build: # Kde se má Docker compose hledat složky Dockerfile
+            context: ./frontend
+        ports: # Definice portu pro frontend
+            - "8000:3000"
+        volumes: # Synchronizace mezi souborovými systémem
+            - ./frontend:/app
+        depends_on: # Definuje závislost na backendu, pokud již neběží tak ho zapne
+            - backend
 
-    - name: backend
-      env: production
-      buildCommand: docker build -t render-backend ./backend
-      startCommand: docker run -p 8001:8001 render-backend
-      ports:
-          - 8001
+    backend:
+        build:
+            context: ./backend
+        ports:
+            - "8001:8001"
+        volumes:
+            - ./backend:/app

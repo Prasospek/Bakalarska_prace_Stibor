@@ -5,6 +5,9 @@ services:
       startCommand: docker run -p 8000:8000 render-frontend
       ports:
           - 8000
+      dependencies:
+          - name: backend
+            port: 8001
 
     - name: backend
       env: production
