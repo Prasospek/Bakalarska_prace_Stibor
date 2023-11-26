@@ -45,13 +45,13 @@ const CasteDotazy = () => {
             </Typography>
             <Container sx={{ maxWidth: "md", mt: 5 }}>
                 {createAccordionSection(
-                    "Jak ShareTaxMax funguje ?",
-                    "Po nahrání CSV souborů v častí konverter máte na výběr pokud chcete data spojit pro vlastní kontrolu nebo chcete výpočet v PDF formátu. ShareTaxMax používá metodu FIFO a bere v potaz hodnotový i časový test"
+                    "Jak ShareTaxMax funguje?",
+                    "Po nahrání CSV souborů v části konverter máte na výběr, zda chcete data spojit pro vlastní kontrolu, nebo chcete výpočet v PDF formátu. ShareTaxMax používá metodu FIFO a bere v potaz hodnotový i časový test."
                 )}
 
                 {createAccordionSection(
-                    "Jaký kurz měn se používá ?",
-                    "ShareTaxMax počítá v EUR"
+                    "Jaký kurz měn se používá?",
+                    "ShareTaxMax počítá v EUR."
                 )}
 
                 {createAccordionSection(
@@ -61,17 +61,17 @@ const CasteDotazy = () => {
 
                 {createAccordionSection(
                     "Jaké jsou daňové sazby pro zisky z prodeje akcií?",
-                    "V rámci fyzických osob se jedná o sazbu 15% a v případě že jste za zdaňovací období prodali 48násobek pruměrné mzdy za daný rok, tak daníte 23% sazbou. V roce 2022 tato částka byla 1 867 728 Kč."
+                    "V rámci fyzických osob se jedná o sazbu 15%, a v případě, že jste za zdaňovací období prodali 48násobek průměrné mzdy za daný rok, tak daníte 23% sazbou. V roce 2022 tato částka byla 1 867 728 Kč."
                 )}
 
                 {createAccordionSection(
-                    "Co je to hodnotový test ?",
-                    "Tento test se zaměřuje především na menší investory. Uvádí, že od zdanění jsou osvobozeni lidé, jejichž příjmy z prodeje cenných papíru nepřesáhlo v daném zdaňovacím období 100 000 Kč."
+                    "Co je to hodnotový test?",
+                    "Tento test se zaměřuje především na menší investory. Uvádí, že od zdanění jsou osvobozeni lidé, jejichž příjmy z prodeje cenných papírů nepřesáhly v daném zdaňovacím období 100 000 Kč."
                 )}
 
                 {createAccordionSection(
-                    "Co je to časový test ?",
-                    "Časový test narozdíl od hodnotového platí i pro zámožnější investory. Tento test nám říká, že pokud od doby mezi nákupem a prodejem cenného papíru byla delší doba než 3 roky, tak je daná osoba zcela osvobozena od daně."
+                    "Co je to časový test?",
+                    "Časový test na rozdíl od hodnotového platí i pro zámožnější investory. Tento test nám říká, že pokud byla doba mezi nákupem a prodejem cenného papíru delší než 3 roky, je daná osoba zcela osvobozena od daně."
                 )}
             </Container>
             <Typography
