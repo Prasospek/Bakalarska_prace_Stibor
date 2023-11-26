@@ -21,7 +21,6 @@ from postmarker.core import PostmarkClient
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 
-
 @csrf_exempt
 @api_view(['POST'])
 def email_submit(request):
@@ -241,7 +240,7 @@ def processCSV(request):
                                     (temp["Total"] / temp["No. of shares"])) * temp["No. of shares"])
                 while new < 0:
                     print("Jsem na nule")
-                    first_bought = data["qBuy"].get()   #get next buy transaction from queue
+                    first_bought = data["qBuy"].get()   # get next buy transaction from queue
                     new = first_bought["No. of shares"] + new
 
                     # Time test
@@ -305,29 +304,32 @@ def processCSV(request):
                 print("Left in stack:", new)
                 print()
                 
-                # PDF GENERATED TEXT
-            
+                
+                # Font and size definition
                 pdf.setFont("Times-Roman", 18)
+                
+                # Lines
                 draw_pdf_line(pdf, 100,760,500,760)
                 draw_pdf_line(pdf, 100,760,500,760)
                 
-        
-                pdf.drawString(100, 730, "Action: Market sell")
+                # PDF GENERATED TEXT
+                
+                pdf.drawString(100, 730, "Akce: Market sell")
                 pdf.drawString(100, 710, "Ticker: " + ticker)
-                pdf.drawString(100, 690, "No. of shares (Sold): " + str(temp["No. of shares"]))
-                pdf.drawString(100, 670, "Time (Sold): " + temp["Time"])
-                pdf.drawString(100, 650, "Not for tax (Shares): " + str(not_for_tax))
-                pdf.drawString(100, 630, "Not for tax (Currency): " + str((value_to_sell / temp["No. of shares"]) * not_for_tax))
-                pdf.drawString(100, 610, "To tax (Shares): " + str(no_to_sell))
-                pdf.drawString(100, 590, "To tax (Currency): " + str((value_to_sell / temp["No. of shares"]) * no_to_sell))
-                pdf.drawString(100, 570, "Tax: " + str(tax))
+                pdf.drawString(100, 690, "Pocet prodáných akcií: " + str(temp["No. of shares"]))
+                pdf.drawString(100, 670, "Cas (Prodeje): " + temp["Time"])
+                pdf.drawString(100, 650, "K nezdanení (Akcie): " + str(not_for_tax))
+                pdf.drawString(100, 630, "K nezdanení (Castka): " + str((value_to_sell / temp["No. of shares"]) * not_for_tax))
+                pdf.drawString(100, 610, "K zdanení (Akcie): " + str(no_to_sell))
+                pdf.drawString(100, 590, "K zdanení (Castka): " + str((value_to_sell / temp["No. of shares"]) * no_to_sell))
+                pdf.drawString(100, 570, "Dan: " + str(tax))
                 if tax-loss>0:
-                    pdf.drawString(100, 550, "Tax (After loss subtraction): " + str(tax - loss))
+                    pdf.drawString(100, 550, "Dan po odectení ztrát: " + str(tax - loss))
                 else:
-                    pdf.drawString(100, 550, "Tax (After loss subtraction): " + str(0))
-                pdf.drawString(100, 530, "Earnings: " + str(value_to_sell))
-                pdf.drawString(100, 510, "Loss (Currency): " + str(loss))
-                pdf.drawString(100, 490, "Left in stack: " + str(new))
+                    pdf.drawString(100, 550, "Dan po odectení ztrát: " + str(0))
+                pdf.drawString(100, 530, "Výdelek: " + str(value_to_sell))
+                pdf.drawString(100, 510, "Ztráta (Mena): " + str(loss))
+                pdf.drawString(100, 490, "Zbývá: (Akcie)" + str(new))
             
                 draw_pdf_line(pdf, 100,470,500,470)
                 draw_pdf_line(pdf, 100,470,500,470)
@@ -348,7 +350,7 @@ def processCSV(request):
         
         # Title line
         draw_pdf_line(pdf, 100,640,500,640)
-        pdf.drawString(140, 650, "Tax Information Report")
+        pdf.drawString(140, 650, "Danový informacní výpis")
         
         # EUR lines
         draw_pdf_line(pdf, 100,510,500,510)
@@ -362,16 +364,16 @@ def processCSV(request):
         pdf.setFont("Times-Roman", 20)
         
         # FINAL EUR
-        pdf.drawString(100, 480, f"Final tax (Brutto): {final_tax:.2f}")
-        pdf.drawString(100, 450, f"Final tax (Netto):  {final_tax_netto:.2f}")
-        pdf.drawString(100, 420, f"Final loss:  {final_loss:.2f}")
+        pdf.drawString(100, 480, f"Finální dan (Brutto): {final_tax:.2f}")
+        pdf.drawString(100, 450, f"Finalní dan (Netto):  {final_tax_netto:.2f}")
+        pdf.drawString(100, 420, f"Finalní ztráta:  {final_loss:.2f}")
         
-    # FINAL CZK
+        # FINAL CZK
         draw_bold_text(pdf, 280, 340, "CZK", 20)
         pdf.setFont("Times-Roman", 20)
-        pdf.drawString(100, 290, f"Final tax (Brutto): {final_tax * 23.54:.2f}")
-        pdf.drawString(100, 260, f"Final tax (Netto):  {final_tax_netto * 23.54:.2f}")
-        pdf.drawString(100, 230, f"Final loss:  {final_loss * 23.54:.2f}")
+        pdf.drawString(100, 290, f"Finální dan (Brutto): {final_tax * 23.54:.2f}")
+        pdf.drawString(100, 260, f"Finalní dan (Netto):  {final_tax_netto * 23.54:.2f}")
+        pdf.drawString(100, 230, f"Finalní ztráta:  {final_loss * 23.54:.2f}")
         
         
         pdf.save()
@@ -440,7 +442,7 @@ def merge_csv_files(request):
         merged_data.to_csv(response, index=False)
     except Exception as e:
         # Log the error for further investigation
-        print(f"Error merging CSV files: {str(e)}")
+        print(f"Chyba spojování souborů! : {str(e)}")
         return JsonResponse({'error': 'Chyba !'}, status=500)
     
     return response

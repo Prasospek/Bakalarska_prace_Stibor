@@ -1,13 +1,13 @@
-version: "3"
+version: "3"  # Verze Docker Compose 
 services:
     frontend:
-        build:
+        build:  # Kde se má Docker compose hledat složky Dockerfile
             context: ./frontend
-        ports:
+        ports:   # Definice portu pro frontend
             - "8000:3000"
-        volumes:
+        volumes:  # Synchronizace mezi souborovými systémem
             - ./frontend:/app
-        depends_on:
+        depends_on: # Definuje závislost na backendu, pokud již neběží tak ho zapne
             - backend
 
     backend:
