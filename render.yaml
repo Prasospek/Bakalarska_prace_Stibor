@@ -1,42 +1,14 @@
-# render.yaml
-
 services:
     - name: frontend
-      envVars:
-          - key: NODE_ENV
-            value: production
-      buildCommand: npm install
-      startCommand: npm start
-      healthCheckPath: /
-      httpPort: 8000
-      disk:
-          sizeGB: 3
-      concurrency:
-          type: fixed
-          value: 1
-      instanceCount: 1
-      
-  - name: backend
-    envVars:
-      - key: EMAIL_USER
-        from: render
-      - key: EMAIL_PASSWORD
-        from: render
-      - key: SMTP_SERVER
-        from: render
-      - key: SMTP_PORT
-        from: render
-      - key: SECRET_KEY
-        from: render
-      - key: DEBUG
-        from: render
-    buildCommand: pip install -r requirements.txt
-    startCommand: python manage.py runserver 0.0.0.0:8001
-    healthCheckPath: /
-    httpPort: 8001
-    disk:
-      sizeGB: 2  # Adjust based on your specific needs
-    concurrency:
-      type: fixed
-      value: 1
-    instanceCount: 1
+      env: production
+      buildCommand: docker build -t render-frontend ./frontend
+      startCommand: docker run -p 8000:8000 render-frontend
+      ports:
+          - 8000
+
+    - name: backend
+      env: production
+      buildCommand: docker build -t render-backend ./backend
+      startCommand: docker run -p 8001:8001 render-backend
+      ports:
+          - 8001
