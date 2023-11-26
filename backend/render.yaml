@@ -1,0 +1,5 @@
+services:
+  - name: backend
+    buildCommand: python manage.py collectstatic --noinput
+    startCommand: gunicorn taxes.wsgi:application --workers 4 --bind 0.0.0.0:8001
+

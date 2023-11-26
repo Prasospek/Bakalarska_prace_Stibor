@@ -17,4 +17,5 @@ COPY . .
 EXPOSE 8001
 
 # Start your Django app
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8001"]
+# CMD ["python", "manage.py", "runserver", "0.0.0.0:8001"]
+CMD ["gunicorn", "--bind", "0.0.0.0:8001", "app.wsgi:application"]

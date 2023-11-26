@@ -97,3 +97,4 @@ wsproto==1.1.0
 yarl==1.9.2
 zope.event==4.5.0
 zope.interface==5.4.0
+gunicorn==21.2.0

@@ -1,0 +1,4 @@
+services:
+  - name: frontend
+    buildCommand: npm install && npm run build
+    startCommand: npm start
