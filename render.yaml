@@ -1,8 +1,8 @@
 services:
     - name: frontend
       env: production
-      buildCommand: docker build -t render-frontend ./frontend
-      startCommand: docker run -p 8000:8000 render-frontend
+      buildCommand: Docker build -t render-frontend ./frontend
+      startCommand: Docker run -p 8000:8000 render-frontend
       ports:
           - 8000
       dependencies:
@@ -11,7 +11,7 @@ services:
 
     - name: backend
       env: production
-      buildCommand: docker build -t render-backend ./backend
-      startCommand: docker run -p 8001:8001 render-backend
+      buildCommand: Docker build -t render-backend ./backend
+      startCommand: Docker run -p 8001:8001 render-backend
       ports:
           - 8001
