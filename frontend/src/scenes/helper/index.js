@@ -21,7 +21,8 @@ function Helper() {
 
         try {
             const response = await fetch(
-                "http://localhost:8001/api/submit-email/",
+                `${process.env.REACT_APP_BACKEND}/api/submit-email/`,
+
                 {
                     method: "POST",
                     headers: {

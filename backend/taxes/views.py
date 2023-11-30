@@ -5,8 +5,6 @@ import smtplib
 from django.http import HttpResponse, JsonResponse, HttpResponseServerError
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view
-from taxes.models import Email
-from taxes.serializers import EmailSerializer
 from rest_framework import status
 from io import BytesIO
 from reportlab.lib.pagesizes import letter
@@ -29,9 +27,10 @@ def email_submit(request):
         sender_email = data.get('email')
         validate_email(sender_email)
         message = data.get('message')
-
-        # Save to the Email model
-        email_instance = Email.objects.create(email=sender_email, message=message, sent_at=timezone.now())
+        
+        if not sender_email or not message:
+            return JsonResponse({'error': 'Email ani zpráva nemůžou být prázdné !.'}, status=status.HTTP_400_BAD_REQUEST)
+            
 
         # Email credentials
         smtp_server = config('SMTP_SERVER', default='smtp.gmail.com')
@@ -81,6 +80,7 @@ def processCSV(request):
         dict_of_queues = {}
         merged_rows = []
         headers = None
+        non_csv_files = []
         
         expected_columns = [
             "Action", "Time", "ISIN", "Ticker", "Name", "No. of shares", "Price / share",
@@ -102,14 +102,18 @@ def processCSV(request):
         # no files uploaded
         if not csv_files:
             return HttpResponse('Nebyly vložený žadné soubory !', status=400)
+        
+        
 
         # Check content type -> checking MIME (Multipurpose Internet Mail Extensions)
         # Check if ends on .csv
         for csv_file in csv_files:
             if csv_file.content_type != 'text/csv' or not csv_file.name.endswith('.csv'):
-                return HttpResponse('Nevalidní soubory! Prosím vložte soubor typu CSV', status=400)
-
-
+                # Handle non-CSV files separately
+                non_csv_files.append(csv_file.name)
+                error_message = f"Chybné soubory: {', '.join(non_csv_files)}. Prosím vkládejte pouze CSV soubory."
+                return HttpResponse(error_message, status=400)
+                
         # Processing CSV
         for csv_file in csv_files:
             if csv_file.name.endswith('.csv'):
@@ -131,8 +135,8 @@ def processCSV(request):
         merged_rows.sort(key=lambda x: datetime.strptime(x[1], '%Y-%m-%d %H:%M:%S'))
         
         for row in merged_rows:
-            # create a dictionary pairing individua
-            # l header with row for easier access to values
+            # create a dictionary pairing individual
+            # header with row for easier access to values
             row_data = dict(zip(headers, row))  
             
             if "Market buy" in row_data["Action"]:
@@ -416,7 +420,7 @@ def merge_csv_files(request):
         non_csv_files = []
 
         for csv_file in csv_files:
-            if not csv_file.name.endswith('.csv'):
+            if csv_file.content_type != 'text/csv' or not csv_file.name.endswith('.csv'):
                 non_csv_files.append(csv_file.name)
                 continue
 

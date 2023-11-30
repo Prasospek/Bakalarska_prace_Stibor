@@ -39,7 +39,7 @@ const Konverter = () => {
     };
 
     const handleTaxesPDF = async () => {
-        if (selectedFiles.length > 0 && isValidFiles(selectedFiles)) {
+        if (selectedFiles.length > 0) {
             const formData = new FormData();
             for (let i = 0; i < selectedFiles.length; i++) {
                 formData.append("files", selectedFiles[i]);
@@ -47,7 +47,7 @@ const Konverter = () => {
 
             try {
                 const response = await fetch(
-                    "http://localhost:8001/api/process-csv/",
+                    `${process.env.REACT_APP_BACKEND}/api/process-csv/`,
                     {
                         method: "POST",
                         body: formData,
@@ -91,7 +91,7 @@ const Konverter = () => {
 
             try {
                 const response = await fetch(
-                    "http://localhost:8001/api/merge-csv/",
+                    `${process.env.REACT_APP_BACKEND}/api/merge-csv/`,
                     {
                         method: "POST",
                         body: formData,
