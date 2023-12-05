@@ -18,6 +18,10 @@ from decouple import config
 from postmarker.core import PostmarkClient
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
+# -*- coding: utf-8 -*-
 
 @csrf_exempt
 @api_view(['POST'])
@@ -70,6 +74,7 @@ def email_submit(request):
     
 
 
+
 @api_view(['POST'])
 @csrf_exempt
 def processCSV(request):
@@ -82,6 +87,10 @@ def processCSV(request):
         headers = None
         non_csv_files = []
         
+        possible_actions = [
+            "Market buy", "Deposit", "Dividend (Ordinary)", "Market sell", "Withdrawal", "Interest on cash"
+        ]
+        
         expected_columns = [
             "Action", "Time", "ISIN", "Ticker", "Name", "No. of shares", "Price / share",
             "Currency (Price / share)", "Exchange rate", "Result", "Currency (Result)",
@@ -90,11 +99,30 @@ def processCSV(request):
             "Currency conversion fee", "Currency (Currency conversion fee)"
         ]
         
+        
+        
+        # Registering font for special characters
+        pdfmetrics.registerFont(TTFont('Calibri', 'Calibri.ttf'))
+        
+
+        
         # Create a PDF buffer
         pdf_buffer = BytesIO()
 
         # Create a PDF document
         pdf = canvas.Canvas(pdf_buffer, pagesize=letter)
+    
+       
+        # Front Page
+        add_text(pdf,100,560,"Daňový výpis", 80)
+        
+        # Current formated date
+        formatted_datetime = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+        add_text(pdf,70,300, f"Generované dne: {formatted_datetime}", 30)
+        add_text(pdf,380,60,"ShareTaxMax 2023©", 20)
+
+        pdf.showPage()
 
         # get files from FE
         csv_files = request.FILES.getlist('files')
@@ -102,7 +130,6 @@ def processCSV(request):
         # no files uploaded
         if not csv_files:
             return HttpResponse('Nebyly vložený žadné soubory !', status=400)
-        
         
 
         # Check content type -> checking MIME (Multipurpose Internet Mail Extensions)
@@ -126,11 +153,20 @@ def processCSV(request):
                 # Check columns
                 if not set(expected_columns).issubset(set(headers)):
                     return HttpResponse('Chybí části HLAVIČKY souboru !', status=400)
+                
+                action_index = headers.index("Action")
 
                 # Skip the header row (if present) and add data rows
                 for row in rows[1:]:
-                    merged_rows.append(row)
-
+                    
+                    # Filter Market sell and Market buy for time efficiency
+                    if row[action_index] in ["Market sell", "Market buy"]:
+                        merged_rows.append(row)
+                    # elif (row[action_index] not in possible_actions):
+                    #     return HttpResponse(f'${row[action_index]}Chybí části HLAVIČKY souboru !', status=400)
+                    
+                   
+                
         # Sort by time
         merged_rows.sort(key=lambda x: datetime.strptime(x[1], '%Y-%m-%d %H:%M:%S'))
         
@@ -200,7 +236,7 @@ def processCSV(request):
                         })
                     dict_of_queues[row_data["Ticker"]] = {"qSell": qSell}
                     
-            
+        current_page = 1
         for ticker, data in dict_of_queues.items():
             if "qSell" not in data:
                 continue
@@ -289,6 +325,8 @@ def processCSV(request):
                     final_tax_netto = final_tax_netto + (tax - loss)
                 else:
                     final_tax_netto = final_tax_netto + (0)
+                    
+                current_page += 1
 
                 print("Action: Market sell")
                 print("Ticker:", ticker)
@@ -334,6 +372,7 @@ def processCSV(request):
                 pdf.drawString(100, 530, "Výdelek: " + str(value_to_sell))
                 pdf.drawString(100, 510, "Ztráta (Mena): " + str(loss))
                 pdf.drawString(100, 490, "Zbývá: (Akcie)" + str(new))
+                pdf.drawString(580, 30, f"{current_page}")
             
                 draw_pdf_line(pdf, 100,470,500,470)
                 draw_pdf_line(pdf, 100,470,500,470)
@@ -352,6 +391,8 @@ def processCSV(request):
         # PDF  
         pdf.setFont("Times-Roman", 35)
         
+       
+        
         # Title line
         draw_pdf_line(pdf, 100,640,500,640)
         pdf.drawString(140, 650, "Danový informacní výpis")
@@ -364,7 +405,7 @@ def processCSV(request):
         draw_pdf_line(pdf, 100,320,500,320)
         draw_pdf_line(pdf, 100,210,500,210)
 
-        draw_bold_text(pdf, 280, 530, "EUR", 20)
+        pdf.drawString(280, 530, "EUR")
         pdf.setFont("Times-Roman", 20)
         
         # FINAL EUR
@@ -373,7 +414,7 @@ def processCSV(request):
         pdf.drawString(100, 420, f"Finalní ztráta:  {final_loss:.2f}")
         
         # FINAL CZK
-        draw_bold_text(pdf, 280, 340, "CZK", 20)
+        pdf.drawString(280, 340, "CZK")
         pdf.setFont("Times-Roman", 20)
         pdf.drawString(100, 290, f"Finální dan (Brutto): {final_tax * 23.54:.2f}")
         pdf.drawString(100, 260, f"Finalní dan (Netto):  {final_tax_netto * 23.54:.2f}")
@@ -400,9 +441,10 @@ def processCSV(request):
 def draw_pdf_line(pdf, x1, y1, x2, y2):
     pdf.line(x1, y1, x2, y2)
     
-def draw_bold_text(pdf, x, y, text, font_size):
-    pdf.setFont("Times-Bold", font_size)
+def add_text(pdf, x, y, text, size=12, font="Calibri"):
+    pdf.setFont(font, size)
     pdf.drawString(x, y, text)
+
 
 
 @api_view(['POST'])
