@@ -21,6 +21,8 @@ from django.core.exceptions import ValidationError
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
+from reportlab.lib import colors
 # -*- coding: utf-8 -*-
 
 @csrf_exempt
@@ -87,6 +89,7 @@ def processCSV(request):
         headers = None
         non_csv_files = []
         
+        
         possible_actions = [
             "Market buy", "Deposit", "Dividend (Ordinary)", "Market sell", "Withdrawal", "Interest on cash"
         ]
@@ -98,6 +101,23 @@ def processCSV(request):
             "Charge amount", "Currency (Charge amount)", "Notes", "ID",
             "Currency conversion fee", "Currency (Currency conversion fee)"
         ]
+        
+        table_data = [
+            ["Akce", "Hodnota"],
+            ["Akce", "Market sell"],
+            ["Ticker", ""],
+            ["Počet prodánných akcií", ""],
+            ["Čas (Prodeje)", ""],
+            ["Ke nezdanění (Akcie)", ""],
+            ["Ke nezdanění (Částka)", ""],
+            ["Ke zdanění (Akcie)", ""],
+            ["Ke zdanění (Částka)", ""],
+            ["Daň", ""],
+            ["Daň po odečtení ztrát", ""],
+            ["Výdělek", ""],
+            ["Ztráta (Měna)", ""],
+            ["Zbývá: (Akcie)", ""],
+        ]     
         
         
         
@@ -111,8 +131,9 @@ def processCSV(request):
 
         # Create a PDF document
         pdf = canvas.Canvas(pdf_buffer, pagesize=letter)
+        pdf.setFont("Calibri", 25)
+
     
-       
         # Front Page
         add_text(pdf,100,560,"Daňový výpis", 80)
         
@@ -236,7 +257,7 @@ def processCSV(request):
                         })
                     dict_of_queues[row_data["Ticker"]] = {"qSell": qSell}
                     
-        current_page = 1
+        current_page = 0
         for ticker, data in dict_of_queues.items():
             if "qSell" not in data:
                 continue
@@ -327,6 +348,7 @@ def processCSV(request):
                     final_tax_netto = final_tax_netto + (0)
                     
                 current_page += 1
+               
 
                 print("Action: Market sell")
                 print("Ticker:", ticker)
@@ -346,41 +368,85 @@ def processCSV(request):
                 print("Left in stack:", new)
                 print()
                 
+               
                 
-                # Font and size definition
-                pdf.setFont("Times-Roman", 18)
+                data_row = [
+                    "Market sell",  # Replace with actual data
+                    ticker,          # Replace with actual data
+                    str(temp["No. of shares"]),  # Replace with actual data
+                    temp["Time"],    # Replace with actual data
+                    str(not_for_tax),  # Replace with actual data
+                    str((value_to_sell / temp["No. of shares"]) * not_for_tax),  # Replace with actual data
+                    str(no_to_sell),  # Replace with actual data
+                    str((value_to_sell / temp["No. of shares"]) * no_to_sell),  # Replace with actual data
+                    str(tax),  # Replace with actual data
+                    str(tax - loss) if tax - loss > 0 else "0",  # Replace with actual data
+                    str(value_to_sell),  # Replace with actual data
+                    str(loss),  # Replace with actual data
+                    str(new)  # Replace with actual data
+                  ]
                 
-                # Lines
-                draw_pdf_line(pdf, 100,760,500,760)
-                draw_pdf_line(pdf, 100,760,500,760)
+                table_data.append(data_row)
+             
                 
-                # PDF GENERATED TEXT
-                
-                pdf.drawString(100, 730, "Akce: Market sell")
-                pdf.drawString(100, 710, "Ticker: " + ticker)
-                pdf.drawString(100, 690, "Pocet prodáných akcií: " + str(temp["No. of shares"]))
-                pdf.drawString(100, 670, "Cas (Prodeje): " + temp["Time"])
-                pdf.drawString(100, 650, "K nezdanení (Akcie): " + str(not_for_tax))
-                pdf.drawString(100, 630, "K nezdanení (Castka): " + str((value_to_sell / temp["No. of shares"]) * not_for_tax))
-                pdf.drawString(100, 610, "K zdanení (Akcie): " + str(no_to_sell))
-                pdf.drawString(100, 590, "K zdanení (Castka): " + str((value_to_sell / temp["No. of shares"]) * no_to_sell))
-                pdf.drawString(100, 570, "Dan: " + str(tax))
-                if tax-loss>0:
-                    pdf.drawString(100, 550, "Dan po odectení ztrát: " + str(tax - loss))
-                else:
-                    pdf.drawString(100, 550, "Dan po odectení ztrát: " + str(0))
-                pdf.drawString(100, 530, "Výdelek: " + str(value_to_sell))
-                pdf.drawString(100, 510, "Ztráta (Mena): " + str(loss))
-                pdf.drawString(100, 490, "Zbývá: (Akcie)" + str(new))
-                pdf.drawString(580, 30, f"{current_page}")
+                table_data = [
+                    ["Akce", "Hodnota"],
+                    ["Akce", "Market sell"],
+                    ["Ticker", ticker],
+                    ["Počet prodánných akcií", str(temp["No. of shares"])],
+                    ["Čas (Prodeje)", temp["Time"]],
+                    ["Ke nezdanění (Akcie)", str(not_for_tax)],
+                    ["Ke nezdanění (Částka)", str((value_to_sell / temp["No. of shares"]) * not_for_tax)],
+                    ["Ke zdanění (Akcie)", str(no_to_sell)],
+                    ["Ke zdanění (Částka)", str((value_to_sell / temp["No. of shares"]) * no_to_sell)],
+                    ["Daň", str(tax)],
+                    ["Daň po odečtení ztrát",  str(tax - loss) if tax - loss > 0 else "0"],
+                    ["Výdělek", str(value_to_sell)],
+                    ["Ztráta (Měna)", str(loss)],
+                    ["Zbývá: (Akcie)", str(new)],
+                ] 
+      
+        
+            row_heights = [50, 45, 45, 45, 45, 45, 45, 45, 45, 45, 45, 45, 45, 45]
+    
+            # DATA
+            table = Table(table_data, colWidths=[250, 315], rowHeights=row_heights) 
             
-                draw_pdf_line(pdf, 100,470,500,470)
-                draw_pdf_line(pdf, 100,470,500,470)
+            # Apply styles to the table
+            style = TableStyle([
+                ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+                ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+                ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+                ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),  # Center vertically
+                ('FONTNAME', (0, 0), (-1, 0), 'Calibri'),
+                ('BOTTOMPADDING', (0, 0), (-1, 0), 20),
+                ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
+                ('GRID', (0, 0), (-1, -1), 1, colors.black),
+                ('FONTSIZE', (0, 0), (-1, -1), 40),
+            ])
+            
+            
+            column_style = TableStyle([
+                ('FONTNAME', (0, 0), (1, -1), "Calibri"),  # Apply the font to columns 0 and 1
+                ('FONTSIZE', (0, 0), (1, -1), 22),  # Adjust the font size for columns 0 and 1
+                ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+                ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),  # Center vertically
+            ])
 
+            table.setStyle(style)
+            table.setStyle(column_style)
+            
+            pdf.drawString(580, 30, f"{current_page}")
 
-                pdf.showPage()
+            # Draw the table on the canvas 
+            table.wrapOn(pdf, 400, 600)  # Adjust the width and height as needed
+            table.drawOn(pdf, 20, 120)  # Adjust the x and y coordinates as needed
+            
+         
+
+            pdf.showPage()
                 
-
+        
         print("--------------------------------------------")
         print("Final tax (Brutto):", final_tax)
         print("Final tax (Netto):", final_tax_netto)
@@ -389,9 +455,9 @@ def processCSV(request):
         
         final_loss = final_tax - final_tax_netto
         # PDF  
-        pdf.setFont("Times-Roman", 35)
+      
         
-       
+        
         
         # Title line
         draw_pdf_line(pdf, 100,640,500,640)
@@ -406,7 +472,7 @@ def processCSV(request):
         draw_pdf_line(pdf, 100,210,500,210)
 
         pdf.drawString(280, 530, "EUR")
-        pdf.setFont("Times-Roman", 20)
+
         
         # FINAL EUR
         pdf.drawString(100, 480, f"Finální dan (Brutto): {final_tax:.2f}")
@@ -415,7 +481,7 @@ def processCSV(request):
         
         # FINAL CZK
         pdf.drawString(280, 340, "CZK")
-        pdf.setFont("Times-Roman", 20)
+
         pdf.drawString(100, 290, f"Finální dan (Brutto): {final_tax * 23.54:.2f}")
         pdf.drawString(100, 260, f"Finalní dan (Netto):  {final_tax_netto * 23.54:.2f}")
         pdf.drawString(100, 230, f"Finalní ztráta:  {final_loss * 23.54:.2f}")
