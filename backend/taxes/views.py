@@ -136,11 +136,12 @@ def processCSV(request):
     
         # Front Page
         add_text(pdf,100,560,"Daňový výpis", 80)
+        draw_pdf_line(pdf, 30,530,570,530)
         
         # Current formated date
-        formatted_datetime = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        formatted_datetime = datetime.now().strftime("%Y-%d-%m %H:%M:%S")
 
-        add_text(pdf,70,300, f"Generované dne: {formatted_datetime}", 30)
+        add_text(pdf,70,300, f"Generováno dne: {formatted_datetime}", 30)
         add_text(pdf,380,60,"ShareTaxMax 2023©", 20)
 
         pdf.showPage()
@@ -183,12 +184,14 @@ def processCSV(request):
                     # Filter Market sell and Market buy for time efficiency
                     if row[action_index] in ["Market sell", "Market buy"]:
                         merged_rows.append(row)
-                    # elif (row[action_index] not in possible_actions):
-                    #     return HttpResponse(f'${row[action_index]}Chybí části HLAVIČKY souboru !', status=400)
+                    # elif (row[action_index] not in possible_actions): TOHLE NEODKOMENTOVAT
+                    #     return HttpResponse(f'${row[action_index]}Chybí části HLAVIČKY souboru !', status=400) TOHLE NEODKOMENTOVAT
+             
+
                     
                    
                 
-        # Sort by time
+        # Sort by time   
         merged_rows.sort(key=lambda x: datetime.strptime(x[1], '%Y-%m-%d %H:%M:%S'))
         
         for row in merged_rows:
@@ -369,24 +372,7 @@ def processCSV(request):
                 print()
                 
                
-                
-                data_row = [
-                    "Market sell",  # Replace with actual data
-                    ticker,          # Replace with actual data
-                    str(temp["No. of shares"]),  # Replace with actual data
-                    temp["Time"],    # Replace with actual data
-                    str(not_for_tax),  # Replace with actual data
-                    str((value_to_sell / temp["No. of shares"]) * not_for_tax),  # Replace with actual data
-                    str(no_to_sell),  # Replace with actual data
-                    str((value_to_sell / temp["No. of shares"]) * no_to_sell),  # Replace with actual data
-                    str(tax),  # Replace with actual data
-                    str(tax - loss) if tax - loss > 0 else "0",  # Replace with actual data
-                    str(value_to_sell),  # Replace with actual data
-                    str(loss),  # Replace with actual data
-                    str(new)  # Replace with actual data
-                  ]
-                
-                table_data.append(data_row)
+            
              
                 
                 table_data = [
@@ -400,68 +386,66 @@ def processCSV(request):
                     ["Ke zdanění (Akcie)", str(no_to_sell)],
                     ["Ke zdanění (Částka)", str((value_to_sell / temp["No. of shares"]) * no_to_sell)],
                     ["Daň", str(tax)],
-                    ["Daň po odečtení ztrát",  str(tax - loss) if tax - loss > 0 else "0"],
+                    ["Daň po odečtení ztrát",  str(tax - loss) if tax - loss > 0 else str(0)],
                     ["Výdělek", str(value_to_sell)],
                     ["Ztráta (Měna)", str(loss)],
                     ["Zbývá: (Akcie)", str(new)],
                 ] 
       
         
-            row_heights = [50, 45, 45, 45, 45, 45, 45, 45, 45, 45, 45, 45, 45, 45]
-    
-            # DATA
-            table = Table(table_data, colWidths=[250, 315], rowHeights=row_heights) 
-            
-            # Apply styles to the table
-            style = TableStyle([
-                ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
-                ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
-                ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-                ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),  # Center vertically
-                ('FONTNAME', (0, 0), (-1, 0), 'Calibri'),
-                ('BOTTOMPADDING', (0, 0), (-1, 0), 20),
-                ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
-                ('GRID', (0, 0), (-1, -1), 1, colors.black),
-                ('FONTSIZE', (0, 0), (-1, -1), 40),
-            ])
-            
-            
-            column_style = TableStyle([
-                ('FONTNAME', (0, 0), (1, -1), "Calibri"),  # Apply the font to columns 0 and 1
-                ('FONTSIZE', (0, 0), (1, -1), 22),  # Adjust the font size for columns 0 and 1
-                ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-                ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),  # Center vertically
-            ])
+                row_heights = [50, 45, 45, 45, 45, 45, 45, 45, 45, 45, 45, 45, 45, 45]
+        
+                # DATA
+                table = Table(table_data, colWidths=[250, 315], rowHeights=row_heights) 
+                
+                # Apply styles to the table
+                style = TableStyle([
+                    ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+                    ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+                    ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+                    ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),  # Center vertically
+                    ('FONTNAME', (0, 0), (-1, 0), 'Calibri'),
+                    ('BOTTOMPADDING', (0, 0), (-1, 0), 20),
+                    ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
+                    ('GRID', (0, 0), (-1, -1), 1, colors.black),
+                    ('FONTSIZE', (0, 0), (-1, -1), 40),
+                ])
+                
+                
+                column_style = TableStyle([
+                    ('FONTNAME', (0, 0), (1, -1), "Calibri"),  # Apply the font to columns 0 and 1
+                    ('FONTSIZE', (0, 0), (1, -1), 22),  # Adjust the font size for columns 0 and 1
+                    ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+                    ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),  # Center vertically
+                ])
 
-            table.setStyle(style)
-            table.setStyle(column_style)
-            
-            pdf.drawString(580, 30, f"{current_page}")
+                table.setStyle(style)
+                table.setStyle(column_style)
+                
+                pdf.drawString(580, 30, f"{current_page}")
 
-            # Draw the table on the canvas 
-            table.wrapOn(pdf, 400, 600)  # Adjust the width and height as needed
-            table.drawOn(pdf, 20, 120)  # Adjust the x and y coordinates as needed
+                # Draw the table on the canvas 
+                table.wrapOn(pdf, 400, 600)  # Adjust the width and height as needed
+                table.drawOn(pdf, 20, 120)  # Adjust the x and y coordinates as needed
+                
             
-         
 
-            pdf.showPage()
+                pdf.showPage()
                 
         
-        print("--------------------------------------------")
-        print("Final tax (Brutto):", final_tax)
-        print("Final tax (Netto):", final_tax_netto)
-        print("Final loss:", final_tax - final_tax_netto)
-        print("--------------------------------------------")
+        # print("--------------------------------------------")
+        # print("Final tax (Brutto):", final_tax)
+        # print("Final tax (Netto):", final_tax_netto)
+        # print("Final loss:", final_tax - final_tax_netto)
+        # print("--------------------------------------------")
         
         final_loss = final_tax - final_tax_netto
         # PDF  
       
         
-        
-        
         # Title line
         draw_pdf_line(pdf, 100,640,500,640)
-        pdf.drawString(140, 650, "Danový informacní výpis")
+        add_text(pdf,120,660,"Finální výpis daně", 60)
         
         # EUR lines
         draw_pdf_line(pdf, 100,510,500,510)
@@ -471,21 +455,24 @@ def processCSV(request):
         draw_pdf_line(pdf, 100,320,500,320)
         draw_pdf_line(pdf, 100,210,500,210)
 
-        pdf.drawString(280, 530, "EUR")
+        
+        add_text(pdf,280,530,"EUR", 30)
 
         
         # FINAL EUR
-        pdf.drawString(100, 480, f"Finální dan (Brutto): {final_tax:.2f}")
-        pdf.drawString(100, 450, f"Finalní dan (Netto):  {final_tax_netto:.2f}")
-        pdf.drawString(100, 420, f"Finalní ztráta:  {final_loss:.2f}")
+        add_text(pdf,100,480, f"Finální dan (Brutto): {final_tax:.2f}", 20)
+        add_text(pdf,100,450, f"Finalní dan (Netto):  {final_tax_netto:.2f}", 25)
+        add_text(pdf,100,420, f"Finalní ztráta:  {final_loss:.2f}", 15)
         
         # FINAL CZK
-        pdf.drawString(280, 340, "CZK")
-
-        pdf.drawString(100, 290, f"Finální dan (Brutto): {final_tax * 23.54:.2f}")
-        pdf.drawString(100, 260, f"Finalní dan (Netto):  {final_tax_netto * 23.54:.2f}")
-        pdf.drawString(100, 230, f"Finalní ztráta:  {final_loss * 23.54:.2f}")
         
+        add_text(pdf, 280, 340, "CZK")
+        
+        add_text(pdf,100,290, f"Finální dan (Brutto): {final_tax * 23.54:.2f}")
+        add_text(pdf,100,260, f"Finalní dan (Netto):  {final_tax_netto * 23.54:.2f}")
+        add_text(pdf,100,230, f"Finalní ztráta:  {final_loss * 23.54:.2f}")
+        
+        add_text(pdf,380,60,"ShareTaxMax 2023©", 20)
         
         pdf.save()
 
