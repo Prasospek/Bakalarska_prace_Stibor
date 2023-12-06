@@ -444,8 +444,9 @@ def processCSV(request):
       
         
         # Title line
-        draw_pdf_line(pdf, 100,640,500,640)
-        add_text(pdf,120,660,"Finální výpis daně", 60)
+        
+        draw_pdf_line(pdf, 30,640,570,640)
+        add_text(pdf,100,660,"Finální výpis daně", 60)
         
         # EUR lines
         draw_pdf_line(pdf, 100,510,500,510)
@@ -460,17 +461,17 @@ def processCSV(request):
 
         
         # FINAL EUR
-        add_text(pdf,100,480, f"Finální dan (Brutto): {final_tax:.2f}", 20)
-        add_text(pdf,100,450, f"Finalní dan (Netto):  {final_tax_netto:.2f}", 25)
-        add_text(pdf,100,420, f"Finalní ztráta:  {final_loss:.2f}", 15)
+        add_text(pdf,100,480, f"Finální daň (Brutto): {final_tax:.2f}", 18)
+        add_text(pdf,100,450, f"Finální daň (Netto):  {final_tax_netto:.2f}", 18)
+        add_text(pdf,100,420, f"Finální ztráta:  {final_loss:.2f}", 18)
         
         # FINAL CZK
         
-        add_text(pdf, 280, 340, "CZK")
+        add_text(pdf,280,340,"CZK", 30)
         
-        add_text(pdf,100,290, f"Finální dan (Brutto): {final_tax * 23.54:.2f}")
-        add_text(pdf,100,260, f"Finalní dan (Netto):  {final_tax_netto * 23.54:.2f}")
-        add_text(pdf,100,230, f"Finalní ztráta:  {final_loss * 23.54:.2f}")
+        add_text(pdf,100,290, f"Finální daň (Brutto): {final_tax * 23.54:.2f}", 18)
+        add_text(pdf,100,260, f"Finální daň (Netto):  {final_tax_netto * 23.54:.2f}", 18)
+        add_text(pdf,100,230, f"Finální ztráta:  {final_loss * 23.54:.2f}", 18)
         
         add_text(pdf,380,60,"ShareTaxMax 2023©", 20)
         
@@ -491,13 +492,14 @@ def processCSV(request):
         #Genereric error for user
         return HttpResponseServerError("Nastala chyba při zpracování CSV souborů!")
 
+
+
 def draw_pdf_line(pdf, x1, y1, x2, y2):
     pdf.line(x1, y1, x2, y2)
     
 def add_text(pdf, x, y, text, size=12, font="Calibri"):
     pdf.setFont(font, size)
     pdf.drawString(x, y, text)
-
 
 
 @api_view(['POST'])
