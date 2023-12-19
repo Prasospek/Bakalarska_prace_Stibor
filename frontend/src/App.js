@@ -1,5 +1,5 @@
 import "./App.css";
-import { BrowserRouter, Routes, Route} from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import MainPage from "./scenes/mainPage";
 import { useMemo } from "react";
 import { useSelector } from "react-redux";
@@ -13,10 +13,14 @@ import Helper from "./scenes/helper";
 import CasteDotazy from "./scenes/casteDotazy";
 import JakZiskat from "./scenes/jakZiskat";
 import Konverter from "./scenes/konverter";
+import React, { useEffect } from "react";
 
 function App() {
     const mode = useSelector((state) => state.mode);
     const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
+    useEffect(() => {
+        document.title = "ShareTaxMax";
+    }, []);
 
     return (
         <ThemeProvider theme={theme}>

@@ -48,12 +48,10 @@ const CasteDotazy = () => {
                     "Jak ShareTaxMax funguje?",
                     "Po nahrání CSV souborů v části konverter máte na výběr, zda chcete data spojit pro vlastní kontrolu, nebo chcete výpočet v PDF formátu. ShareTaxMax používá metodu FIFO a bere v potaz hodnotový i časový test."
                 )}
-
                 {createAccordionSection(
-                    "Jaký kurz měn se používá?",
-                    "ShareTaxMax počítá v EUR."
+                    "Brutto vs Netto",
+                    "Co dělat v případě, že hranice Brutto přesáhla 100 000 korun, ale Netto je pod touto hranicí ? Na tento případ je potřeba si dát pozor, zda-li nastane a je třeba brát v potaz, že daň se vypočítává z rozdílu mezi prodejní a nákupní cenou. Pokud tedy částka Brutto přesáhne 100 000kč, máte povinnost podat daňové přiznání."
                 )}
-
                 {createAccordionSection(
                     "Jaké jsou daňové povinnosti spojené s prodejem akcií?",
                     "Jednoduše řečeno, pokud příjmy (NE ZISK) překročí limit 100 000 Kč, máte povinnost podat daňové přiznání a danit částku přesahující 100 000 Kč."
@@ -72,6 +70,10 @@ const CasteDotazy = () => {
                 {createAccordionSection(
                     "Co je to časový test?",
                     "Časový test na rozdíl od hodnotového platí i pro zámožnější investory. Tento test nám říká, že pokud byla doba mezi nákupem a prodejem cenného papíru delší než 3 roky, je daná osoba zcela osvobozena od daně."
+                )}
+                {createAccordionSection(
+                    "Jaký kurz měn se používá?",
+                    "ShareTaxMax počítá v EUR."
                 )}
             </Container>
             <Typography
