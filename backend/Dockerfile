@@ -16,6 +16,6 @@ COPY . .
 # Expose the port your Django app is running on (change this if necessary)
 EXPOSE 8001
 
-# Start your Django app
+# Start my Django app
 # CMD ["python", "manage.py", "runserver", "0.0.0.0:8001"]
 CMD ["gunicorn", "--bind", "0.0.0.0:8001", "app.wsgi:application"]
