@@ -473,7 +473,7 @@ def processCSV(request):
         
         if final_tax * 23.54 > 100000:
             add_text(pdf,140,150,"Povinnost podat daňové přiznání: ANO", 20)
-            add_text(pdf,140,100,f"Částka ke zdanění: {(final_tax_netto * 23.54 - 100000):.2f}", 20)
+            add_text(pdf, 140, 100, f"Částka ke zdanění: {max(final_tax_netto * 23.54 - 100000, 0):.2f}", 20)
             draw_pdf_line(pdf, 410,144,460,144)
             draw_pdf_line(pdf, 410,144,460,144)
         else:
@@ -581,5 +581,4 @@ def merge_csv_files(request):
         return JsonResponse({'error': 'Chyba !'}, status=500)
     
     return response
-
 
